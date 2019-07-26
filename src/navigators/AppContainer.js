@@ -7,7 +7,7 @@ import { connect } from "react-redux";
 // import { getLocationAsync } from "../redux/actions/locationActions";
 
 const SwitchNavigator = createSwitchNavigator({
-  Auth: AuthStack,
+  // Auth: AuthStack,
   Main: MainTabNavigator
 });
 

@@ -1,8 +1,7 @@
 // @flow
 import type { State } from "../reducers/mainReducer";
-import * as Location from "expo-location";
-import * as Permissions from "expo-permissions";
-// @flow
+// import * as Location from "expo-location";
+// import * as Permissions from "expo-permissions";
 import type {
   Location as LocationType,
   LocationAction
@@ -37,9 +36,9 @@ export function* getLocationSaga(): Saga<void> {
 }
 
 async function getUserLocation(): Promise<LocationType | void> {
-  let { status } = await Permissions.askAsync(Permissions.LOCATION);
-  if (status !== "granted")
-    return console.warn("Permission to access location was denied");
+  // let { status } = await Permissions.askAsync(Permissions.LOCATION);
+  // if (status !== "granted")
+  //   return console.warn("Permission to access location was denied");
 
   let location = await Location.getCurrentPositionAsync();
   let { latitude, longitude } = location.coords;
