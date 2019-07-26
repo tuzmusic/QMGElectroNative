@@ -7,6 +7,8 @@ import {
 } from "react-navigation";
 
 import TabBarIcon from "../components/TabBarIcon";
+import { Icon } from "react-native-elements";
+
 import MapScreen from "../screens/MapView";
 import StationsListScreen from "../screens/StationsListView";
 import StationDetailScreen from "../screens/StationDetailView";
@@ -30,10 +32,10 @@ function icon(focused, focIcon, unfocIcon, type) {
     />
   );
 }
-
+console.disableYellowBox = true;
 ListStack.navigationOptions = {
   tabBarLabel: "List",
-  tabBarIcon: ({ focused }) => icon(focused, "ios-list")
+  tabBarIcon: ({ focused: f }) => icon(f, "ios-list")
 };
 
 const MapStack = createStackNavigator({
@@ -44,7 +46,7 @@ const MapStack = createStackNavigator({
 
 MapStack.navigationOptions = {
   tabBarLabel: "Map",
-  tabBarIcon: ({ focused }) => icon(focused, "map", "map-o", "FontAwesome")
+  tabBarIcon: ({ focused: f }) => icon(f, "map", "map-o", "FontAwesome")
 };
 
 const UserStack = createStackNavigator({
@@ -53,7 +55,8 @@ const UserStack = createStackNavigator({
 
 UserStack.navigationOptions = {
   tabBarLabel: "Me",
-  tabBarIcon: ({ f }) => icon(f, "user-circle", "user-circle-o", "FontAwesome")
+  tabBarIcon: ({ focused: f }) =>
+    icon(f, "user-circle", "user-circle-o", "FontAwesome")
 };
 
 // #endregion
