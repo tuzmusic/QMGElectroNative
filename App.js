@@ -14,9 +14,7 @@ import authReducer from "./src/redux/reducers/authReducer";
 import locationReducer from "./src/redux/reducers/locationReducer";
 import thunk from "redux-thunk";
 import createSagaMiddleware from "redux-saga";
-// import locationSaga, {
-//   getLocationAsync
-// } from "./src/redux/actions/locationActions";
+import locationSaga from "./src/redux/actions/locationActions";
 import authSaga from "./src/redux/actions/authActions";
 import GlobalFont from "react-native-global-font";
 import AppStyles from "./src/constants/Styles";
