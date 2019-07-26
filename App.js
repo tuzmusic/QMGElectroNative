@@ -1,114 +1,65 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
-
-import React, {Fragment} from 'react';
+import React from "react";
 import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
+  Platform,
   StatusBar,
-} from 'react-native';
+  StyleSheet,
+  View,
+  AppRegistry
+} from "react-native";
+import AppContainer from "./src/navigators/AppContainer";
+import { combineReducers, createStore, applyMiddleware } from "redux";
+import { Provider } from "react-redux";
+import mainReducer from "./src/redux/reducers/mainReducer";
+import authReducer from "./src/redux/reducers/authReducer";
+import locationReducer from "./src/redux/reducers/locationReducer";
+import thunk from "redux-thunk";
+import createSagaMiddleware from "redux-saga";
+// import locationSaga, {
+//   getLocationAsync
+// } from "./src/redux/actions/locationActions";
+import authSaga from "./src/redux/actions/authActions";
+import GlobalFont from "react-native-global-font";
+import AppStyles from "./src/constants/Styles";
+// import Type { Saga } from "redux-saga";
+import { setupAuthMockAdapter } from "./tests/__mocks__/axiosMocks";
 
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+const combinedReducer = combineReducers({
+  main: mainReducer,
+  auth: authReducer,
+  location: locationReducer
+});
+const sagaMiddleware = createSagaMiddleware();
+const store = createStore(
+  combinedReducer,
+  {},
+  applyMiddleware(thunk, sagaMiddleware)
+);
 
-const App = () => {
-  return (
-    <Fragment>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
-          <Header />
-          {global.HermesInternal == null ? null : (
-            <View style={styles.engine}>
-              <Text style={styles.footer}>Engine: Hermes</Text>
-            </View>
-          )}
-          <View style={styles.body}>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Step One</Text>
-              <Text style={styles.sectionDescription}>
-                Edit <Text style={styles.highlight}>App.js</Text> to change this
-                screen and then come back to see your edits.
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>See Your Changes</Text>
-              <Text style={styles.sectionDescription}>
-                <ReloadInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Debug</Text>
-              <Text style={styles.sectionDescription}>
-                <DebugInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Learn More</Text>
-              <Text style={styles.sectionDescription}>
-                Read the docs to discover what to do next:
-              </Text>
-            </View>
-            <LearnMoreLinks />
-          </View>
-        </ScrollView>
-      </SafeAreaView>
-    </Fragment>
-  );
-};
+function* rootSaga() {
+  // sagaMiddleware.run(locationSaga);
+  sagaMiddleware.run(authSaga);
+}
+
+sagaMiddleware.run(rootSaga);
+
+export default class App extends React.Component {
+  render() {
+    return (
+      <Provider store={store}>
+        <View style={styles.container}>
+          {Platform.OS === "ios" && <StatusBar barStyle="default" />}
+          <AppContainer />
+        </View>
+      </Provider>
+    );
+  }
+}
+
+// AppRegistry.registerComponent("main", () => App);
 
 const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: Colors.lighter,
-  },
-  engine: {
-    position: 'absolute',
-    right: 0,
-  },
-  body: {
-    backgroundColor: Colors.white,
-  },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-    color: Colors.dark,
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-  footer: {
-    color: Colors.dark,
-    fontSize: 12,
-    fontWeight: '600',
-    padding: 4,
-    paddingRight: 12,
-    textAlign: 'right',
-  },
+  container: {
+    flex: 1,
+    backgroundColor: "#fff"
+  }
 });
-
-export default App;

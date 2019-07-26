@@ -6,7 +6,7 @@ import { Input } from "react-native-elements";
 import AppStyles from "../constants/Styles";
 import _ from "lodash";
 import { connect } from "react-redux";
-import { setCurrentRegion } from "../redux/actions/locationActions";
+// import { setCurrentRegion } from "../redux/actions/locationActions";
 import ApiUrls from "../constants/ApiUrls";
 import { Platform } from "react-native";
 
@@ -115,7 +115,7 @@ export class AutoFillMapSearch extends React.Component<Props, State> {
 }
 export default connect(
   null,
-  { setCurrentRegion }
+  { setCurrentRegion: () => {} }
 )(AutoFillMapSearch);
 
 const text = {

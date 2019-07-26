@@ -13,7 +13,7 @@ import StationDetailScreen from "../screens/StationDetailView";
 import UserScreen from "../screens/UserScreenView";
 
 import { fetchStations } from "../redux/actions/stationActions";
-import { getLocationAsync } from "../redux/actions/locationActions";
+// import { getLocationAsync } from "../redux/actions/locationActions";
 
 // #region CONFIGURE STACKS
 const ListStack = createStackNavigator({
@@ -74,7 +74,7 @@ const TabNavigator = createBottomTabNavigator(
 
 class TabContainer extends Component {
   componentWillMount() {
-    this.props.getLocationAsync();
+    // this.props.getLocationAsync();
   }
 
   componentDidMount = async () => {
@@ -90,5 +90,8 @@ class TabContainer extends Component {
 
 export default connect(
   ({ main }) => ({ stations: main.stations, userLocation: main.currentRegion }),
-  { fetchStations, getLocationAsync }
+  {
+    fetchStations
+    // getLocationAsync
+  }
 )(TabContainer);

@@ -2,10 +2,10 @@ import React, { Component } from "react";
 import { View, Platform, TextInput, Dimensions } from "react-native";
 import { Button } from "react-native-elements";
 import { connect } from "react-redux";
-import {
-  getLocationAsync,
-  setCurrentRegion
-} from "../redux/actions/locationActions";
+// import {
+//   getLocationAsync,
+//   setCurrentRegion
+// } from "../redux/actions/locationActions";
 import { setCurrentStationID } from "../redux/actions/stationActions";
 import AutoFillMapSearch from "../subviews/AutoFillMapSearch";
 import StationMarkers from "../subviews/StationMarkers";
@@ -22,13 +22,14 @@ class MapScreen extends Component {
 
   state = { region: null };
 
-  goToCupertino = () =>
+  goToCupertino = () => {
     this.props.setCurrentRegion({
       latitude: 37.33233141,
       longitude: -122.0312186,
       accuracy: 0.05,
       showMarker: true
     });
+  };
 
   onMarkerPress = station => {
     this.setState({
@@ -114,7 +115,11 @@ const mapStateToProps = ({ main, location }) => ({
 
 export default connect(
   mapStateToProps,
-  { getLocationAsync, setCurrentRegion, setCurrentStationID }
+  {
+    getLocationAsync: () => {},
+    setCurrentRegion: () => {},
+    setCurrentStationID
+  }
 )(MapScreen);
 // const buttonSize = Dimensions.get("window").height * 0.15;
 const buttonSize = 40;

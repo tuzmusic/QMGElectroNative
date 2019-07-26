@@ -7,10 +7,10 @@ import { View, Button, Text, Platform, TextInput } from "react-native";
 import { BLText } from "../components/StyledComponents";
 import F8StyleSheet from "../components/F8StyleSheet";
 import { connect } from "react-redux";
-import {
-  getLocationAsync,
-  setCurrentRegion
-} from "../redux/actions/locationActions";
+// import {
+//   getLocationAsync,
+//   setCurrentRegion
+// } from "../redux/actions/locationActions";
 import { setCurrentStationID } from "../redux/actions/stationActions";
 import pluralize from "pluralize";
 import MapView, { Marker, Callout } from "react-native-maps";
