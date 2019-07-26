@@ -73,11 +73,8 @@ const TabNavigator = createBottomTabNavigator(
 );
 
 class TabContainer extends Component {
-  componentWillMount() {
-    // this.props.getLocationAsync();
-  }
-
   componentDidMount = async () => {
+    // this.props.getLocationAsync();
     if (!__DEV__) await this.props.fetchStations();
     // await this.props.fetchStations();
   };

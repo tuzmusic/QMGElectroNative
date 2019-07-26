@@ -5,8 +5,8 @@ import { connect } from "react-redux";
 import { logout } from "../redux/actions/authActions";
 import { AsyncStorage } from "react-native";
 
-class CreateStationView extends Component {
-  componentWillReceiveProps(newProps) {
+class UserScreen extends Component {
+  UNSAFE_componentWillReceiveProps(newProps) {
     if (!newProps.user) this.props.navigation.navigate("Auth");
   }
 
@@ -59,7 +59,7 @@ class CreateStationView extends Component {
 export default connect(
   state => ({ user: state.auth.user, isLoading: state.auth.isLoading }),
   { logout }
-)(CreateStationView);
+)(UserScreen);
 
 const styles = {
   container: {
