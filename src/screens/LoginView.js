@@ -111,10 +111,10 @@ class LoginView extends Component {
               <Text>Logging in...</Text>
             </View>
           </Overlay>
-          <Image
+          {/* <Image
             source={require("../../assets/logos/ElectroLogo.png")}
             style={styles.image}
-          />
+          /> */}
           {this.state.errors.map((e, i) => (
             <Text style={styles.errorText} key={i}>
               {e}
