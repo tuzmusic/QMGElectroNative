@@ -89,7 +89,14 @@ const LocationButton = ({ onPress }) => {
       <Button
         buttonStyle={styles.locationButton}
         onPress={onPress}
-        icon={<Icon name="location-arrow" color="#3B6EC2" size={20} />}
+        icon={
+          <Icon
+            name="location-arrow"
+            type="font-awesome"
+            color="#3B6EC2"
+            size={20}
+          />
+        }
       />
     </Callout>
   );

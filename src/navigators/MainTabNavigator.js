@@ -35,7 +35,7 @@ function icon(focused, focIcon, unfocIcon, type) {
 console.disableYellowBox = true;
 ListStack.navigationOptions = {
   tabBarLabel: "List",
-  tabBarIcon: ({ focused: f }) => icon(f, "ios-list")
+  tabBarIcon: ({ focused: f }) => icon(f, "list", "", "feather")
 };
 
 const MapStack = createStackNavigator({
@@ -46,7 +46,7 @@ const MapStack = createStackNavigator({
 
 MapStack.navigationOptions = {
   tabBarLabel: "Map",
-  tabBarIcon: ({ focused: f }) => icon(f, "map", "map-o", "FontAwesome")
+  tabBarIcon: ({ focused: f }) => icon(f, "map", "map-o", "font-awesome")
 };
 
 const UserStack = createStackNavigator({
@@ -56,7 +56,7 @@ const UserStack = createStackNavigator({
 UserStack.navigationOptions = {
   tabBarLabel: "Me",
   tabBarIcon: ({ focused: f }) =>
-    icon(f, "user-circle", "user-circle-o", "FontAwesome")
+    icon(f, "user-circle", "user-circle-o", "font-awesome")
 };
 
 // #endregion
