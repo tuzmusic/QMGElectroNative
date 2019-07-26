@@ -1,7 +1,7 @@
 // @flow
 import type { ElectroLocation, Action } from "../../../flowTypes";
 import type Station from "../../models/Station";
-import { AsyncStorage } from "react-native";
+import AsyncStorage from '@react-native-community/async-storage';
 
 // #region TYPES
 

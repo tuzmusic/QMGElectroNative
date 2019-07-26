@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { createSwitchNavigator } from "react-navigation";
 import LoginScreen from "../screens/LoginView";
 import { connect } from "react-redux";
-import { AsyncStorage } from "react-native";
+import AsyncStorage from '@react-native-community/async-storage';
 import { setUser } from "../redux/actions/authActions";
 
 const AuthStack = createSwitchNavigator({ Login: LoginScreen });

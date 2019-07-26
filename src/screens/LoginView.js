@@ -7,7 +7,7 @@ import { login, register, clearAuthError } from "../redux/actions/authActions";
 import LoginForm from "../subviews/LoginForm";
 import RegisterForm from "../subviews/RegisterForm";
 import { validate } from "email-validator";
-import { AsyncStorage } from "react-native";
+import AsyncStorage from '@react-native-community/async-storage';
 
 class LoginView extends Component {
   state = {

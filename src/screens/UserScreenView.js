@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, Linking } from "react-native";
 import { Button } from "react-native-elements";
 import { connect } from "react-redux";
 import { logout } from "../redux/actions/authActions";
-import { AsyncStorage } from "react-native";
+import AsyncStorage from '@react-native-community/async-storage';
 
 class UserScreen extends Component {
   UNSAFE_componentWillReceiveProps(newProps) {
