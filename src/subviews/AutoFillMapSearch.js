@@ -33,13 +33,13 @@ export class AutoFillMapSearch extends React.Component<Props, State> {
   };
 
   async setSamplePrediction() {
-    // await this.setState({ address: "88 n spring st 03301" });
-    // await this.handleAddressChange();
-    // this.onPredictionSelect(this.state.addressPredictions[0]);
+    await this.setState({ address: "88 n spring st 03301" });
+    await this.handleAddressChange();
+    this.onPredictionSelect(this.state.addressPredictions[0]);
   }
 
   async componentDidMount() {
-    setTimeout(this.setSamplePrediction.bind(this), 1000);
+    // setTimeout(this.setSamplePrediction.bind(this), 1000);
   }
 
   async handleAddressChange() {
@@ -48,8 +48,6 @@ export class AutoFillMapSearch extends React.Component<Props, State> {
       const result = await fetch(ApiUrls.mapsSearch(this.state.address));
       const { predictions, error_message } = await result.json();
       if (error_message) throw new Error(error_message);
-      console.log(predictions);
-
       this.setState({ addressPredictions: predictions });
     } catch (err) {
       console.warn(err);
@@ -67,11 +65,10 @@ export class AutoFillMapSearch extends React.Component<Props, State> {
     this.setState({ address: prediction.description, showPredictions: false });
     // SHOULD BE A REDUX ACTION
     try {
-      const result = await fetch(ApiUrls.mapsDetails(prediction.place_id));
-      const json = await result.json();
-      const location = json.result.geometry.location;
-      // console.log(Platform.OS, "setting region for", this.state.address);
-
+      const res = await fetch(ApiUrls.mapsDetails(prediction.place_id));
+      const { error_message, result } = await res.json();
+      if (error_message) throw new Error(error_message);
+      const location = result.geometry.location;
       this.props.setCurrentRegion({
         latitude: location.lat,
         longitude: location.lng,
@@ -79,7 +76,7 @@ export class AutoFillMapSearch extends React.Component<Props, State> {
         showMarker: true
       });
     } catch (err) {
-      console.error(err);
+      console.warn(err);
     }
   }
 
