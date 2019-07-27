@@ -23,7 +23,6 @@ class MapScreen extends Component {
   state = { region: null };
 
   componentDidMount = () => {
-    console.log("automatically getting location, from MapView didMount");
     this.props.getLocation();
   };
 

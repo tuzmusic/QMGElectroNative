@@ -33,8 +33,8 @@ export class AutoFillMapSearch extends React.Component<Props, State> {
   };
 
   async setSamplePrediction() {
-    await this.setState({ address: "88 n spring st 03301" });
-    await this.handleAddressChange();
+    // await this.setState({ address: "88 n spring st 03301" });
+    // await this.handleAddressChange();
     // this.onPredictionSelect(this.state.addressPredictions[0]);
   }
 
@@ -43,13 +43,16 @@ export class AutoFillMapSearch extends React.Component<Props, State> {
   }
 
   async handleAddressChange() {
+    // SHOULD BE A REDUX ACTION
     try {
       const result = await fetch(ApiUrls.mapsSearch(this.state.address));
-      debugger;
-      const json = await result.json();
-      this.setState({ addressPredictions: json.predictions });
+      const { predictions, error_message } = await result.json();
+      if (error_message) throw new Error(error_message);
+      console.log(predictions);
+
+      this.setState({ addressPredictions: predictions });
     } catch (err) {
-      console.error(err);
+      console.warn(err);
     }
   }
   onChangeText = (address: string) => {
@@ -59,9 +62,10 @@ export class AutoFillMapSearch extends React.Component<Props, State> {
     );
   };
 
-  async onPredictionSelect(prediction: { [key: string]: string }) {
+  async onPredictionSelect(prediction: Object) {
     this.textInput && this.textInput.blur();
     this.setState({ address: prediction.description, showPredictions: false });
+    // SHOULD BE A REDUX ACTION
     try {
       const result = await fetch(ApiUrls.mapsDetails(prediction.place_id));
       const json = await result.json();
