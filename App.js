@@ -34,7 +34,7 @@ const store = createStore(
 );
 
 function* rootSaga() {
-  // sagaMiddleware.run(locationSaga);
+  sagaMiddleware.run(locationSaga);
   sagaMiddleware.run(authSaga);
 }
 

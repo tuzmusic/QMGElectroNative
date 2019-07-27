@@ -2,6 +2,7 @@
 import type { State } from "../reducers/mainReducer";
 // import * as Location from "expo-location";
 // import * as Permissions from "expo-permissions";
+import Geolocation from "@react-native-community/geolocation";
 import type {
   Location as LocationType,
   LocationAction
@@ -16,31 +17,31 @@ export function setCurrentRegion(region: LocationType): LocationAction {
   };
 }
 
-export function setSearchRadius(radius: number) {
+export function setSearchRadius(radius: number): LocationAction {
   return { type: "SET_SEARCH_RADIUS", radius };
 }
 
-export function getLocationAsync(): LocationAction {
+export function getLocation(): LocationAction {
   return { type: "USER_LOCATION_START" };
 }
 
 export function* getLocationSaga(): Saga<void> {
   try {
     const region = yield call(getUserLocation);
-    // console.log("saga", region);
-
     yield put({ type: "USER_LOCATION_SUCCESS", region });
   } catch (error) {
     yield put({ type: "USER_LOCATION_FAILURE", error: error.message });
   }
 }
 
-async function getUserLocation(): Promise<LocationType | void> {
-  // let { status } = await Permissions.askAsync(Permissions.LOCATION);
-  // if (status !== "granted")
-  //   return console.warn("Permission to access location was denied");
+function getCurrentPositionAsync(): Promise<Object> {
+  return new Promise((resolve, reject) => {
+    Geolocation.getCurrentPosition(resolve);
+  });
+}
 
-  let location = await Location.getCurrentPositionAsync();
+async function getUserLocation(): Promise<LocationType | void> {
+  let location = await getCurrentPositionAsync();
   let { latitude, longitude } = location.coords;
   let region = { latitude, longitude, accuracy: 0.05 };
   return { ...region, ...calculateRegion(region) };

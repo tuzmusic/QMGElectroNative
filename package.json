@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.6.1",
+    "@react-native-community/geolocation": "^1.4.2",
     "axios": "^0.18.0",
     "axios-mock-adapter": "^1.16.0",
     "email-validator": "^2.0.4",

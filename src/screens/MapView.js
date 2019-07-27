@@ -2,10 +2,10 @@ import React, { Component } from "react";
 import { View, Platform, TextInput, Dimensions } from "react-native";
 import { Button } from "react-native-elements";
 import { connect } from "react-redux";
-// import {
-//   getLocationAsync,
-//   setCurrentRegion
-// } from "../redux/actions/locationActions";
+import {
+  getLocation,
+  setCurrentRegion
+} from "../redux/actions/locationActions";
 import { setCurrentStationID } from "../redux/actions/stationActions";
 import AutoFillMapSearch from "../subviews/AutoFillMapSearch";
 import StationMarkers from "../subviews/StationMarkers";
@@ -21,6 +21,11 @@ class MapScreen extends Component {
   };
 
   state = { region: null };
+
+  componentDidMount = () => {
+    console.log("automatically getting location, from MapView didMount");
+    this.props.getLocation();
+  };
 
   goToCupertino = () => {
     this.props.setCurrentRegion({
@@ -76,7 +81,7 @@ class MapScreen extends Component {
           />
         </Callout>
         {__DEV__ && <CupertinoButton onPress={this.goToCupertino.bind(this)} />}
-        <LocationButton onPress={this.props.getLocationAsync} />
+        <LocationButton onPress={this.props.getLocation} />
       </View>
     );
   }
@@ -123,8 +128,8 @@ const mapStateToProps = ({ main, location }) => ({
 export default connect(
   mapStateToProps,
   {
-    getLocationAsync: () => {},
-    setCurrentRegion: () => {},
+    getLocation,
+    setCurrentRegion,
     setCurrentStationID
   }
 )(MapScreen);
