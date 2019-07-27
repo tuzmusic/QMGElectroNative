@@ -36,6 +36,9 @@ target 'QMGElectroNative' do
 
   pod 'react-native-geolocation', :path => '../node_modules/@react-native-community/geolocation'
 
+  pod 'GooglePlaces'
+  pod 'GoogleMaps'
+
   target 'QMGElectroNativeTests' do
     inherit! :search_paths
     # Pods for testing

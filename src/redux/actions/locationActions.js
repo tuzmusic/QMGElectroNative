@@ -1,7 +1,5 @@
 // @flow
 import type { State } from "../reducers/mainReducer";
-// import * as Location from "expo-location";
-// import * as Permissions from "expo-permissions";
 import Geolocation from "@react-native-community/geolocation";
 import type {
   Location as LocationType,

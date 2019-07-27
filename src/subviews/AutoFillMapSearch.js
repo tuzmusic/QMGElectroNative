@@ -1,12 +1,12 @@
 //  @flow
-import type { ElectroLocation } from "../../flowTypes";
+import type { Location } from "../redux/reducers/locationReducer";
 import * as React from "react";
 import { Text, TextInput, View, TouchableOpacity } from "react-native";
 import { Input } from "react-native-elements";
 import AppStyles from "../constants/Styles";
 import _ from "lodash";
 import { connect } from "react-redux";
-// import { setCurrentRegion } from "../redux/actions/locationActions";
+import { setCurrentRegion } from "../redux/actions/locationActions";
 import ApiUrls from "../constants/ApiUrls";
 import { Platform } from "react-native";
 
@@ -18,8 +18,8 @@ type State = {
 };
 
 type Props = {
-  setCurrentRegion: ElectroLocation => void,
-  style: { [key: string]: {} },
+  setCurrentRegion: Location => void,
+  style: Object,
   beforeOnPress: () => void
 };
 // #endregion
@@ -35,16 +35,17 @@ export class AutoFillMapSearch extends React.Component<Props, State> {
   async setSamplePrediction() {
     await this.setState({ address: "88 n spring st 03301" });
     await this.handleAddressChange();
-    this.onPredictionSelect(this.state.addressPredictions[0]);
+    // this.onPredictionSelect(this.state.addressPredictions[0]);
   }
 
   async componentDidMount() {
-    // setTimeout(this.setSamplePrediction.bind(this), 1000);
+    setTimeout(this.setSamplePrediction.bind(this), 1000);
   }
 
   async handleAddressChange() {
     try {
       const result = await fetch(ApiUrls.mapsSearch(this.state.address));
+      debugger;
       const json = await result.json();
       this.setState({ addressPredictions: json.predictions });
     } catch (err) {
@@ -115,7 +116,7 @@ export class AutoFillMapSearch extends React.Component<Props, State> {
 }
 export default connect(
   null,
-  { setCurrentRegion: () => {} }
+  { setCurrentRegion }
 )(AutoFillMapSearch);
 
 const text = {
