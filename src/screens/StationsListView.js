@@ -1,14 +1,14 @@
 // @flow
 
 import type Station from "../models/Station";
-import type { ElectroLocation } from "../../flowTypes";
+import type { Location } from "../redux/reducers/locationReducer";
 import React, { Component } from "react";
 import { ScrollView, View, Text } from "react-native";
 import { Dropdown } from "react-native-material-dropdown";
 import { connect } from "react-redux";
 import StationsListContainer from "../subviews/StationsListContainer";
 import { setCurrentStationID } from "../redux/actions/stationActions";
-// import { setSearchRadius } from "../redux/actions/locationActions";
+import { setSearchRadius } from "../redux/actions/locationActions";
 import pluralize from "pluralize";
 import FilterInput from "../subviews/FilterInput";
 
@@ -17,7 +17,7 @@ type ListViewProps = {
   navigation: { navigate: (string, { title: string }) => void },
   onTextPress: (item: Station) => void,
   isLoading: boolean,
-  location: ElectroLocation,
+  location: Location,
   searchRadius: number,
   setCurrentStationID: (number | string) => void,
   setSearchRadius: number => void
@@ -87,7 +87,7 @@ export const StationsListViewBasic = StationsListView;
 
 export default connect(
   mapStateToProps,
-  { setCurrentStationID, setSearchRadius: () => {} }
+  { setCurrentStationID, setSearchRadius }
 )(StationsListView);
 
 const styles = {};
