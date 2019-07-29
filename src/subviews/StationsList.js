@@ -1,7 +1,7 @@
 // @flow
 
 import type Station from "../models/Station";
-import type { ElectroLocation } from "../../flowTypes";
+import type { Location } from "../redux/reducers/locationReducer";
 import React from "react";
 import { connect } from "react-redux";
 import { FlatList, View, Text } from "react-native";
@@ -11,7 +11,7 @@ type Props = {
   stations: Station[],
   navigation: {},
   onTextPress: (item: Station) => mixed,
-  location: ElectroLocation
+  location: Location
 };
 
 const EmptyStationList = () => {
@@ -28,6 +28,8 @@ const EmptyStationList = () => {
 };
 
 const StationsList = (props: Props) => {
+  console.log("rendering stations list");
+
   return (
     <View>
       {props.stations.length === 0 ? (

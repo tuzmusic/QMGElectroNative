@@ -1,11 +1,9 @@
 // @flow
-import type { ElectroLocation, Action } from "../../flowTypes";
 import type Station from "../models/Station";
-
+import type { Location } from "../redux/reducers/locationReducer";
 import React, { Component } from "react";
 import { BLText } from "../components/StyledComponents";
 import { View, TouchableOpacity, Text } from "react-native";
-import F8StyleSheet from "../components/F8StyleSheet";
 import { connect } from "react-redux";
 
 const CellTextRow = props => (
@@ -15,7 +13,7 @@ const CellTextRow = props => (
 type Props = {
   station: Station,
   onTextPress: () => mixed,
-  location: ElectroLocation,
+  location: Location,
   containerStyle: { [key: string]: {} }
 };
 
@@ -34,7 +32,7 @@ class ListingCellView extends Component<Props> {
         <View style={styles.rightSection}>
           {this.props.location && (
             <CellTextRow style={text.distance}>
-              {station.distanceFromLocation(this.props.location)} mi.
+              {station.distanceFromLocation(this.props.location) || "?"} mi.
             </CellTextRow>
           )}
           <CellTextRow style={text.price}>{station.priceString()}</CellTextRow>
@@ -49,7 +47,7 @@ export default connect(state => ({ location: state.main.currentRegion }))(
 );
 
 const baseSize = 14;
-const text = F8StyleSheet.create({
+const text = {
   title: {
     fontWeight: "bold",
     fontSize: baseSize + 2
@@ -69,9 +67,9 @@ const text = F8StyleSheet.create({
     color: "green",
     textAlign: "right"
   }
-});
+};
 
-const styles = F8StyleSheet.create({
+const styles = {
   rightSection: {
     flex: 1,
     justifyContent: "flex-start",
@@ -87,4 +85,4 @@ const styles = F8StyleSheet.create({
     borderBottomWidth: 0.5,
     borderBottomColor: "lightgrey"
   }
-});
+};

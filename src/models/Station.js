@@ -26,20 +26,18 @@ export default class Station {
   imageURL: string;
   listingURL: string;
   // #endregion
-  distanceFromLocation = (
+  distanceFromLocation(
     location: Location,
     unit: unitOfDistance = "mi"
-  ): ?number => {
+  ): ?number {
+    // console.log("getting distance from station");
     if (this.location) return distanceBetween(this.location, location);
-  };
+  }
 
-  distanceFrom = (
-    otherStation: Station,
-    unit: unitOfDistance = "mi"
-  ): ?number => {
+  distanceFrom(otherStation: Station, unit: unitOfDistance = "mi"): ?number {
     if (this.location && otherStation.location)
       return distanceBetween(this.location, otherStation.location);
-  };
+  }
 
   priceString = (freeString: string = "Free!"): string => {
     return this.priceFrom && this.priceTo
@@ -153,36 +151,27 @@ export default class Station {
     }
   }
 }
+
 export function distanceBetween(
-  location1: Location,
-  location2: Location,
+  loc1: Location,
+  loc2: Location,
   unit: unitOfDistance = "mi"
 ): number {
-  if (
-    location1.latitude == location2.latitude &&
-    location1.longitude == location2.longitude
-  ) {
+  if (loc1.latitude == loc2.latitude && loc1.longitude == loc2.longitude)
     return 0;
-  } else {
-    var radlat1 = (Math.PI * location1.latitude) / 180;
-    var radlat2 = (Math.PI * location2.latitude) / 180;
-    var theta = location1.longitude - location2.longitude;
-    var radtheta = (Math.PI * theta) / 180;
-    var dist =
-      Math.sin(radlat1) * Math.sin(radlat2) +
-      Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
-    if (dist > 1) {
-      dist = 1;
-    }
-    dist = Math.acos(dist);
-    dist = (dist * 180) / Math.PI;
-    dist = dist * 60 * 1.1515;
-    if (unit == "km") {
-      dist = dist * 1.609344;
-    }
-    if (unit == "nm") {
-      dist = dist * 0.8684;
-    }
-    return Number(dist.toFixed(2));
-  }
+  var radlat1 = (Math.PI * loc1.latitude) / 180;
+  var radlat2 = (Math.PI * loc2.latitude) / 180;
+  var theta = loc1.longitude - loc2.longitude;
+  var radtheta = (Math.PI * theta) / 180;
+  var dist =
+    Math.sin(radlat1) * Math.sin(radlat2) +
+    Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+  if (dist > 1) dist = 1;
+  dist = Math.acos(dist);
+  dist = (dist * 180) / Math.PI;
+  dist = dist * 60 * 1.1515;
+  if (unit == "km") dist = dist * 1.609344;
+  if (unit == "nm") dist = dist * 0.8684;
+  // debugger;
+  return Number(dist.toFixed(2));
 }

@@ -68,10 +68,7 @@ const TabNavigator = createBottomTabNavigator(
     UserStack
   },
   {
-    initialRouteName: "UserStack",
-    initialRouteName: "MapStack",
-    butt: "butt",
-    initialRouteName: "ListStack"
+    initialRouteName: "List" + "Stack"
   }
 );
 
