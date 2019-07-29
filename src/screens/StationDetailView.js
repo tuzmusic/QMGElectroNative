@@ -228,7 +228,7 @@ const styles = {
   },
   textContainer: { alignItems: "flex-start", padding: 15 },
   image: {
-    height: 350,
+    height: 250,
     width: null
   },
   bordered: {

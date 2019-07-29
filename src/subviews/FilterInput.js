@@ -9,7 +9,7 @@ const FilterInput = (props: {
   onSelectDropdown: any => void,
   startingValue: number
 }) => {
-  const radiuses: number[] = [1, 5, 15, 25, 10000]; //, 50, 100];
+  const radiuses: number[] = [1, 5, 15, 25]; //, 50, 100];
   const dropDownOptions = radiuses.map(value => ({
     value,
     label: pluralize("mile", value, true)

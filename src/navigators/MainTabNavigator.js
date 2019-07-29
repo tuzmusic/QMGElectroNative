@@ -62,7 +62,7 @@ UserStack.navigationOptions = {
 
 const TabNavigator = createBottomTabNavigator(
   { MapStack, ListStack, UserStack },
-  { initialRouteName: "Map" + "Stack" }
+  { initialRouteName: "List" + "Stack" }
 );
 
 class TabContainer extends Component {

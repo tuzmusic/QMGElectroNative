@@ -2,7 +2,10 @@ import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
 import ApiUrls from "../../src/constants/ApiUrls";
 import { loginResponse, registerResponse, registration } from "./loginResponse";
-import { indexResponse } from "../../__mocks__/stationMocks";
+import {
+  mockIndexResponse,
+  realIndexResponseJuly2019
+} from "../../__mocks__/stationMocks";
 
 const DELAY = 0;
 
@@ -14,7 +17,8 @@ export function startMockAdapter({ auth = false, stations = false }) {
 }
 
 export function setupStationsMockAdapter(mock) {
-  mock.onGet(ApiUrls.stationsIndex).reply(200, indexResponse);
+  mock.onGet(ApiUrls.stationsIndex).reply(200, realIndexResponseJuly2019);
+  // mock.onGet(ApiUrls.stationsIndex).reply(200, mockIndexResponse);
 }
 
 export function setupAuthMockAdapter(mock) {

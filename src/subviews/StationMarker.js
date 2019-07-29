@@ -26,21 +26,21 @@ const StationMarker = ({ station, location, ...props }) => {
       " away";
 
   return (
-    station.location && (
-      <Marker
-        coordinate={station.location}
-        // onPress={props.onMarkerPress.bind(null, station)}
+    <Marker
+      coordinate={station.location}
+      // onPress={props.onMarkerPress.bind(null, station)}
+    >
+      <Callout
+        onPress={props.onCalloutPress.bind(null, station)}
+        style={styles.callout}
       >
-        <Callout
-          onPress={props.onCalloutPress.bind(null, station)}
-          style={styles.callout}
-        >
-          <CellTextRow style={text.title}>{station.title}</CellTextRow>
+        <CellTextRow style={text.title}>{station.title}</CellTextRow>
+        {station.location && (
           <CellTextRow style={text.distance}>{distanceString}</CellTextRow>
-          <CellTextRow style={text.price}>{station.priceString()}</CellTextRow>
-        </Callout>
-      </Marker>
-    )
+        )}
+        <CellTextRow style={text.price}>{station.priceString()}</CellTextRow>
+      </Callout>
+    </Marker>
   );
 };
 
