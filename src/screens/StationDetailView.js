@@ -197,14 +197,6 @@ const text = {
 };
 
 const styles = {
-  buttonContainer: {
-    padding: 10,
-    width: "100%",
-    alignItems: "center"
-  },
-  infoCell: {
-    flex: 2
-  },
   iconCell: {
     flex: 1,
     flexDirection: "row",
@@ -213,10 +205,8 @@ const styles = {
     width: "100%"
   },
   iconContainer: {
-    marginLeft: 25,
-    marginRight: 25,
-    marginTop: 5,
-    marginBottom: 5
+    marginHorizontal: 25,
+    marginVertical: 5
   },
   rowContainer: {
     flex: 1,
