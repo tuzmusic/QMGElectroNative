@@ -101,7 +101,8 @@ export class AutoFillMapSearch extends React.Component<Props, State> {
           onChangeText={this.onChangeText}
           value={this.state.address}
           style={[styles.input, this.props.style]}
-          placeholder={"Search"}
+          placeholder={"Search..."}
+          placeholderTextColor={"grey"}
           autoCorrect={false}
           clearButtonMode={"while-editing"}
           onBlur={() => {
