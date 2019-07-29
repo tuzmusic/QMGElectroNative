@@ -26,29 +26,6 @@ export default class Station {
   imageURL: string;
   listingURL: string;
   // #endregion
-
-  constructor(json: Object) {
-    if (!json) return;
-    // this.id = json.id || uuid.v1();
-    this.id = json.id || Math.random();
-    this.originalJSON = json;
-    this.userID = json.userID;
-    this.title = json.title;
-    this.address = json.address;
-    this.contactEmail = json.contactEmail;
-    this.contactPhone = json.contactPhone;
-    this.content = json.content;
-    this.location = json.location;
-    this.priceFrom = json.priceFrom;
-    this.priceTo = json.priceTo;
-    this.tagline = json.tagline;
-    this.website = json.website;
-    this.mediaDataURL = json.mediaDataURL;
-    this.imageURL = json.imageURL;
-    this.listingURL = json.listingURL;
-    // this.amenities = json.amenities;
-  }
-
   distanceFromLocation = (
     location: Location,
     unit: unitOfDistance = "mi"

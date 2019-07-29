@@ -1,5 +1,5 @@
 // @flow
-import type { ElectroLocation, Action } from "../../../flowTypes";
+import type { Location } from "./locationReducer";
 import type Station from "../../models/Station";
 import AsyncStorage from "@react-native-community/async-storage";
 
@@ -10,16 +10,14 @@ export type State = {
   +currentStationID: ?number | ?string,
   +isLoading: boolean,
   +error: ?string,
-  +currentRegion: ?ElectroLocation,
-  +currentUserLocation: ?ElectroLocation,
-  +selectedLocation: ?ElectroLocation,
+  +currentRegion: ?Location,
+  +currentUserLocation: ?Location,
+  +selectedLocation: ?Location,
   +searchRadiusInMiles: number
 };
 // #endregion
 
-import CupertinoStations from "../../../tests/__mocks__/CupertinoStations";
 const initialState = {
-  // stations: CupertinoStations,
   stations: {},
   currentStationID: null,
   isLoading: false,
@@ -38,7 +36,7 @@ const initialState = {
 
 export default function mainReducer(
   state: State = initialState,
-  action: Action
+  action: Object
 ): State {
   // if (action.type.includes("STATION")) console.log(action.type);
 
