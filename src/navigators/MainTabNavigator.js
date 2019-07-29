@@ -61,14 +61,8 @@ UserStack.navigationOptions = {
 // #endregion
 
 const TabNavigator = createBottomTabNavigator(
-  {
-    MapStack,
-    ListStack,
-    UserStack
-  },
-  {
-    initialRouteName: "List" + "Stack"
-  }
+  { MapStack, ListStack, UserStack },
+  { initialRouteName: "List" + "Stack" }
 );
 
 class TabContainer extends Component {
@@ -85,9 +79,6 @@ class TabContainer extends Component {
 }
 
 export default connect(
-  ({ main }) => ({ stations: main.stations, userLocation: main.currentRegion }),
-  {
-    fetchStations,
-    getLocation
-  }
+  ({ main }) => ({ stations: main.stations }),
+  { fetchStations, getLocation }
 )(TabContainer);

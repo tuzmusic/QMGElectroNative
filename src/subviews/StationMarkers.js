@@ -1,11 +1,10 @@
 // @flow
-import type { ElectroLocation } from "../../flowTypes";
+import type { Location } from "../redux/reducers/locationReducer";
 import type Station from "../models/Station";
 
 import React, { Component } from "react";
 import { View, Button, Text, Platform, TextInput } from "react-native";
 import { BLText } from "../components/StyledComponents";
-import F8StyleSheet from "../components/F8StyleSheet";
 import { connect } from "react-redux";
 // import {
 //   getLocationAsync,
@@ -19,7 +18,7 @@ type Props = {
   stations: { [key: string]: Station },
   onMarkerPress: () => void,
   onCalloutPress: () => void,
-  location: ElectroLocation
+  location: Location
 };
 const CellTextRow = props => (
   <BLText style={[{ padding: 0.5 }, props.style]}>{props.children}</BLText>
@@ -57,12 +56,12 @@ const StationMarkers = (props: Props) => {
   });
 };
 
-export default connect(state => ({ location: state.main.currentRegion }))(
-  StationMarkers
-);
+export default connect(({ location }) => ({
+  location: location.currentRegion
+}))(StationMarkers);
 
 const baseSize = 15;
-const text = F8StyleSheet.create({
+const text = {
   title: {
     fontWeight: "bold",
     fontSize: baseSize + 1
@@ -80,9 +79,9 @@ const text = F8StyleSheet.create({
     fontSize: baseSize,
     color: "green"
   }
-});
+};
 
-const styles = F8StyleSheet.create({
+const styles = {
   callout: {
     maxWidth: 250
   },
@@ -106,4 +105,4 @@ const styles = F8StyleSheet.create({
     flex: 2,
     padding: 7
   }
-});
+};

@@ -76,12 +76,16 @@ function withinSearchRadius(station: Station): boolean {
   return false;
 }
 
-const mapStateToProps = ({ main, location }) => ({
-  stations: Object.values(main.stations),
-  isLoading: main.isLoading,
-  location: main.currentRegion,
-  searchRadius: location.searchRadiusInMiles
-});
+const mapStateToProps = ({ main, location }) => {
+  // debugger;
+  return {
+    stations: Object.values(main.stations),
+    isLoading: main.isLoading,
+    location: main.currentRegion,
+    // location: location.currentRegion,
+    searchRadius: location.searchRadiusInMiles
+  };
+};
 
 export const StationsListViewBasic = StationsListView;
 
