@@ -14,11 +14,15 @@ export function startMockAdapter({ auth = false, stations = false }) {
   let mock = new MockAdapter(axios, { delayResponse: DELAY });
   if (auth) setupAuthMockAdapter(mock);
   if (stations) setupStationsMockAdapter(mock);
+  // mock.onAny().passThrough();
 }
 
 export function setupStationsMockAdapter(mock) {
-  mock.onGet(ApiUrls.stationsIndex).reply(200, realIndexResponseJuly2019);
+  // mock.onGet(ApiUrls.stationsIndex).reply(200, realIndexResponseJuly2019);
   // mock.onGet(ApiUrls.stationsIndex).reply(200, mockIndexResponse);
+  mock
+    .onGet(ApiUrls.stationsIndex)
+    .reply(200, [...mockIndexResponse, ...realIndexResponseJuly2019]);
 }
 
 export function setupAuthMockAdapter(mock) {

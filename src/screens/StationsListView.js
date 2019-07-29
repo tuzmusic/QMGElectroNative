@@ -52,9 +52,9 @@ class StationsListView extends Component<ListViewProps> {
   };
 
   render() {
-    const sortedStations = this.props.stations
-      .filter(withinSearchRadius.bind(this))
-      .sort(closestFirst.bind(this));
+    const sortedStations = this.props.stations;
+    // .filter(withinSearchRadius.bind(this))
+    // .sort(closestFirst.bind(this));
 
     return (
       <ScrollView>
