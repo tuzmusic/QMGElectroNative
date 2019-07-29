@@ -1,5 +1,6 @@
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from "@react-native-community/async-storage";
 import Station from "../../models/Station";
+import ApiUrls from "../../constants/ApiUrls";
 
 function results({ stations, error }) {
   return {
@@ -33,7 +34,7 @@ export async function _getCachedStations() {
 
 import CupertinoStations from "../../../tests/__mocks__/CupertinoStations";
 export async function _downloadStations() {
-  const url = "http://joinelectro.com/wp-json/wp/v2/job-listings/";
+  const url = ApiUrls.stationsIndex;
   try {
     const res = await fetch(url);
     const json = await res.json();

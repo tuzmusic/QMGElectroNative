@@ -1,6 +1,5 @@
 // @flow
 import Station from "../../src/models/Station";
-import type { ElectroLocation, Action } from "../../flowTypes";
 import type StationType from "../../src/models/Station";
 
 const mockInfo = {

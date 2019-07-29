@@ -1,10 +1,31 @@
 import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
-import { ApiUrls } from "../../src/redux/actions/authActions";
+// import { ApiUrls } from "../../src/redux/actions/authActions";
+import ApiUrls from "../../src/constants/ApiUrls";
 import { loginResponse, registerResponse, registration } from "./loginResponse";
+import { indexResponse } from "../../__mocks__/stationMocks";
 
-export function setupAuthMockAdapter() {
+export function startMockAdapter({ auth = false, stations = false }) {
+  const urls = ApiUrls;
   let mock = new MockAdapter(axios);
+  if (auth) setupAuthMockAdapter(mock);
+  if (stations) setupStationsMockAdapter(mock);
+}
+
+function setupStationsMockAdapter(mock) {
+  console.log(ApiUrls);
+
+  mock
+    // register
+    .onGet(ApiUrls.stationsIndex)
+    .reply(() => {
+      console.log("hello from mock adapter");
+
+      return [200, indexResponse];
+    });
+}
+
+export function setupAuthMockAdapter(mock) {
   mock
     // register
     .onGet(ApiUrls.nonce)
@@ -61,5 +82,4 @@ export function setupAuthMockAdapter() {
     // logout
     .onGet(ApiUrls.logout)
     .reply(200, loginResponse.logout);
-  return mock;
 }

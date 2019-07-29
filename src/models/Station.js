@@ -1,7 +1,7 @@
 // @flow
 
 // import uuid from "react-native-uuid";
-import type { ElectroLocation, OpenObject } from "../../flowTypes";
+import type { ElectroLocation, Object } from "../../flowTypes";
 import ApiUrls from "../constants/ApiUrls";
 
 type unitOfDistance = "mi" | "km" | "nm";
@@ -76,7 +76,7 @@ export default class Station {
     this.location = await Station.getLocationForAddress(this.address);
   }
 
-  static fromApi(json: OpenObject) {
+  static fromApi(json: Object) {
     function p(propName: string, prefix: string = "_"): string {
       const key = `${prefix}${propName}`;
       const valueArray: string[] = json.listing_props[key];
@@ -125,7 +125,7 @@ export default class Station {
     // return new Station(stationJSON);
   }
 
-  static toApi(json: OpenObject) {
+  static toApi(json: Object) {
     return {
       originalJSON: json,
       // id: uuid.v1(), // ultimately this may need to be a string

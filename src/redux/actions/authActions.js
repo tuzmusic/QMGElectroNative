@@ -1,11 +1,11 @@
-export const ApiUrls = {
-  login: "https://joinelectro.com/x1H9JH7tZAb1DoJ/user/generate_auth_cookie/",
-  nonce:
-    "https://joinelectro.com/x1H9JH7tZAb1DoJ/get_nonce/?controller=user&method=register",
-  register: "https://joinelectro.com/x1H9JH7tZAb1DoJ/user/register",
-  logout: "http://joinelectro.com/wp-json/auth/logout"
-};
-
+// export const ApiUrls = {
+//   login: "https://joinelectro.com/x1H9JH7tZAb1DoJ/user/generate_auth_cookie/",
+//   nonce:
+//     "https://joinelectro.com/x1H9JH7tZAb1DoJ/get_nonce/?controller=user&method=register",
+//   register: "https://joinelectro.com/x1H9JH7tZAb1DoJ/user/register",
+//   logout: "http://joinelectro.com/wp-json/auth/logout"
+// };
+import ApiUrls from "../../constants/ApiUrls";
 import axios from "axios";
 import { put, call, takeEvery, all } from "redux-saga/effects";
 import Sugar from "sugar";

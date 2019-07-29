@@ -69,17 +69,17 @@ const TabNavigator = createBottomTabNavigator(
   },
   {
     initialRouteName: "UserStack",
-    initialRouteName: "ListStack",
     initialRouteName: "MapStack",
-    butt: "butt"
+    butt: "butt",
+    initialRouteName: "ListStack"
   }
 );
 
 class TabContainer extends Component {
   componentDidMount = async () => {
     // this.props.getLocationAsync();
-    if (!__DEV__) await this.props.fetchStations();
-    // await this.props.fetchStations();
+    // if (!__DEV__) await this.props.fetchStations();
+    await this.props.fetchStations();
   };
 
   static router = TabNavigator.router;
