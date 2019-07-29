@@ -73,7 +73,22 @@ export default class Station {
   };
 
   async setLocation() {
+    console.log("Setting location for", this.title);
     this.location = await Station.getLocationForAddress(this.address);
+  }
+
+  static collectionFromArray(stationArray: Station[]): { [number]: Station } {
+    const stations = {};
+    stationArray.forEach(s => {
+      const station = Station.fromApi(s);
+      // debugger;
+      stations[s.id] = station;
+    });
+    // return Object.assign({},
+    //   ...stationArray.map(s => ({ [s.id]: Station.fromApi(s) }))
+    // );
+    // debugger;
+    return stations;
   }
 
   static fromApi(json: Object) {

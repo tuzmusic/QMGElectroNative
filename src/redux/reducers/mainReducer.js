@@ -1,7 +1,7 @@
 // @flow
 import type { ElectroLocation, Action } from "../../../flowTypes";
 import type Station from "../../models/Station";
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from "@react-native-community/async-storage";
 
 // #region TYPES
 
@@ -47,7 +47,6 @@ export default function mainReducer(
     case "GET_STATIONS_START":
       return { ...state, isLoading: true };
     case "GET_STATIONS_SUCCESS":
-      // debugger;
       return {
         ...state,
         stations: { ...state.stations, ...action.stations },

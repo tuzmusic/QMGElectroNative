@@ -23,13 +23,11 @@ const Spinner = <MaterialIndicator color={"blue"} />;
 function openURL(url) {
   Linking.canOpenURL(url)
     .then(supported => {
-      if (!supported) {
-        console.log("Can't handle url: " + url);
-      } else {
-        return Linking.openURL(url);
-      }
+      return !!supported
+        ? Linking.openURL(url)
+        : console.log("Can't handle url: " + url);
     })
-    .catch(err => console.error("An error occurred", err));
+    .catch(err => console.warn("An error occurred", err));
 }
 
 function openMap(address) {

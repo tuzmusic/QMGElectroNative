@@ -18,21 +18,7 @@ export function fetchStations() {
   };
 }
 
-export async function _getCachedStations() {
-  try {
-    const data = await AsyncStorage.getItem("electro_stations");
-    if (data === null) return console.warn("requested key returns null");
-    const stations = JSON.parse(data).stations;
-    Object.values(stations).forEach(
-      json => (stations[json.id] = new Station(json))
-    );
-    return { stations };
-  } catch (error) {
-    return { error };
-  }
-}
-
-import CupertinoStations from "../../../tests/__mocks__/CupertinoStations";
+// import CupertinoStations from "../../../tests/__mocks__/CupertinoStations";
 export async function _downloadStations() {
   const url = ApiUrls.stationsIndex;
   try {
@@ -49,9 +35,10 @@ export async function _downloadStations() {
       // if (!station.location) debugger;
       // console.log(station.location);
     }
-    return __DEV__
-      ? { stations: { ...stations, ...CupertinoStations } }
-      : { stations };
+    // return __DEV__
+    //   ? { stations: { ...stations, ...CupertinoStations } }
+    //   : { stations };
+    return { stations };
   } catch (error) {
     console.warn(error);
     return { error };
