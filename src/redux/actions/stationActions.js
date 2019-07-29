@@ -44,12 +44,11 @@ export async function _downloadStations() {
 /* private */ export async function _getImageURLForStation(dispatch, station) {
   if ((url = station.mediaDataURL)) {
     try {
-      const res = await fetch(url);
-      const json = await res.json();
-      const imageURL = json.media_details.sizes.medium.source_url;
+      const { data } = await axios(url);
+      const imageURL = data.media_details.sizes.medium.source_url;
       dispatch({
         type: "UPDATE_STATION",
-        station: { ...station, imageURL }
+        station: Object.assign(station, { imageURL })
       });
       dispatch({ type: "SAVE_STATIONS" });
     } catch (error) {

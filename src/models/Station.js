@@ -47,7 +47,7 @@ export default class Station {
   }
 
   async setLocation() {
-    console.log("Setting location for", this.title);
+    // console.log("Setting location for", this.title);
     this.location = await Station.getLocationForAddress(this.address);
   }
 

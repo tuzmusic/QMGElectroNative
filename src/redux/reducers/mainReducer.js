@@ -1,6 +1,6 @@
 // @flow
 import type { Location } from "./locationReducer";
-import type Station from "../../models/Station";
+import Station from "../../models/Station";
 import AsyncStorage from "@react-native-community/async-storage";
 
 // #region TYPES

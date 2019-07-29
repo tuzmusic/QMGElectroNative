@@ -14,7 +14,7 @@ export function startMockAdapter({ auth = false, stations = false }) {
   let mock = new MockAdapter(axios, { delayResponse: DELAY });
   if (auth) setupAuthMockAdapter(mock);
   if (stations) setupStationsMockAdapter(mock);
-  // mock.onAny().passThrough();
+  mock.onAny().passThrough();
 }
 
 export function setupStationsMockAdapter(mock) {
