@@ -71,7 +71,9 @@ const text = {
 
 const styles = {
   callout: {
-    maxWidth: 250
+    maxWidth: 250,
+    height: 100,
+    justifyContent: "center"
   },
   rightSection: {
     justifyContent: "flex-start",
