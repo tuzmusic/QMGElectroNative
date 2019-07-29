@@ -59,3 +59,19 @@ buck-out/
 /ios/Pods/
 secrets.js
 ios/QMGElectroNative/secrets.m
+
+# fastlane specific
+ios/fastlane/report.xml
+
+# deliver temporary files
+ios/fastlane/Preview.html
+
+# snapshot generated screenshots
+ios/fastlane/screenshots
+
+# scan temporary files
+ios/fastlane/test_output
+
+# Fastlane builds
+ios/builds/*
+ios/*.xcarchive
