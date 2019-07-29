@@ -8,10 +8,9 @@ import { connect } from "react-redux";
 import { setCurrentStationID } from "../redux/actions/stationActions";
 import pluralize from "pluralize";
 import MapView, { Marker, Callout } from "react-native-maps";
-import StationMarker from "./StationMarker";
 
 type Props = {
-  stations: { [key: string]: Station },
+  station: Station,
   onMarkerPress: () => void,
   onCalloutPress: Station => void,
   location: Location
@@ -20,19 +19,35 @@ const CellTextRow = props => (
   <BLText style={[{ padding: 0.5 }, props.style]}>{props.children}</BLText>
 );
 
-const StationMarkers = (props: Props) => {
-  return Object.keys(props.stations).map<Marker>((key: string) => (
-    <StationMarker
-      station={props.stations[key]}
-      key={key}
-      onCalloutPress={props.onCalloutPress}
-    />
-  ));
+const StationMarker = (props: Props) => {
+  const station = props.station;
+  console.log(station);
+
+  const distanceString =
+    pluralize("mile", station.distanceFromLocation(props.location) || 0, true) +
+    " away";
+  return (
+    station.location && (
+      <Marker
+        coordinate={station.location}
+        // onPress={props.onMarkerPress.bind(null, station)}
+      >
+        <Callout
+          onPress={props.onCalloutPress.bind(null, station)}
+          style={styles.callout}
+        >
+          <CellTextRow style={text.title}>{station.title}</CellTextRow>
+          <CellTextRow style={text.distance}>{distanceString}</CellTextRow>
+          <CellTextRow style={text.price}>{station.priceString()}</CellTextRow>
+        </Callout>
+      </Marker>
+    )
+  );
 };
 
 export default connect(({ location }) => ({
   location: location.currentRegion
-}))(StationMarkers);
+}))(StationMarker);
 
 const baseSize = 15;
 const text = {

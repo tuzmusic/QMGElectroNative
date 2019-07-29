@@ -4,7 +4,7 @@ import ApiUrls from "../../src/constants/ApiUrls";
 import { loginResponse, registerResponse, registration } from "./loginResponse";
 import { indexResponse } from "../../__mocks__/stationMocks";
 
-const DELAY = 0;
+const DELAY = 500;
 
 export function startMockAdapter({ auth = false, stations = false }) {
   const urls = ApiUrls;
