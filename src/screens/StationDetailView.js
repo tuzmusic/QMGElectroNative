@@ -74,11 +74,13 @@ const ContactIcon = props => {
     <Icon
       reverse
       size={20}
+      color="lightgrey"
+      reverseColor="black"
       activeOpacity={0.5}
       name={props.icon.name}
       type={props.icon.type}
       onPress={props.onPress}
-      containerStyle={styles.icon}
+      containerStyle={styles.iconContainer}
     />
   );
 };
@@ -216,14 +218,11 @@ const styles = {
     padding: 10,
     width: "100%"
   },
-  icon: {
+  iconContainer: {
     marginLeft: 25,
     marginRight: 25,
     marginTop: 5,
-    marginBottom: 5,
-    color: "grey"
-    // borderWidth: 1,
-    // borderRadius: ,
+    marginBottom: 5
   },
   rowContainer: {
     flex: 1,
