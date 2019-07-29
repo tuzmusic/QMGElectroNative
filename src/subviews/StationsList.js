@@ -1,69 +1,31 @@
 // @flow
-
 import type Station from "../models/Station";
 import type { Location } from "../redux/reducers/locationReducer";
 import React from "react";
-import { connect } from "react-redux";
 import { FlatList, View, Text } from "react-native";
 import ListingCellView from "../subviews/ListingCellView";
 
 type Props = {
   stations: Station[],
-  navigation: {},
-  onTextPress: (item: Station) => mixed,
-  location: Location
-};
-
-const EmptyStationList = () => {
-  return (
-    <View style={styles.emptyListContainer}>
-      <Text style={styles.emptyListText}>
-        Sorry, there are no stations within the search area.
-      </Text>
-      <Text style={styles.emptyListText}>
-        Try searching a different region, or expanding the search radius.
-      </Text>
-    </View>
-  );
+  navigation: Object,
+  onTextPress: (item: Station) => mixed
 };
 
 const StationsList = (props: Props) => {
-  console.log(props.location);
-
   return (
-    <View>
-      {!props.stations.length || !props.location ? (
-        <EmptyStationList />
-      ) : (
-        <FlatList
-          data={props.stations}
-          renderItem={({ item }) => (
-            <ListingCellView
-              station={item}
-              navigation={props.navigation}
-              onTextPress={() => props.onTextPress(item)}
-            />
-          )}
-          style={{ marginLeft: 5, marginRight: 5 }}
-          keyExtractor={(_, index) => index.toString()}
+    <FlatList
+      data={props.stations}
+      renderItem={({ item }) => (
+        <ListingCellView
+          station={item}
+          navigation={props.navigation}
+          onTextPress={() => props.onTextPress(item)}
         />
       )}
-    </View>
+      style={{ marginLeft: 5, marginRight: 5 }}
+      keyExtractor={(_, index) => index.toString()}
+    />
   );
 };
-export default connect(({ location }) => ({
-  location: location.currentRegion
-}))(StationsList);
 
-const styles = {
-  emptyListContainer: {
-    justifyContent: "center",
-    height: "90%",
-    padding: 10
-  },
-  emptyListText: {
-    textAlign: "center",
-    fontSize: 18,
-    padding: 10
-  }
-};
+export default StationsList;

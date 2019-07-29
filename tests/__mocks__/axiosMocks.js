@@ -1,13 +1,14 @@
 import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
-// import { ApiUrls } from "../../src/redux/actions/authActions";
 import ApiUrls from "../../src/constants/ApiUrls";
 import { loginResponse, registerResponse, registration } from "./loginResponse";
 import { indexResponse } from "../../__mocks__/stationMocks";
 
+const DELAY = 0;
+
 export function startMockAdapter({ auth = false, stations = false }) {
   const urls = ApiUrls;
-  let mock = new MockAdapter(axios, { delayResponse: 200 });
+  let mock = new MockAdapter(axios, { delayResponse: DELAY });
   if (auth) setupAuthMockAdapter(mock);
   if (stations) setupStationsMockAdapter(mock);
 }

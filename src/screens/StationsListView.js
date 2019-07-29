@@ -24,6 +24,19 @@ type ListViewProps = {
   setSearchRadius: number => void
 };
 
+const EmptyStationList = () => {
+  return (
+    <View style={styles.emptyListContainer}>
+      <Text style={styles.emptyListText}>
+        Sorry, there are no stations within the search area.
+      </Text>
+      <Text style={styles.emptyListText}>
+        Try searching a different region, or expanding the search radius.
+      </Text>
+    </View>
+  );
+};
+
 class StationsListView extends Component<ListViewProps> {
   static navigationOptions = () => ({
     headerTitle: "Stations"
@@ -39,6 +52,10 @@ class StationsListView extends Component<ListViewProps> {
   };
 
   render() {
+    const sortedStations = this.props.stations
+      .filter(withinSearchRadius.bind(this))
+      .sort(closestFirst.bind(this));
+
     return (
       <ScrollView>
         <FilterInput
@@ -49,13 +66,15 @@ class StationsListView extends Component<ListViewProps> {
           message={"Loading Stations..."}
           isVisible={this.props.isLoading}
         />
-        <StationsList
-          stations={this.props.stations
-            .filter(withinSearchRadius.bind(this))
-            .sort(closestFirst.bind(this))}
-          navigation={this.props.navigation}
-          onTextPress={this.onStationClick.bind(this)}
-        />
+        {!sortedStations.length || !this.props.location ? (
+          <EmptyStationList />
+        ) : (
+          <StationsList
+            stations={sortedStations}
+            navigation={this.props.navigation}
+            onTextPress={this.onStationClick.bind(this)}
+          />
+        )}
       </ScrollView>
     );
   }
@@ -98,4 +117,15 @@ export default connect(
   { setCurrentStationID, setSearchRadius }
 )(StationsListView);
 
-const styles = {};
+const styles = {
+  emptyListContainer: {
+    justifyContent: "center",
+    height: "90%",
+    padding: 10
+  },
+  emptyListText: {
+    textAlign: "center",
+    fontSize: 18,
+    padding: 10
+  }
+};
