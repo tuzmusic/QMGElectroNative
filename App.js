@@ -18,7 +18,6 @@ import locationSaga from "./src/redux/actions/locationActions";
 import authSaga from "./src/redux/actions/authActions";
 import GlobalFont from "react-native-global-font";
 import AppStyles from "./src/constants/Styles";
-// import Type { Saga } from "redux-saga";
 import { startMockAdapter } from "./tests/__mocks__/axiosMocks";
 
 const combinedReducer = combineReducers({
@@ -40,7 +39,7 @@ function* rootSaga() {
 
 sagaMiddleware.run(rootSaga);
 
-startMockAdapter({ auth: true, stations: true });
+if (__DEV__) startMockAdapter({ auth: true, stations: true });
 
 console.disableYellowBox = true;
 
