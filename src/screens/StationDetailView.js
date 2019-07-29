@@ -21,13 +21,9 @@ const CellTextRow = props => (
 const Spinner = <MaterialIndicator color={"blue"} />;
 
 function openURL(url) {
-  Linking.canOpenURL(url)
-    .then(supported => {
-      return !!supported
-        ? Linking.openURL(url)
-        : console.log("Can't handle url: " + url);
-    })
-    .catch(err => console.warn("An error occurred", err));
+  Linking.openURL(url).catch(error => {
+    console.warn("An error occurred", error);
+  });
 }
 
 function openMap(address) {

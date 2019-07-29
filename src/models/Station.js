@@ -1,7 +1,7 @@
 // @flow
 
 // import uuid from "react-native-uuid";
-import type { ElectroLocation, Object } from "../../flowTypes";
+import type { Location } from "../redux/reducers/locationReducer";
 import ApiUrls from "../constants/ApiUrls";
 
 type unitOfDistance = "mi" | "km" | "nm";
@@ -16,7 +16,7 @@ export default class Station {
   contactEmail: string;
   contactPhone: string;
   content: string;
-  location: ?ElectroLocation;
+  location: ?Location;
   priceFrom: string;
   priceTo: string;
   tagline: string;
@@ -50,7 +50,7 @@ export default class Station {
   }
 
   distanceFromLocation = (
-    location: ElectroLocation,
+    location: Location,
     unit: unitOfDistance = "mi"
   ): ?number => {
     if (this.location) return distanceBetween(this.location, location);
@@ -157,9 +157,7 @@ export default class Station {
     };
   }
 
-  static async getLocationForAddress(
-    address: string
-  ): Promise<?ElectroLocation> {
+  static async getLocationForAddress(address: string): Promise<?Location> {
     try {
       const search = await fetch(ApiUrls.mapsSearch(address));
       const { predictions, ...searchData } = await search.json();
@@ -179,8 +177,8 @@ export default class Station {
   }
 }
 export function distanceBetween(
-  location1: ElectroLocation,
-  location2: ElectroLocation,
+  location1: Location,
+  location2: Location,
   unit: unitOfDistance = "mi"
 ): number {
   if (
