@@ -30,7 +30,6 @@ export default class Station {
     location: Location,
     unit: unitOfDistance = "mi"
   ): ?number {
-    // console.log("getting distance from station");
     if (this.location) return distanceBetween(this.location, location);
   }
 
@@ -39,13 +38,13 @@ export default class Station {
       return distanceBetween(this.location, otherStation.location);
   }
 
-  priceString = (freeString: string = "Free!"): string => {
+  priceString(freeString: string = "Free!"): string {
     return this.priceFrom && this.priceTo
       ? `${isNaN(this.priceFrom) ? "" : "$"}${this.priceFrom}-${
           isNaN(this.priceTo) ? "" : "$"
         }${this.priceTo}`
       : freeString;
-  };
+  }
 
   async setLocation() {
     console.log("Setting location for", this.title);

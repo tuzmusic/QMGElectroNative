@@ -15,7 +15,7 @@ import StationDetailScreen from "../screens/StationDetailView";
 import UserScreen from "../screens/UserScreenView";
 
 import { fetchStations } from "../redux/actions/stationActions";
-// import { getLocationAsync } from "../redux/actions/locationActions";
+import { getLocation } from "../redux/actions/locationActions";
 
 // #region CONFIGURE STACKS
 const ListStack = createStackNavigator({
@@ -32,7 +32,6 @@ function icon(focused, focIcon, unfocIcon, type) {
     />
   );
 }
-console.disableYellowBox = true;
 ListStack.navigationOptions = {
   tabBarLabel: "List",
   tabBarIcon: ({ focused: f }) => icon(f, "list", "", "feather")
@@ -74,7 +73,7 @@ const TabNavigator = createBottomTabNavigator(
 
 class TabContainer extends Component {
   componentDidMount = async () => {
-    // this.props.getLocationAsync();
+    this.props.getLocation();
     // if (!__DEV__) await this.props.fetchStations();
     await this.props.fetchStations();
   };
@@ -88,7 +87,7 @@ class TabContainer extends Component {
 export default connect(
   ({ main }) => ({ stations: main.stations, userLocation: main.currentRegion }),
   {
-    fetchStations
-    // getLocationAsync
+    fetchStations,
+    getLocation
   }
 )(TabContainer);

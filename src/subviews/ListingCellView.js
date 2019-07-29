@@ -42,9 +42,9 @@ class ListingCellView extends Component<Props> {
   }
 }
 
-export default connect(state => ({ location: state.main.currentRegion }))(
-  ListingCellView
-);
+export default connect(({ location }) => ({
+  location: location.currentRegion
+}))(ListingCellView);
 
 const baseSize = 14;
 const text = {

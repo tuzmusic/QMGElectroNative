@@ -28,8 +28,6 @@ const EmptyStationList = () => {
 };
 
 const StationsList = (props: Props) => {
-  console.log("rendering stations list");
-
   return (
     <View>
       {props.stations.length === 0 ? (

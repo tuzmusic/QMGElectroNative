@@ -42,6 +42,8 @@ sagaMiddleware.run(rootSaga);
 
 startMockAdapter({ auth: true, stations: true });
 
+console.disableYellowBox = true;
+
 export default class App extends React.Component {
   render() {
     return (
