@@ -79,15 +79,7 @@ export default class Station {
 
   static collectionFromArray(stationArray: Station[]): { [number]: Station } {
     const stations = {};
-    stationArray.forEach(s => {
-      const station = Station.fromApi(s);
-      // debugger;
-      stations[s.id] = station;
-    });
-    // return Object.assign({},
-    //   ...stationArray.map(s => ({ [s.id]: Station.fromApi(s) }))
-    // );
-    // debugger;
+    stationArray.forEach(s => (stations[s.id] = Station.fromApi(s)));
     return stations;
   }
 

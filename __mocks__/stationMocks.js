@@ -22,7 +22,7 @@ export const indexResponse = [
   {
     id: "2",
     listing_props: {
-      _job_title: [["De Anza Community College Transit Center"]],
+      _job_title: ["De Anza Community College Transit Center"],
       _job_location: ["6969 Cool Street"],
       geolocation_lat: ["37.32246610000001"],
       geolocation_long: ["-122.0444706"],
@@ -34,7 +34,7 @@ export const indexResponse = [
   {
     id: "3",
     listing_props: {
-      _job_title: [["Google Headquarters"]],
+      _job_title: ["Google Headquarters"],
       _job_location: ["6969 Cool Street"],
       geolocation_lat: ["37.4219999"],
       geolocation_long: ["-122.0840575"],
@@ -46,7 +46,7 @@ export const indexResponse = [
   {
     id: "4",
     listing_props: {
-      _job_title: [["Steven's Creek"]],
+      _job_title: ["Steven's Creek"],
       _job_location: ["6969 Cool Street"],
       geolocation_lat: ["37.3043165"],
       geolocation_long: ["-122.072954"],

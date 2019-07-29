@@ -1,6 +1,7 @@
 import AsyncStorage from "@react-native-community/async-storage";
 import Station from "../../models/Station";
 import ApiUrls from "../../constants/ApiUrls";
+import axios from "axios";
 
 function results({ stations, error }) {
   return {
@@ -18,26 +19,15 @@ export function fetchStations() {
   };
 }
 
-// import CupertinoStations from "../../../tests/__mocks__/CupertinoStations";
 export async function _downloadStations() {
   const url = ApiUrls.stationsIndex;
   try {
-    const res = await fetch(url);
-    const json = await res.json();
-    const stations = Object.assign(
-      {},
-      ...json.map(s => ({ [s.id]: Station.fromApi(s) }))
-    );
-    // debugger;
+    const { data } = await axios(url);
+    const stations = Station.collectionFromArray(data);
     for (const id in stations) {
       const station = stations[Number(id)];
       if (!station.location && station.address) await station.setLocation();
-      // if (!station.location) debugger;
-      // console.log(station.location);
     }
-    // return __DEV__
-    //   ? { stations: { ...stations, ...CupertinoStations } }
-    //   : { stations };
     return { stations };
   } catch (error) {
     console.warn(error);
