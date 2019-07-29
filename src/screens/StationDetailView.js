@@ -8,7 +8,6 @@ import {
   Platform
 } from "react-native";
 import { Image, Avatar, Button, Icon } from "react-native-elements";
-import F8StyleSheet from "../components/F8StyleSheet";
 import { connect } from "react-redux";
 import { getImageURLForStation } from "../redux/actions/stationActions";
 import { MaterialIndicator } from "react-native-indicators";
@@ -73,8 +72,8 @@ const StationImage = ({ station }) => {
 const ContactIcon = props => {
   return (
     <Icon
-      // rounded
-      size="medium"
+      reverse
+      size={20}
       activeOpacity={0.5}
       name={props.icon.name}
       type={props.icon.type}
@@ -87,11 +86,9 @@ const ContactIcon = props => {
 const ContactButtons = ({ station }) => {
   return (
     <View style={[styles.iconCell]}>
-      {station.contactEmail
-        ? {
-            /* <ContactIcon
-          // icon={{ name: "email-outline", type: "material-community" }}
-          icon={{ name: "phone", type: "feather" }}
+      {station.contactEmail ? (
+        <ContactIcon
+          icon={{ name: "email-outline", type: "material-community" }}
           onPress={() => openURL(`mailto:${station.contactEmail}`)}
         />
       ) : null}
@@ -99,9 +96,8 @@ const ContactButtons = ({ station }) => {
         <ContactIcon
           icon={{ name: "phone", type: "feather" }}
           onPress={() => openURL(`tel:${station.contactPhone}`)}
-        /> */
-          }
-        : null}
+        />
+      ) : null}
     </View>
   );
 };
@@ -179,7 +175,7 @@ export default connect(
 )(StationDetailView);
 
 const baseSize = 17;
-const text = F8StyleSheet.create({
+const text = {
   title: {
     fontWeight: "bold",
     fontSize: 24
@@ -202,9 +198,9 @@ const text = F8StyleSheet.create({
     textAlign: "center",
     width: "100%"
   }
-});
+};
 
-const styles = F8StyleSheet.create({
+const styles = {
   buttonContainer: {
     padding: 10,
     width: "100%",
@@ -224,7 +220,10 @@ const styles = F8StyleSheet.create({
     marginLeft: 25,
     marginRight: 25,
     marginTop: 5,
-    marginBottom: 5
+    marginBottom: 5,
+    color: "grey"
+    // borderWidth: 1,
+    // borderRadius: ,
   },
   rowContainer: {
     flex: 1,
@@ -247,4 +246,4 @@ const styles = F8StyleSheet.create({
     justifyContent: "center",
     alignItems: "center"
   }
-});
+};

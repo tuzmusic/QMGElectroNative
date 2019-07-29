@@ -40,7 +40,7 @@ function* rootSaga() {
 
 sagaMiddleware.run(rootSaga);
 
-startMockAdapter({ auth: true, stations: true });
+startMockAdapter({ auth: true, stations: true }); // may not work...
 
 export default class App extends React.Component {
   render() {

@@ -13,14 +13,12 @@ export function startMockAdapter({ auth = false, stations = false }) {
 }
 
 function setupStationsMockAdapter(mock) {
-  console.log(ApiUrls);
-
   mock
     // register
     .onGet(ApiUrls.stationsIndex)
     .reply(() => {
       console.log("hello from mock adapter");
-
+      debugger;
       return [200, indexResponse];
     });
 }

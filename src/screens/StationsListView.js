@@ -46,7 +46,7 @@ class StationsListView extends Component<ListViewProps> {
         />
         <StationsListContainer
           stations={this.props.stations
-            .filter(withinSearchRadius.bind(this))
+            // .filter(withinSearchRadius.bind(this))
             .sort(closestFirst.bind(this))}
           navigation={this.props.navigation}
           onTextPress={this.onStationClick.bind(this)}
