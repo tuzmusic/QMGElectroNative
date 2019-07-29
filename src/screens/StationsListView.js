@@ -6,11 +6,12 @@ import React, { Component } from "react";
 import { ScrollView, View, Text } from "react-native";
 import { Dropdown } from "react-native-material-dropdown";
 import { connect } from "react-redux";
-import StationsListContainer from "../subviews/StationsListContainer";
+import StationsList from "../subviews/StationsList";
 import { setCurrentStationID } from "../redux/actions/stationActions";
 import { setSearchRadius } from "../redux/actions/locationActions";
 import pluralize from "pluralize";
 import FilterInput from "../subviews/FilterInput";
+import LoadingIndicator from "../components/LoadingIndicator";
 
 type ListViewProps = {
   stations: Station[],
@@ -44,13 +45,16 @@ class StationsListView extends Component<ListViewProps> {
           onSelectDropdown={this.onSelectSearchRadius.bind(this)}
           startingValue={this.props.searchRadius}
         />
-        <StationsListContainer
+        <LoadingIndicator
+          message={"Loading Stations..."}
+          isVisible={this.props.isLoading}
+        />
+        <StationsList
           stations={this.props.stations
             .filter(withinSearchRadius.bind(this))
             .sort(closestFirst.bind(this))}
           navigation={this.props.navigation}
           onTextPress={this.onStationClick.bind(this)}
-          isLoading={this.props.isLoading}
         />
       </ScrollView>
     );
@@ -81,8 +85,8 @@ const mapStateToProps = ({ main, location }) => {
   return {
     stations: Object.values(main.stations),
     isLoading: main.isLoading,
-    location: main.currentRegion,
-    // location: location.currentRegion,
+    // location: main.currentRegion,
+    location: location.currentRegion,
     searchRadius: location.searchRadiusInMiles
   };
 };

@@ -28,9 +28,11 @@ const EmptyStationList = () => {
 };
 
 const StationsList = (props: Props) => {
+  console.log(props.location);
+
   return (
     <View>
-      {props.stations.length === 0 ? (
+      {!props.stations.length || !props.location ? (
         <EmptyStationList />
       ) : (
         <FlatList
@@ -49,7 +51,9 @@ const StationsList = (props: Props) => {
     </View>
   );
 };
-export default connect()(StationsList);
+export default connect(({ location }) => ({
+  location: location.currentRegion
+}))(StationsList);
 
 const styles = {
   emptyListContainer: {

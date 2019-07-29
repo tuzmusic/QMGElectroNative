@@ -7,7 +7,7 @@ import { indexResponse } from "../../__mocks__/stationMocks";
 
 export function startMockAdapter({ auth = false, stations = false }) {
   const urls = ApiUrls;
-  let mock = new MockAdapter(axios);
+  let mock = new MockAdapter(axios, { delayResponse: 200 });
   if (auth) setupAuthMockAdapter(mock);
   if (stations) setupStationsMockAdapter(mock);
 }
