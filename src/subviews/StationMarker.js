@@ -19,13 +19,12 @@ const CellTextRow = props => (
   <BLText style={[{ padding: 0.5 }, props.style]}>{props.children}</BLText>
 );
 
-const StationMarker = (props: Props) => {
-  const station = props.station;
-  console.log(station);
+const StationMarker = ({ station, location, ...props }) => {
+  const distanceString = !location
+    ? ""
+    : pluralize("mile", station.distanceFromLocation(location) || 0, true) +
+      " away";
 
-  const distanceString =
-    pluralize("mile", station.distanceFromLocation(props.location) || 0, true) +
-    " away";
   return (
     station.location && (
       <Marker

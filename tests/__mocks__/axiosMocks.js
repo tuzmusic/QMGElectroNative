@@ -4,7 +4,7 @@ import ApiUrls from "../../src/constants/ApiUrls";
 import { loginResponse, registerResponse, registration } from "./loginResponse";
 import { indexResponse } from "../../__mocks__/stationMocks";
 
-const DELAY = 500;
+const DELAY = 0;
 
 export function startMockAdapter({ auth = false, stations = false }) {
   const urls = ApiUrls;
@@ -13,7 +13,7 @@ export function startMockAdapter({ auth = false, stations = false }) {
   if (stations) setupStationsMockAdapter(mock);
 }
 
-function setupStationsMockAdapter(mock) {
+export function setupStationsMockAdapter(mock) {
   mock.onGet(ApiUrls.stationsIndex).reply(200, indexResponse);
 }
 
