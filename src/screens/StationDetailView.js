@@ -7,10 +7,11 @@ import {
   TouchableOpacity,
   Platform
 } from "react-native";
-import { Image, Avatar, Button, Icon } from "react-native-elements";
+import { Image, Button, Icon } from "react-native-elements";
 import { connect } from "react-redux";
 import { getImageURLForStation } from "../redux/actions/stationActions";
 import { MaterialIndicator } from "react-native-indicators";
+import OpenMap from "../components/OpenMap/OpenMap";
 
 const CellTextRow = props => (
   <BLText style={[{ padding: 2, textAlign: "left" }, props.style]}>
@@ -24,22 +25,6 @@ function openURL(url) {
   Linking.openURL(url).catch(error => {
     console.warn("An error occurred", error);
   });
-}
-
-function openMap({ title, location }) {
-  let baseURL = "https://www.google.com/maps/search/?api=1&query=";
-  // if (Platform.OS === 'ios') baseURL = "http://maps.apple.com/?q="
-
-  const scheme = Platform.select({ ios: "maps:0,0?q=", android: "geo:0,0?q=" });
-  const latLng = `${location.latitude},${location.longitude}`;
-  const url = Platform.select({
-    ios: `${scheme}${title}@${latLng}`,
-    android: `${scheme}${latLng}(${title})`
-  });
-
-  Linking.openURL(url);
-
-  // openURL(baseURL + address);
 }
 
 const StationWebsite = ({ station }) => {
@@ -108,15 +93,26 @@ const ContactButtons = ({ station }) => {
   );
 };
 
+function mapQueryUrl({ title, location }) {
+  const scheme = Platform.select({ ios: "maps:0,0?q=", android: "geo:0,0?q=" });
+  const latLng = `${location.latitude},${location.longitude}`;
+  const url = Platform.select({
+    ios: `${scheme}${title}@${latLng}`,
+    android: `${scheme}${latLng}(${title})`
+  });
+  return url;
+}
+
 class StationDetailView extends Component {
+  state = {
+    showMapOpener: false,
+    showMapOpener: true
+  };
+
   static navigationOptions = ({ navigation }) => {
     return {
       title: navigation.getParam("title")
     };
-  };
-
-  state: {
-    showMapOpener: false
   };
 
   async componentDidMount() {
@@ -129,13 +125,17 @@ class StationDetailView extends Component {
     }
   }
 
+  handleAddressPress() {
+    this.setState({ showMapOpener: true });
+  }
+
   render() {
     if (!this.props.station) return null;
-    const { station, users } = this.props;
+    const { station } = this.props;
 
-    const user = users[station.userID];
     return (
       <ScrollView>
+        {this.state.showMapOpener && <OpenMap station={station} />}
         <View style={styles.imageContainer}>
           <StationImage station={station} />
         </View>
@@ -144,7 +144,7 @@ class StationDetailView extends Component {
           {/* Title */}
           <CellTextRow style={text.title}>{station.title}</CellTextRow>
           {/* Address */}
-          <TouchableOpacity onPress={openMap.bind(null, station)}>
+          <TouchableOpacity onPress={this.handleAddressPress.bind(this)}>
             <CellTextRow style={[text.address, text.link]}>
               {station.address}
             </CellTextRow>
@@ -175,8 +175,7 @@ class StationDetailView extends Component {
 
 const mapStateToProps = state => ({
   station: state.main.stations[state.main.currentStationID],
-  stations: state.main.stations,
-  users: state.auth.users
+  stations: state.main.stations
 });
 
 export default connect(

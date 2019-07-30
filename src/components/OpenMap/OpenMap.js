@@ -1,47 +1,106 @@
 import React, { Component } from "react";
-import { Text, View, Linking, TouchableOpacity } from "react-native";
+import { Text, View, Linking, TouchableOpacity, FlatList } from "react-native";
+import { Overlay } from "react-native-elements";
 import * as LauncherConstants from "./constants";
 
-export default class OpenMap extends Component {
-  render() {
-    // debugger;
-    const arr = Object.values(LauncherConstants.APP).map(async str => {
-      const canOpen = await Linking.canOpenURL(str);
-      const s = `${str}: ${canOpen}`;
-      console.log(s);
-      return s;
-    });
-    // console.log(arr);
+const MapApps = [
+  {
+    name: "Apple Maps",
+    slug: "maps",
+    scheme(loc, label, slug = "maps") {
+      const scheme = slug + ":0,0?q=";
+      const latLng = `${loc.latitude},${loc.longitude}`;
+      const url = Platform.select({
+        ios: `${scheme}${label}@${latLng}`,
+        android: `${scheme}${latLng}(${label})`
+      });
+      return url;
+    }
+  },
+  {
+    name: "Google Maps",
+    slug: "googlemaps",
+    scheme(loc, label, slug = "googlemaps") {
+      const scheme = slug + ":0,0?q=";
+      const latLng = `${loc.latitude},${loc.longitude}`;
+      const url = Platform.select({
+        ios: `${scheme}${label}@${latLng}`,
+        android: `${scheme}${latLng}(${label})`
+      });
+      return url;
+    }
+  },
+  {
+    name: "Waze",
+    slug: "waze",
+    scheme(loc, label, slug = "waze") {
+      const scheme = slug + ":0,0?q=";
+      const latLng = `${loc.latitude},${loc.longitude}`;
+      const url = Platform.select({
+        ios: `${scheme}${label}@${latLng}`,
+        android: `${scheme}${latLng}(${label})`
+      });
+      return url;
+    }
+  }
+];
 
+export default class OpenMap extends Component {
+  state = { error: "" };
+  errorHandler = error => this.setState({ error });
+
+  render() {
     return (
-      <View style={styles.container}>
-        <Text>Hi there</Text>
-        {links()}
-      </View>
+      <Overlay isVisible={true} style={styles.container}>
+        <View>
+          <FlatList
+            data={MapApps}
+            renderItem={({ item }) => (
+              <MapLink
+                key={item.slug}
+                station={this.props.station}
+                app={item}
+                // keyExtractor={item => item.slug}
+                errorHandler={this.errorHandler.bind(this)}
+              />
+            )}
+          />
+        </View>
+        <Text>{this.state.error.message}</Text>
+      </Overlay>
     );
   }
 }
 
-const links = () => {
-  const qpref = ":0,0?q=";
-  const linksArray = [];
-  const appList = LauncherConstants.APP;
-  const apps = [appList.APPLE_MAPS, appList.GOOGLE_MAPS, appList.WAZE];
-  for (str of apps) {
-    const pref = str + qpref;
-    let canOpen;
-    console.log(pref);
-    const component = (
-      <TouchableOpacity
-        style={styles.opacityContainer}
-        onPress={() => Linking.openURL(pref)}
-      >
-        <Text key={str}>Open In {str}</Text>
-      </TouchableOpacity>
-    );
-    linksArray.push(component);
-  }
-  return linksArray;
+const MapLink = ({ station, app, errorHandler }) => {
+  let scheme, label;
+  scheme = Platform.select({ ios: "maps:0,0?q=", android: "geo:0,0?q=" });
+  scheme = app + ":0,0?q=";
+  label = station.title;
+  // label = "Label";
+  const latLng = `${station.location.latitude},${station.location.longitude}`;
+  let url = Platform.select({
+    ios: `${scheme}${label}@${latLng}`,
+    android: `${scheme}${latLng}(${label})`
+  });
+
+  // debugger;
+  const component = (
+    <TouchableOpacity
+      style={styles.opacityContainer}
+      onPress={() =>
+        Linking.openURL(app.scheme(station.location, station.title)).catch(
+          err => {
+            console.warn(err);
+            errorHandler(err);
+          }
+        )
+      }
+    >
+      <Text key={app.slug}>Open In {app.name}</Text>
+    </TouchableOpacity>
+  );
+  return component;
 };
 
 const styles = {
