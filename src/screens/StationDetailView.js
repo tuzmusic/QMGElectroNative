@@ -26,10 +26,20 @@ function openURL(url) {
   });
 }
 
-function openMap(address) {
+function openMap({ title, location }) {
   let baseURL = "https://www.google.com/maps/search/?api=1&query=";
   // if (Platform.OS === 'ios') baseURL = "http://maps.apple.com/?q="
-  openURL(baseURL + address);
+
+  const scheme = Platform.select({ ios: "maps:0,0?q=", android: "geo:0,0?q=" });
+  const latLng = `${location.latitude},${location.longitude}`;
+  const url = Platform.select({
+    ios: `${scheme}${title}@${latLng}`,
+    android: `${scheme}${latLng}(${title})`
+  });
+
+  Linking.openURL(url);
+
+  // openURL(baseURL + address);
 }
 
 const StationWebsite = ({ station }) => {
@@ -105,6 +115,10 @@ class StationDetailView extends Component {
     };
   };
 
+  state: {
+    showMapOpener: false
+  };
+
   async componentDidMount() {
     if (!this.props.station.imageURL) {
       try {
@@ -130,7 +144,7 @@ class StationDetailView extends Component {
           {/* Title */}
           <CellTextRow style={text.title}>{station.title}</CellTextRow>
           {/* Address */}
-          <TouchableOpacity onPress={openMap.bind(null, station.address)}>
+          <TouchableOpacity onPress={openMap.bind(null, station)}>
             <CellTextRow style={[text.address, text.link]}>
               {station.address}
             </CellTextRow>

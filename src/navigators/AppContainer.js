@@ -3,11 +3,13 @@ import { createAppContainer, createSwitchNavigator } from "react-navigation";
 import MainTabNavigator from "./MainTabNavigator";
 import AuthStack from "./AuthNavigator";
 import { connect } from "react-redux";
+import OpenMap from "../components/OpenMap/OpenMap";
 // import * as Permissions from "expo-permissions";
 // import { getLocationAsync } from "../redux/actions/locationActions";
 
 const SwitchNavigator = createSwitchNavigator({
-  Auth: AuthStack,
+  // OpenMap: OpenMap,
+  // Auth: AuthStack,
   Main: MainTabNavigator
 });
 
