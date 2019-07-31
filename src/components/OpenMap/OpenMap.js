@@ -27,57 +27,63 @@ const MapApps = {
   }
 };
 export default class OpenMap extends Component {
-  state = { error: "" };
-  errorHandler = error => this.setState({ error });
-
   render() {
     return (
-      <Overlay isVisible={true} style={styles.container}>
-        <FlatList
-          data={Object.entries(MapApps)}
-          renderItem={({ item }) => {
-            // debugger;
-            return (
-              <MapLink
-                key={item[0]}
-                station={this.props.station}
-                app={item[1]}
-                // keyExtractor={item => item[0]}
-                errorHandler={this.errorHandler.bind(this)}
-              />
-            );
-          }}
-        />
-        <Text>{this.state.error.message}</Text>
+      <Overlay
+        isVisible={true}
+        height={"auto"}
+        overlayStyle={styles.overlayStyle}
+        onBackdropPress={this.props.onBackdropPress}
+      >
+        <View style={styles.container}>
+          <FlatList
+            data={Object.entries(MapApps)}
+            renderItem={({ item }) => {
+              return (
+                <MapLink
+                  key={item[0]}
+                  keyExtractor={(item, ind) => ind}
+                  station={this.props.station}
+                  app={item[1]}
+                />
+              );
+            }}
+          />
+        </View>
       </Overlay>
     );
   }
 }
 
-const MapLink = ({ station, app, errorHandler }) => {
+const MapLink = ({ station, app }) => {
   const component = (
     <TouchableOpacity
       style={styles.opacityContainer}
       onPress={() =>
         Linking.openURL(app.url(station.location, station.title)).catch(err => {
           console.warn(err);
-          errorHandler(err);
         })
       }
     >
-      <Text>Open In {app.name}</Text>
-      <Text>{app.url(station.location, station.title)}</Text>
+      <Text style={styles.text}>Open In {app.name}</Text>
     </TouchableOpacity>
   );
   return component;
 };
 
 const styles = {
-  container: { flex: 1, justifyContent: "center", alignItems: "flex-start" },
+  text: { fontSize: 16 },
   opacityContainer: {
-    padding: 4,
-    margin: 5,
+    justifyContent: "center",
     borderBottomWidth: 0.5,
-    width: "95%"
+    borderBottomColor: "grey",
+    height: 50
+  },
+  overlayStyle: {
+    justifyContent: "center",
+    paddingHorizontal: 10,
+    paddingVertical: 0,
+    margin: 0,
+    borderRadius: 8
   }
 };

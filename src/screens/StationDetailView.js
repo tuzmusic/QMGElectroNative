@@ -105,8 +105,8 @@ function mapQueryUrl({ title, location }) {
 
 class StationDetailView extends Component {
   state = {
-    showMapOpener: false,
-    showMapOpener: true
+    showMapOpener: false
+    // showMapOpener: true
   };
 
   static navigationOptions = ({ navigation }) => {
@@ -135,7 +135,12 @@ class StationDetailView extends Component {
 
     return (
       <ScrollView>
-        {this.state.showMapOpener && <OpenMap station={station} />}
+        {this.state.showMapOpener && (
+          <OpenMap
+            station={station}
+            onBackdropPress={() => this.setState({ showMapOpener: false })}
+          />
+        )}
         <View style={styles.imageContainer}>
           <StationImage station={station} />
         </View>
