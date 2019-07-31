@@ -171,7 +171,8 @@ export default connect(
 const styles = {
   errorText: {
     color: "red",
-    fontSize: 16
+    fontSize: 16,
+    marginBottom: 10
   },
   container: {
     flex: 1,
@@ -185,7 +186,8 @@ const styles = {
   },
   image: {
     height: 200,
-    width: 200
+    width: 200,
+    marginBottom: 30
   },
   modalContainer: {
     flex: 1,

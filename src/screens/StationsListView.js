@@ -74,7 +74,7 @@ class StationsListView extends Component<ListViewProps> {
         {!sortedStations.length || !this.props.location ? (
           <EmptyStationList />
         ) : (
-          <View style={styles.containerss}>
+          <View>
             <ImageBackground
               source={require("../../assets/logos/ElectroLogo.png")}
               style={styles.background}
