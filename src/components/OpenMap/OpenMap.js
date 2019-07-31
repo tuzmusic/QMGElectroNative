@@ -7,40 +7,25 @@ const MapApps = [
   {
     name: "Apple Maps",
     slug: "maps",
-    scheme(loc, label, slug = "maps") {
-      const scheme = slug + ":0,0?q=";
+    url(loc, label) {
       const latLng = `${loc.latitude},${loc.longitude}`;
-      const url = Platform.select({
-        ios: `${scheme}${label}@${latLng}`,
-        android: `${scheme}${latLng}(${label})`
-      });
-      return url;
+      return `maps:0,0?q=${latLng}(${label})`;
     }
   },
   {
     name: "Google Maps",
     slug: "googlemaps",
-    scheme(loc, label, slug = "googlemaps") {
-      const scheme = slug + ":0,0?q=";
-      const latLng = `${loc.latitude},${loc.longitude}`;
-      const url = Platform.select({
-        ios: `${scheme}${label}@${latLng}`,
-        android: `${scheme}${latLng}(${label})`
-      });
-      return url;
+    url(loc, label) {
+      const prefix = "https://www.google.com/maps/search/?api=1&";
+      return prefix + `query=${loc.latitude},${loc.longitude}`;
     }
   },
   {
     name: "Waze",
     slug: "waze",
-    scheme(loc, label, slug = "waze") {
-      const scheme = slug + ":0,0?q=";
-      const latLng = `${loc.latitude},${loc.longitude}`;
-      const url = Platform.select({
-        ios: `${scheme}${label}@${latLng}`,
-        android: `${scheme}${latLng}(${label})`
-      });
-      return url;
+    url(loc, label) {
+      const prefix = "https://waze.com/ul?";
+      return prefix + `ll=${loc.latitude},${loc.longitude}`;
     }
   }
 ];
@@ -73,31 +58,18 @@ export default class OpenMap extends Component {
 }
 
 const MapLink = ({ station, app, errorHandler }) => {
-  let scheme, label;
-  scheme = Platform.select({ ios: "maps:0,0?q=", android: "geo:0,0?q=" });
-  scheme = app + ":0,0?q=";
-  label = station.title;
-  // label = "Label";
-  const latLng = `${station.location.latitude},${station.location.longitude}`;
-  let url = Platform.select({
-    ios: `${scheme}${label}@${latLng}`,
-    android: `${scheme}${latLng}(${label})`
-  });
-
-  // debugger;
   const component = (
     <TouchableOpacity
       style={styles.opacityContainer}
       onPress={() =>
-        Linking.openURL(app.scheme(station.location, station.title)).catch(
-          err => {
-            console.warn(err);
-            errorHandler(err);
-          }
-        )
+        Linking.openURL(app.url(station.location, station.title)).catch(err => {
+          console.warn(err);
+          errorHandler(err);
+        })
       }
     >
-      <Text key={app.slug}>Open In {app.name}</Text>
+      <Text>Open In {app.name}</Text>
+      <Text>{app.url(station.location, station.title)}</Text>
     </TouchableOpacity>
   );
   return component;
