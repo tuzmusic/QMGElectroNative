@@ -20,8 +20,9 @@ platform :ios do
   desc "Submit a new Beta Build to Apple TestFlight"
   desc "This will also make sure the profile is up to date"
   lane :beta do
-    match(type: "appstore",
-    git_url:"git@github.com:tuzmusic/QMGElectroCerts.git") # more information: https://codesigning.guide   
+    increment_build_number
+    match( type: "appstore",
+          git_url:"git@github.com:tuzmusic/QMGElectroCerts.git") # more information: https://codesigning.guide   
     gym(scheme: "QMGElectroNative") # Build your app - more options available
     pilot
   end
