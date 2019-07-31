@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import OpenMap from "../components/OpenMap/OpenMap";
 
 const screens = { Auth: AuthStack, Main: MainTabNavigator };
-if (__DEV__) delete screens.Auth;
+// if (__DEV__) delete screens.Auth;
 
 const SwitchNavigator = createSwitchNavigator(screens);
 

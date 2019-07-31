@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Input, Button, ThemeProvider } from "react-native-elements";
-import { Text, TouchableOpacity, Linking } from "react-native";
+import { Text, TouchableOpacity, Linking, View } from "react-native";
 import { connect } from "react-redux";
 
 class LoginForm extends Component {
@@ -62,7 +62,10 @@ export default connect(state => ({
 const theme = {
   Input: {
     containerStyle: {
-      padding: 10
+      padding: 10,
+      backgroundColor: "white",
+      opacity: 0.5,
+      borderRadius: 5
     }
   },
   Button: {

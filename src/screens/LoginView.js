@@ -1,6 +1,11 @@
 import React, { Component } from "react";
 import { Image, Overlay } from "react-native-elements";
-import { View, Text, KeyboardAvoidingView } from "react-native";
+import {
+  View,
+  Text,
+  KeyboardAvoidingView,
+  ImageBackground
+} from "react-native";
 import { DotIndicator } from "react-native-indicators";
 import { connect } from "react-redux";
 import { login, register, clearAuthError } from "../redux/actions/authActions";
@@ -96,49 +101,59 @@ class LoginView extends Component {
         enabled
         behavior="height"
       >
-        <View style={styles.container}>
-          <Overlay
-            containerStyle={styles.modal}
-            height={200}
-            width={200}
-            isVisible={this.props.isLoading}
-            style={styles.modal}
-            borderRadius={20}
-            overlayBackgroundColor={"lightblue"}
-          >
-            <View style={styles.modalContainer}>
-              <DotIndicator color={"darkgrey"} />
-              <Text>Logging in...</Text>
-            </View>
-          </Overlay>
-          <Image
-            source={require("../../assets/logos/ElectroLogo.png")}
-            style={styles.image}
-          />
-          {this.state.errors.map((e, i) => (
-            <Text style={styles.errorText} key={i}>
-              {e}
-            </Text>
-          ))}
-          {!this.state.errors.length && (
-            <Text style={styles.errorText}>{this.props.error}</Text>
-          )}
+        <ImageBackground
+          style={{
+            height: "100%",
+            width: "100%"
+            // justifyContent: "flex-start"
+          }}
+          imageStyle={{ resizeMode: "cover" }}
+          source={require("../../assets/images/charging-a-car.png")}
+        >
+          <View style={styles.container}>
+            <Overlay
+              containerStyle={styles.modal}
+              height={200}
+              width={200}
+              isVisible={this.props.isLoading}
+              style={styles.modal}
+              borderRadius={20}
+              overlayBackgroundColor={"lightblue"}
+            >
+              <View style={styles.modalContainer}>
+                <DotIndicator color={"darkgrey"} />
+                <Text>Logging in...</Text>
+              </View>
+            </Overlay>
+            <Image
+              source={require("../../assets/logos/ElectroLogo.png")}
+              style={styles.image}
+            />
+            {this.state.errors.map((e, i) => (
+              <Text style={styles.errorText} key={i}>
+                {e}
+              </Text>
+            ))}
+            {!this.state.errors.length && (
+              <Text style={styles.errorText}>{this.props.error}</Text>
+            )}
 
-          {this.state.loggingIn && (
-            <LoginForm
-              onSubmit={this.handleLogin.bind(this)}
-              onLinkClick={this.toggleForm.bind(this)}
-              onChangeText={() => this.setState({ errors: [] })}
-            />
-          )}
-          {this.state.registering && (
-            <RegisterForm
-              onSubmit={this.handleRegister.bind(this)}
-              onLinkClick={this.toggleForm.bind(this)}
-              onChangeText={() => this.setState({ errors: [] })}
-            />
-          )}
-        </View>
+            {this.state.loggingIn && (
+              <LoginForm
+                onSubmit={this.handleLogin.bind(this)}
+                onLinkClick={this.toggleForm.bind(this)}
+                onChangeText={() => this.setState({ errors: [] })}
+              />
+            )}
+            {this.state.registering && (
+              <RegisterForm
+                onSubmit={this.handleRegister.bind(this)}
+                onLinkClick={this.toggleForm.bind(this)}
+                onChangeText={() => this.setState({ errors: [] })}
+              />
+            )}
+          </View>
+        </ImageBackground>
       </KeyboardAvoidingView>
     );
   }
