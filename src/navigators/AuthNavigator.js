@@ -20,7 +20,6 @@ export class AuthNavigator extends Component {
     if (storedUser) {
       const parsedUser = JSON.parse(storedUser);
       const user = new User(parsedUser);
-      debugger;
       this.props.setUser(user);
       this.props.navigation.navigate("Main");
     }

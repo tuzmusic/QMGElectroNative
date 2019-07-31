@@ -23,19 +23,17 @@ class UserScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <View style={styles.topSection}>
-          {this.props.user && <UserProfile user={this.props.user} />}
-          <Button
-            buttonStyle={styles.logout}
-            containerStyle={styles.button}
-            color="red"
-            titleStyle={styles.text}
-            onPress={this.performLogout.bind(this)}
-            title="Log Out"
-            loading={this.props.isLoading}
-            disabled={this.props.isLoading}
-          />
-        </View>
+        {this.props.user && <UserProfile user={this.props.user} />}
+        <Button
+          buttonStyle={styles.logout}
+          containerStyle={styles.button}
+          color="red"
+          titleStyle={styles.text}
+          onPress={this.performLogout.bind(this)}
+          title="Log Out"
+          loading={this.props.isLoading}
+          disabled={this.props.isLoading}
+        />
         <View style={styles.bottomSection}>
           <Text style={[styles.text]}>Please</Text>
           <TouchableOpacity
@@ -63,7 +61,6 @@ export default connect(
 const styles = {
   container: {
     flex: 1,
-    // marginVertical: 80,
     justifyContent: "flex-start",
     alignItems: "center"
   },

@@ -76,7 +76,6 @@ class LoginView extends Component<Props, State> {
   async loginUser({ user }) {
     if (!user) return;
     try {
-      debugger;
       await AsyncStorage.setItem(
         "electro_logged_in_user",
         JSON.stringify(user)
