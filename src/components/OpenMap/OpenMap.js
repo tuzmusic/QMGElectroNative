@@ -3,8 +3,8 @@ import { Text, View, Linking, TouchableOpacity, FlatList } from "react-native";
 import { Overlay } from "react-native-elements";
 import * as LauncherConstants from "./constants";
 
-const MapApps = [
-  {
+const MapApps = {
+  apple: {
     name: "Apple Maps",
     slug: "maps",
     url(loc, label) {
@@ -12,7 +12,7 @@ const MapApps = [
       return `maps:0,0?q=${latLng}(${label})`;
     }
   },
-  {
+  google: {
     name: "Google Maps",
     slug: "googlemaps",
     url(loc, label) {
@@ -20,7 +20,7 @@ const MapApps = [
       return prefix + `query=${loc.latitude},${loc.longitude}`;
     }
   },
-  {
+  waze: {
     name: "Waze",
     slug: "waze",
     url(loc, label) {
@@ -28,8 +28,7 @@ const MapApps = [
       return prefix + `ll=${loc.latitude},${loc.longitude}`;
     }
   }
-];
-
+};
 export default class OpenMap extends Component {
   state = { error: "" };
   errorHandler = error => this.setState({ error });
@@ -39,7 +38,7 @@ export default class OpenMap extends Component {
       <Overlay isVisible={true} style={styles.container}>
         <View>
           <FlatList
-            data={MapApps}
+            data={Object.values(MapApps)}
             renderItem={({ item }) => (
               <MapLink
                 key={item.slug}
