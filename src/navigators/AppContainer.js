@@ -9,7 +9,7 @@ import OpenMap from "../components/OpenMap/OpenMap";
 
 const SwitchNavigator = createSwitchNavigator({
   // OpenMap: OpenMap,
-  // Auth: AuthStack,
+  Auth: AuthStack,
   Main: MainTabNavigator
 });
 
