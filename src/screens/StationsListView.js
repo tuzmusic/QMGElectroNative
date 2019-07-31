@@ -3,7 +3,8 @@
 import type Station from "../models/Station";
 import type { Location } from "../redux/reducers/locationReducer";
 import React, { Component } from "react";
-import { ScrollView, View, Text } from "react-native";
+import { ScrollView, View, Text, ImageBackground } from "react-native";
+import { Image } from "react-native-elements";
 import { Dropdown } from "react-native-material-dropdown";
 import { connect } from "react-redux";
 import StationsList from "../subviews/StationsList";
@@ -61,7 +62,7 @@ class StationsListView extends Component<ListViewProps> {
         .sort(closestFirst.bind(this));
 
     return (
-      <ScrollView>
+      <ScrollView contentContainerStyle={styles.container}>
         <FilterInput
           onSelectDropdown={this.onSelectSearchRadius.bind(this)}
           startingValue={this.props.searchRadius}
@@ -73,11 +74,19 @@ class StationsListView extends Component<ListViewProps> {
         {!sortedStations.length || !this.props.location ? (
           <EmptyStationList />
         ) : (
-          <StationsList
-            stations={sortedStations}
-            navigation={this.props.navigation}
-            onTextPress={this.onStationClick.bind(this)}
-          />
+          <View style={styles.containerss}>
+            <ImageBackground
+              source={require("../../assets/logos/ElectroLogo.png")}
+              style={styles.background}
+              imageStyle={styles.backgroundImage}
+            >
+              <StationsList
+                stations={sortedStations}
+                navigation={this.props.navigation}
+                onTextPress={this.onStationClick.bind(this)}
+              />
+            </ImageBackground>
+          </View>
         )}
       </ScrollView>
     );
@@ -131,5 +140,19 @@ const styles = {
     textAlign: "center",
     fontSize: 18,
     padding: 10
+  },
+  background: {
+    width: "100%",
+    height: "100%"
+    // borderWidth: 2
+  },
+  backgroundImage: {
+    height: "50%",
+    top: 80,
+    opacity: 0.3
+    // borderWidth: 2
+  },
+  container: {
+    height: "100%"
   }
 };
