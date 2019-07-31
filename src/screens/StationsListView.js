@@ -56,10 +56,10 @@ class StationsListView extends Component<ListViewProps> {
 
   render() {
     let sortedStations = this.props.stations;
-    if (!__DEV__)
-      sortedStations = sortedStations
-        .filter(withinSearchRadius.bind(this))
-        .sort(closestFirst.bind(this));
+    // if (!__DEV__)
+    sortedStations = sortedStations
+      .filter(withinSearchRadius.bind(this))
+      .sort(closestFirst.bind(this));
 
     return (
       <ScrollView contentContainerStyle={styles.container}>

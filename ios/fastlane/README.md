@@ -23,6 +23,11 @@ fastlane ios beta
 Submit a new Beta Build to Apple TestFlight
 
 This will also make sure the profile is up to date
+### ios inc_version
+```
+fastlane ios inc_version
+```
+
 ### ios custom_lane
 ```
 fastlane ios custom_lane

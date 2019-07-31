@@ -27,6 +27,10 @@ platform :ios do
     pilot
   end
 
+  lane :inc_version do
+    increment_version_number
+  end
+
   desc "Description of what the lane does"
   lane :custom_lane do
     # add actions here: https://docs.fastlane.tools/actions
