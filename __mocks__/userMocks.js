@@ -1,42 +1,29 @@
 export const userResponse = {
-  status: "OK",
-  response: "Response OK",
-  code: 200,
-  data: {
-    data: {
-      ID: "18",
-      user_login: "testuser1",
-      user_pass: "$P$BxuJqt2SVpe4UWnx1/r10GqIyHnyOJ/",
-      user_nicename: "testuser1",
-      user_email: "test@bolt.com",
-      user_url: "",
-      user_registered: "2019-07-31 20:15:26",
-      user_activation_key: "",
-      user_status: "0",
-      display_name: "Nicola Tesla"
-    },
-    ID: 18,
-    caps: {
+  status: "ok",
+  cookie:
+    "testuser1|1565818534|cyy2sePXc1Y0C8dzMihmHl7yi4XkClxDVQrvntvcjRL|bef19b6113f989c37150b84bef1ffcc8435c15215548445d8392a06d58cd9f53",
+  cookie_name: "wordpress_logged_in_b86290b58baa0e280b61090ca2cdacce",
+  user: {
+    id: 18,
+    username: "testuser1",
+    nicename: "testuser1",
+    email: "test@bolt.com",
+    url: "",
+    registered: "2019-07-31 20:15:26",
+    displayname: "Nicola Tesla",
+    firstname: "Nicola",
+    lastname: "Tesla",
+    nickname: "testuser1",
+    description:
+      "I am a testuser. Let's see how much of this information we get.",
+    capabilities: {
       subscriber: true,
       employer: true
     },
-    cap_key: "wp_capabilities",
-    roles: ["subscriber", "employer"],
-    allcaps: {
-      read: true,
-      level_0: true,
-      upload_files: true,
-      make_video_thumbnails: true,
-      encode_videos: true,
-      edit_posts: false,
-      delete_posts: false,
-      subscriber: true,
-      employer: true
-    },
-    filter: null
+    avatar:
+      "https://joinelectro.com/wp-content/uploads/job-manager-uploads/user_avatar/2019/07/fullsizeoutput_327.jpeg"
   }
 };
-
 export const userIndexReponse = {
   status: "OK",
   response: "Response OK",
