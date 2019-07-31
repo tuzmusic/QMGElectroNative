@@ -42,7 +42,6 @@ export async function logoutWithApi(): Object {
 export function* loginSaga({ creds }: { creds: RegParams }): Saga<void> {
   try {
     const { error, ...user } = yield call(loginWithApi, creds);
-    // debugger;
     if (error) {
       const errorAction: AuthTypes.LOGIN_FAILURE = {
         type: "LOGIN_FAILURE",
@@ -98,36 +97,34 @@ export function* registerSaga({ info }: { info: RegParams }): Saga<void> {
   }
 }
 
-function* watchLogin(): Saga<void> {
-  yield takeEvery("LOGIN_START", loginSaga);
-}
-function* watchLogout(): Saga<void> {
-  yield takeEvery("LOGOUT_START", logoutSaga);
-}
-function* watchRegister(): Saga<void> {
-  yield takeEvery("REGISTRATION_START", registerSaga);
-}
-
 export default function* authSaga(): Saga<void> {
-  yield all([watchLogin(), watchLogout(), watchRegister()]);
+  yield all([
+    yield takeEvery("LOGIN_START", loginSaga),
+    yield takeEvery("LOGOUT_START", logoutSaga),
+    yield takeEvery("REGISTRATION_START", registerSaga)
+  ]);
 }
 
 export function clearAuthError() {
   return { type: "CLEAR_AUTH_ERROR" };
 }
 
-export function setUser(user) {
+export function setUser(user: User): AuthTypes.SET_USER {
   return { type: "SET_USER", user };
 }
 
-export function login(creds) {
+export function login(creds: RegParams): AuthTypes.LOGIN_START {
   return { type: "LOGIN_START", creds };
 }
 
-export function logout() {
+export function logout(): AuthTypes.LOGOUT_START {
   return { type: "LOGOUT_START" };
 }
 
-export function register({ username, email, password }) {
+export function register({
+  username,
+  email,
+  password
+}: RegParams): AuthTypes.REGISTRATION_START {
   return { type: "REGISTRATION_START", info: { username, email, password } };
 }

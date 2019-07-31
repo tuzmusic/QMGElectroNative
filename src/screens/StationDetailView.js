@@ -236,8 +236,9 @@ const styles = {
   },
   textContainer: { alignItems: "flex-start", padding: 15 },
   image: {
-    height: 250,
-    width: null
+    height: 100,
+    width: 100,
+    borderRadius: 30
   },
   bordered: {
     borderColor: "black",

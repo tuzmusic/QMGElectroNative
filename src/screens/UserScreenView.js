@@ -3,7 +3,8 @@ import { View, Text, TouchableOpacity, Linking } from "react-native";
 import { Button } from "react-native-elements";
 import { connect } from "react-redux";
 import { logout } from "../redux/actions/authActions";
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from "@react-native-community/async-storage";
+import UserProfile from "../subviews/UserProfile";
 
 class UserScreen extends Component {
   UNSAFE_componentWillReceiveProps(newProps) {
@@ -23,11 +24,7 @@ class UserScreen extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.topSection}>
-          <Text style={styles.text}>
-            {this.props.user &&
-              "Logged in as " +
-                (this.props.user.username || this.props.user.user.username)}
-          </Text>
+          {this.props.user && <UserProfile user={this.props.user} />}
           <Button
             buttonStyle={styles.logout}
             containerStyle={styles.button}
@@ -57,15 +54,17 @@ class UserScreen extends Component {
 }
 
 export default connect(
-  state => ({ user: state.auth.user, isLoading: state.auth.isLoading }),
+  state => {
+    return { user: state.auth.user, isLoading: state.auth.isLoading };
+  },
   { logout }
 )(UserScreen);
 
 const styles = {
   container: {
     flex: 1,
-    marginVertical: 80,
-    justifyContent: "space-around",
+    // marginVertical: 80,
+    justifyContent: "flex-start",
     alignItems: "center"
   },
   topSection: { width: "100%", alignItems: "center" },

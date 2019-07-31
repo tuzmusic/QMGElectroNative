@@ -28,6 +28,7 @@ const authReducer = (
     case "LOGIN_SUCCESS":
     case "REGISTRATION_SUCCESS":
     case "SET_USER":
+      // debugger;
       return {
         ...state,
         user: action.user,

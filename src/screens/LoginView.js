@@ -1,3 +1,5 @@
+// @flow
+
 import React, { Component } from "react";
 import { Image, Overlay } from "react-native-elements";
 import {
@@ -13,13 +15,15 @@ import LoginForm from "../subviews/LoginForm";
 import RegisterForm from "../subviews/RegisterForm";
 import { validate } from "email-validator";
 import AsyncStorage from "@react-native-community/async-storage";
+import User from "../models/User";
 
-class LoginView extends Component {
+type State = { loggingIn: boolean, registering: boolean, errors: string[] };
+type Props = Object;
+type AuthParams = { email?: string, username: string, password: string };
+class LoginView extends Component<Props, State> {
   state = {
     loggingIn: true,
     registering: false,
-    // loggingIn: false,
-    // registering: true,
     errors: []
   };
 
@@ -42,7 +46,7 @@ class LoginView extends Component {
       return this.setState({ errors });
     }
 
-    let creds = { password };
+    let creds: AuthParams = { password, username: "" };
     if (username.includes("@")) {
       creds.email = username;
     } else {
@@ -69,19 +73,19 @@ class LoginView extends Component {
     await this.props.register({ username, email, password });
   }
 
-  async loginUser(newProps) {
-    if (newProps.user) {
-      try {
-        await AsyncStorage.setItem(
-          "electro_logged_in_user",
-          JSON.stringify(newProps.user)
-        );
-      } catch (error) {
-        console.warn("Couldn't write user to storage.", error);
-      }
-
-      this.props.navigation.navigate("Main");
+  async loginUser({ user }) {
+    if (!user) return;
+    try {
+      debugger;
+      await AsyncStorage.setItem(
+        "electro_logged_in_user",
+        JSON.stringify(user)
+      );
+    } catch (error) {
+      console.warn("Couldn't write user to storage.", error);
     }
+
+    this.props.navigation.navigate("Main");
   }
 
   toggleForm() {
@@ -94,6 +98,8 @@ class LoginView extends Component {
   }
 
   render() {
+    // user exists on render if a login has succeeded, or if a saved user has been found
+    // loginUser saves the user, even if the user was already saved. No biggie.
     if (this.props.user) this.loginUser(this.props);
     return (
       <KeyboardAvoidingView
