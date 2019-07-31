@@ -19,10 +19,10 @@ export function startMockAdapter({ auth = false, stations = false }) {
 
 export function setupStationsMockAdapter(mock) {
   // mock.onGet(ApiUrls.stationsIndex).reply(200, realIndexResponseJuly2019);
-  // mock.onGet(ApiUrls.stationsIndex).reply(200, mockIndexResponse);
-  mock
-    .onGet(ApiUrls.stationsIndex)
-    .reply(200, [...mockIndexResponse, ...realIndexResponseJuly2019]);
+  mock.onGet(ApiUrls.stationsIndex).reply(200, mockIndexResponse);
+  // mock
+  //   .onGet(ApiUrls.stationsIndex)
+  //   .reply(200, [...mockIndexResponse, ...realIndexResponseJuly2019]);
 }
 
 export function setupAuthMockAdapter(mock) {

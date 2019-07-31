@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { View, Platform, TextInput, Dimensions } from "react-native";
-import { Button } from "react-native-elements";
+import { Button, Image } from "react-native-elements";
 import { connect } from "react-redux";
 import {
   getLocation,
@@ -78,6 +78,12 @@ class MapScreen extends Component {
             beforeOnPress={this.beforePressPrediction.bind(this)}
           />
         </Callout>
+        <Callout style={styles.cornerImageCallout}>
+          <Image
+            source={require("../../assets/logos/ElectroLogo.png")}
+            style={styles.cornerImage}
+          />
+        </Callout>
         {__DEV__ && <CupertinoButton onPress={this.goToCupertino.bind(this)} />}
         <LocationButton onPress={this.props.getLocation} />
       </View>
@@ -134,6 +140,14 @@ export default connect(
 // const buttonSize = Dimensions.get("window").height * 0.15;
 const buttonSize = 40;
 const styles = {
+  cornerImage: {
+    height: 85,
+    width: 85
+  },
+  cornerImageCallout: {
+    bottom: 0,
+    margin: 10
+  },
   searchCallout: {
     backgroundColor: "white",
     opacity: 0.9,
