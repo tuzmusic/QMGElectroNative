@@ -1,4 +1,4 @@
-export default (stations = [
+export default stations = [
   {
     ["id"]: 636,
     ["date"]: "2018-05-10T07:17:12",
@@ -158,7 +158,7 @@ export default (stations = [
       ]
     }
   }
-]);
+];
 
 export const mediaResponse = {
   ["id"]: 817,

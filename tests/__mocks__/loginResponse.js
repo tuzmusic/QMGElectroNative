@@ -3,22 +3,23 @@ export const loginResponse = {
   success: {
     status: "ok",
     cookie:
-      "testuser1|1560779545|rpqX0H4wlBHdQ1ww6Raon3VqRFRJBEBJjB9WC3Y631t|8a12ba20e3c71c13f1d5bac2b7eced8a13bdb999c1e364ef0f9565a6c3ca5932",
-    cookie_name: "wordpress_logged_in_de35f4716c74f1f80e223057c4a2042e",
+      "testuser1|1565813746|XZ2rBT654nhaVIfubznqGadiFLvryZCpO5ROVub08cn|f3a986712645396a66780a3a41672f994294a96d59aeb8700311e9ae2618ca48",
+    cookie_name: "wordpress_logged_in_b86290b58baa0e280b61090ca2cdacce",
     user: {
-      id: 6,
+      id: 18,
       username: "testuser1",
       nicename: "testuser1",
-      email: "testuser@bolt.com",
+      email: "test@bolt.com",
       url: "",
-      registered: "2019-05-28 20:11:49",
-      displayname: "testuser1",
-      firstname: "",
-      lastname: "",
+      registered: "2019-07-31 20:15:26",
+      displayname: "Nicola Tesla",
+      firstname: "Nicola",
+      lastname: "Tesla",
       nickname: "testuser1",
       description: "",
       capabilities: {
-        subscriber: true
+        subscriber: true,
+        employer: true
       },
       avatar: null
     }

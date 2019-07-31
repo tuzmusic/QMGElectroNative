@@ -6,13 +6,17 @@ import {
   mockIndexResponse,
   realIndexResponseJuly2019
 } from "../../__mocks__/stationMocks";
+import { userResponse } from "../../__mocks__/userMocks";
 
 const DELAY = 0;
 
 export function startMockAdapter({ auth = false, stations = false }) {
   const urls = ApiUrls;
   let mock = new MockAdapter(axios, { delayResponse: DELAY });
-  if (auth) setupAuthMockAdapter(mock);
+  if (auth) {
+    setupAuthMockAdapter(mock);
+    setupUserMockAdapter(mock);
+  }
   if (stations) setupStationsMockAdapter(mock);
   mock.onAny().passThrough();
 }
@@ -82,4 +86,8 @@ export function setupAuthMockAdapter(mock) {
     // logout
     .onGet(ApiUrls.logout)
     .reply(200, loginResponse.logout);
+}
+
+export function setupUserMockAdapter(mock) {
+  mock.onGet(ApiUrls.userInfo(18)).reply(200, userResponse);
 }
