@@ -1,10 +1,20 @@
+// @flow
 import ApiUrls from "../../constants/ApiUrls";
 import axios from "axios";
 import { put, call, takeEvery, all } from "redux-saga/effects";
 import Sugar from "sugar";
+import * as AuthTypes from "../reducers/authReducer";
+import type { Saga } from "redux-saga";
+import User from "../../models/User";
 Sugar.extend();
 
-export async function registerWithApi({ email, username, password }) {
+type RegParams = { email?: string, username?: string, password: string };
+
+export async function registerWithApi({
+  email,
+  username,
+  password
+}: RegParams): Object {
   const nonce = (await axios.get(ApiUrls.nonce)).data.nonce;
   if (!nonce) throw Error("Could not get nonce");
   const res = await axios.get(ApiUrls.register, {
@@ -19,40 +29,57 @@ export async function registerWithApi({ email, username, password }) {
   return res.data;
 }
 
-export async function loginWithApi(creds) {
+export async function loginWithApi(creds: RegParams): Object {
   const res = await axios.get(ApiUrls.login, { params: creds });
   return res.data;
 }
 
-export async function logoutWithApi() {
+export async function logoutWithApi(): Object {
   const res = await axios.get(ApiUrls.logout);
   return res.data;
 }
 
-export function* loginSaga({ creds }) {
+export function* loginSaga({ creds }: { creds: RegParams }): Saga<void> {
   try {
     const { error, ...user } = yield call(loginWithApi, creds);
-    yield put(
-      error ? { type: "LOGIN_FAILURE", error } : { type: "LOGIN_SUCCESS", user }
-    );
+    // debugger;
+    if (error) {
+      const errorAction: AuthTypes.LOGIN_FAILURE = {
+        type: "LOGIN_FAILURE",
+        error
+      };
+      yield put(errorAction);
+    } else if (user) {
+      const newUser: User = User.fromApi(user.user);
+      const successAction: AuthTypes.LOGIN_SUCCESS = {
+        type: "LOGIN_SUCCESS",
+        user: newUser
+      };
+      yield put(successAction);
+    }
   } catch (error) {
     // console.log("login error:", error.message);
     yield put({ type: "LOGIN_FAILURE", error: error.message });
   }
 }
 
-export function* logoutSaga() {
+export function* logoutSaga(): Saga<void> {
   try {
     // yield call(logoutWithApi);
     yield put({ type: "LOGOUT_SUCCESS" });
   } catch (error) {
-    yield put({ type: "LOGOUT_FAILURE", error: error.message });
+    const action: AuthTypes.LOGOUT_FAILURE = {
+      type: "LOGOUT_FAILURE",
+      error: error.message
+    };
+    yield put(action);
   }
 }
 
-export function* registerSaga({ info }) {
+export function* registerSaga({ info }: { info: RegParams }): Saga<void> {
   try {
     let { error, cookie, user_id } = yield call(registerWithApi, info);
+
     yield put(
       error
         ? { type: "REGISTRATION_FAILURE", error }
@@ -71,17 +98,17 @@ export function* registerSaga({ info }) {
   }
 }
 
-function* watchLogin() {
+function* watchLogin(): Saga<void> {
   yield takeEvery("LOGIN_START", loginSaga);
 }
-function* watchLogout() {
+function* watchLogout(): Saga<void> {
   yield takeEvery("LOGOUT_START", logoutSaga);
 }
-function* watchRegister() {
+function* watchRegister(): Saga<void> {
   yield takeEvery("REGISTRATION_START", registerSaga);
 }
 
-export default function* authSaga() {
+export default function* authSaga(): Saga<void> {
   yield all([watchLogin(), watchLogout(), watchRegister()]);
 }
 

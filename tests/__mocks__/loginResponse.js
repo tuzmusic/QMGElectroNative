@@ -3,7 +3,7 @@ export const loginResponse = {
   success: {
     status: "ok",
     cookie:
-      "testuser1|1565813746|XZ2rBT654nhaVIfubznqGadiFLvryZCpO5ROVub08cn|f3a986712645396a66780a3a41672f994294a96d59aeb8700311e9ae2618ca48",
+      "testuser1|1565818534|cyy2sePXc1Y0C8dzMihmHl7yi4XkClxDVQrvntvcjRL|bef19b6113f989c37150b84bef1ffcc8435c15215548445d8392a06d58cd9f53",
     cookie_name: "wordpress_logged_in_b86290b58baa0e280b61090ca2cdacce",
     user: {
       id: 18,
@@ -16,12 +16,14 @@ export const loginResponse = {
       firstname: "Nicola",
       lastname: "Tesla",
       nickname: "testuser1",
-      description: "",
+      description:
+        "I am a testuser. Let's see how much of this information we get.",
       capabilities: {
         subscriber: true,
         employer: true
       },
-      avatar: null
+      avatar:
+        "https://joinelectro.com/wp-content/uploads/job-manager-uploads/user_avatar/2019/07/fullsizeoutput_327.jpeg"
     }
   },
   failure: {
