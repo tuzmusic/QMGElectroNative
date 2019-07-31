@@ -6,7 +6,6 @@ import * as LauncherConstants from "./constants";
 const MapApps = {
   apple: {
     name: "Apple Maps",
-    slug: "maps",
     url(loc, label) {
       const latLng = `${loc.latitude},${loc.longitude}`;
       return `maps:0,0?q=${latLng}(${label})`;
@@ -14,7 +13,6 @@ const MapApps = {
   },
   google: {
     name: "Google Maps",
-    slug: "googlemaps",
     url(loc, label) {
       const prefix = "https://www.google.com/maps/search/?api=1&";
       return prefix + `query=${loc.latitude},${loc.longitude}`;
@@ -22,7 +20,6 @@ const MapApps = {
   },
   waze: {
     name: "Waze",
-    slug: "waze",
     url(loc, label) {
       const prefix = "https://waze.com/ul?";
       return prefix + `ll=${loc.latitude},${loc.longitude}`;
@@ -36,20 +33,21 @@ export default class OpenMap extends Component {
   render() {
     return (
       <Overlay isVisible={true} style={styles.container}>
-        <View>
-          <FlatList
-            data={Object.values(MapApps)}
-            renderItem={({ item }) => (
+        <FlatList
+          data={Object.entries(MapApps)}
+          renderItem={({ item }) => {
+            // debugger;
+            return (
               <MapLink
-                key={item.slug}
+                key={item[0]}
                 station={this.props.station}
-                app={item}
-                // keyExtractor={item => item.slug}
+                app={item[1]}
+                // keyExtractor={item => item[0]}
                 errorHandler={this.errorHandler.bind(this)}
               />
-            )}
-          />
-        </View>
+            );
+          }}
+        />
         <Text>{this.state.error.message}</Text>
       </Overlay>
     );
