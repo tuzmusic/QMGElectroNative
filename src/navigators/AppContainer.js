@@ -4,29 +4,18 @@ import MainTabNavigator from "./MainTabNavigator";
 import AuthStack from "./AuthNavigator";
 import { connect } from "react-redux";
 import OpenMap from "../components/OpenMap/OpenMap";
-// import * as Permissions from "expo-permissions";
-// import { getLocationAsync } from "../redux/actions/locationActions";
 
-const SwitchNavigator = createSwitchNavigator({
-  // OpenMap: OpenMap,
-  Auth: AuthStack,
-  Main: MainTabNavigator
-});
+const screens = { Auth: AuthStack, Main: MainTabNavigator };
+if (__DEV__) delete screens.Auth;
+
+const SwitchNavigator = createSwitchNavigator(screens);
 
 const AppNavigator = createAppContainer(SwitchNavigator);
 
 class AppContainer extends Component {
-  async componentDidMount() {
-    // const { status } = await Permissions.getAsync(Permissions.LOCATION);
-    // if (status === "granted") this.props.getLocationAsync();
-  }
-
   render() {
     return <AppNavigator />;
   }
 }
 
-export default connect(
-  null
-  // { getLocationAsync }
-)(AppContainer);
+export default connect()(AppContainer);

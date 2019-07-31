@@ -42,12 +42,7 @@ class StationsListView extends Component<ListViewProps> {
     headerTitle: "Stations"
   });
 
-  componentDidMount() {
-    // setTimeout(() => {
-    //   if (__DEV__ && this.props.stations.length)
-    //     this.onStationClick(this.props.stations[0]);
-    // }, 2500);
-  }
+  componentDidMount() {}
 
   onStationClick = (station: Station) => {
     this.props.setCurrentStationID(station.id);
@@ -60,10 +55,10 @@ class StationsListView extends Component<ListViewProps> {
 
   render() {
     let sortedStations = this.props.stations;
-    // if (!__DEV__)
-    sortedStations = sortedStations
-      .filter(withinSearchRadius.bind(this))
-      .sort(closestFirst.bind(this));
+    if (!__DEV__)
+      sortedStations = sortedStations
+        .filter(withinSearchRadius.bind(this))
+        .sort(closestFirst.bind(this));
 
     return (
       <ScrollView>
