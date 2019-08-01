@@ -1,7 +1,7 @@
 // @flow
 import AsyncStorage from "@react-native-community/async-storage";
 import User from "../../models/User";
-
+import type { LoginParams, RegParams } from "../actions/authActions";
 type State = {
   user: ?User,
   isLoading: boolean,
@@ -63,9 +63,12 @@ export type AuthAction =
   | REGISTRATION_FAILURE
   | CLEAR_AUTH_ERROR;
 
-export type LOGIN_START = { type: "LOGIN_START" };
+export type LOGIN_START = { type: "LOGIN_START", creds: LoginParams };
 export type LOGOUT_START = { type: "LOGOUT_START" };
-export type REGISTRATION_START = { type: "REGISTRATION_START" };
+export type REGISTRATION_START = {
+  type: "REGISTRATION_START",
+  info: RegParams
+};
 export type LOGIN_SUCCESS = { type: "LOGIN_SUCCESS", user: User };
 export type REGISTRATION_SUCCESS = { type: "REGISTRATION_SUCCESS", user: User };
 export type SET_USER = { type: "SET_USER", user: User };

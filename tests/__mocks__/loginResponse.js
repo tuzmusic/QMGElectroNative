@@ -6,7 +6,7 @@ export const loginResponse = {
       "testuser1|1565818534|cyy2sePXc1Y0C8dzMihmHl7yi4XkClxDVQrvntvcjRL|bef19b6113f989c37150b84bef1ffcc8435c15215548445d8392a06d58cd9f53",
     cookie_name: "wordpress_logged_in_b86290b58baa0e280b61090ca2cdacce",
     user: {
-      id: 18,
+      id: 1,
       username: "testuser1",
       nicename: "testuser1",
       email: "test@bolt.com",
@@ -43,7 +43,7 @@ export const registerResponse = {
     status: "ok",
     cookie:
       "apitestuser1|1560382602|w8L8JuhcMIAk8h5bwRmhOjVmPnNjbgNZJmBd7bcFUsL|542260b66fa2080175d9315f2a5bf3486dd174c7483913c46a2658a8d75637c1",
-    user_id: 9
+    user_id: 1
   },
   usernameTaken: {
     status: "error",
