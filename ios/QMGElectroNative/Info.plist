@@ -23,7 +23,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>4</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<key>LSApplicationQueriesSchemes</key>
@@ -33,6 +33,10 @@
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+  <key>NSLocationAlwaysUsageDescription</key>
+  <string>Electro needs to display your location on the map, and indicate how far you are from available stations.</string>
+  <key>NSLocationWhenInUseUsageDescription</key>
+  <string>Electro needs to display your location on the map, and indicate how far you are from available stations.</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
