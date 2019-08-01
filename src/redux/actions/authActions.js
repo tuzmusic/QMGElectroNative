@@ -2,13 +2,12 @@
 import ApiUrls from "../../constants/ApiUrls";
 import axios from "axios";
 import { put, call, takeEvery, all } from "redux-saga/effects";
-import Sugar from "sugar";
 import * as AuthTypes from "../reducers/authReducer";
 import type { Saga } from "redux-saga";
 import User from "../../models/User";
-// import AsyncStorage from "@react-native-community/async-storage";
 import StorageManager from "../../models/StorageManager";
-Sugar.extend();
+// import Sugar from "sugar";
+// Sugar.extend();
 
 export type RegParams = {
   email?: string,
