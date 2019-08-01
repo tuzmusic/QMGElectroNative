@@ -12,12 +12,18 @@ import UserProfile from "../subviews/UserProfile";
 import { Divider, Image } from "react-native-elements";
 
 class UserScreen extends Component {
-  UNSAFE_componentWillReceiveProps(newProps) {
-    if (!newProps.user) this.props.navigation.navigate("Auth");
-  }
   static navigationOptions = {
     title: "User"
   };
+
+  shouldComponentUpdate(nextProps, nextState) {
+    if (!nextProps.user) {
+      this.props.navigation.navigate("Auth");
+      return false;
+    }
+    return true;
+  }
+
   render() {
     return (
       <ScrollView contentContainerStyle={styles.container}>
