@@ -5,8 +5,13 @@ import AuthStack from "./AuthNavigator";
 import { connect } from "react-redux";
 import OpenMap from "../components/OpenMap/OpenMap";
 
-const screens = { Auth: AuthStack, Main: MainTabNavigator };
+const screens = {};
 // if (__DEV__) delete screens.Auth;
+screens["Auth"] = AuthStack;
+screens["Main"] = MainTabNavigator;
+
+// TO-DO: perform loginStoredUser here instead of in AuthNavigator.
+// The "challenge" is that it's an async function so I'll have to wrap everything in another component or something.
 
 const SwitchNavigator = createSwitchNavigator(screens);
 

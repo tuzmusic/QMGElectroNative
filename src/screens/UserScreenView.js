@@ -10,6 +10,7 @@ import { connect } from "react-redux";
 import { logout } from "../redux/actions/authActions";
 import UserProfile from "../subviews/UserProfile";
 import { Divider, Image } from "react-native-elements";
+import StorageManager from "../models/StorageManager";
 
 class UserScreen extends Component {
   static navigationOptions = {
@@ -24,13 +25,18 @@ class UserScreen extends Component {
     return true;
   }
 
+  async performLogout() {
+    this.props.logout();
+    await StorageManager.logout();
+  }
+
   render() {
     return (
       <ScrollView contentContainerStyle={styles.container}>
         {this.props.user && (
           <UserProfile
             user={this.props.user}
-            onLogout={this.props.logout.bind(this)}
+            onLogout={async () => await this.performLogout()}
           />
         )}
         <Image

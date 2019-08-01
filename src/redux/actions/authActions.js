@@ -5,9 +5,6 @@ import { put, call, takeEvery, all } from "redux-saga/effects";
 import * as AuthTypes from "../reducers/authReducer";
 import type { Saga } from "redux-saga";
 import User from "../../models/User";
-import StorageManager from "../../models/StorageManager";
-// import Sugar from "sugar";
-// Sugar.extend();
 
 export type RegParams = {
   email?: string,
@@ -76,7 +73,6 @@ export function* loginSaga({ creds }: { creds: LoginParams }): Saga<void> {
 
 export function* logoutSaga(): Saga<void> {
   try {
-    yield call(StorageManager.setItem, "electro_logged_in_user", "");
     yield put({ type: "LOGOUT_SUCCESS" });
   } catch (error) {
     const action: AuthTypes.LOGOUT_FAILURE = {
