@@ -53,7 +53,7 @@ const UserStack = createStackNavigator({
 });
 
 UserStack.navigationOptions = {
-  tabBarLabel: "Me",
+  tabBarLabel: "User",
   tabBarIcon: ({ focused: f }) =>
     icon(f, "user-circle", "user-circle-o", "font-awesome")
 };

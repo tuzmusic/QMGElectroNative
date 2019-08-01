@@ -15,7 +15,9 @@ class UserScreen extends Component {
   UNSAFE_componentWillReceiveProps(newProps) {
     if (!newProps.user) this.props.navigation.navigate("Auth");
   }
-
+  static navigationOptions = {
+    title: "User"
+  };
   render() {
     return (
       <ScrollView contentContainerStyle={styles.container}>
