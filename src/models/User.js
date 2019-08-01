@@ -28,7 +28,7 @@ export default class User {
 
   static fromApi(obj: Object): User {
     const user = new User();
-    user.id = obj.id;
+    user.id = obj.id || obj.user_id; // because two different API responses? Don't I have the power to make them consistent?
     user.username = obj.username;
     user.email = obj.email;
     user.url = obj.url;

@@ -3,6 +3,15 @@ import { Input, Button, ThemeProvider } from "react-native-elements";
 import { Text, TouchableOpacity, Linking, View } from "react-native";
 import { connect } from "react-redux";
 
+export const AuthFormInput = props => (
+  <Input
+    {...props}
+    placeholderTextColor="darkgrey"
+    autoCorrect={false}
+    autoCapitalize={"none"}
+  />
+);
+
 class LoginForm extends Component {
   state = {
     username: "",
@@ -17,28 +26,18 @@ class LoginForm extends Component {
     return (
       <ThemeProvider theme={theme}>
         <View style={styles.inputContainer}>
-          <Input
+          <AuthFormInput
             placeholder="Username or Email"
             label={this.state.username && "Username or Email"}
             value={this.state.username}
-            autoCorrect={false}
-            autoCapitalize={"none"}
-            onChangeText={username => {
-              this.props.onChangeText();
-              this.setState({ username });
-            }}
+            onChangeText={username => this.setState({ username })}
           />
-          <Input
+          <AuthFormInput
             placeholder="Password"
             label={this.state.password && "Password"}
             secureTextEntry
             value={this.state.password}
-            autoCorrect={false}
-            autoCapitalize={"none"}
-            onChangeText={password => {
-              this.props.onChangeText();
-              this.setState({ password });
-            }}
+            onChangeText={password => this.setState({ password })}
           />
         </View>
         <Button
@@ -47,12 +46,18 @@ class LoginForm extends Component {
           onPress={() => this.props.onSubmit(this.state)}
         />
         <View style={styles.messageContainer}>
-          <Text style={styles.text}>Don't have an account?</Text>
-          <TouchableOpacity onPress={() => Linking.openURL(regUrl)}>
+          <TouchableOpacity onPress={this.props.onLinkClick}>
+            <Text style={{ fontSize: 16, textAlign: "center" }}>
+              Don't have an account? <Text style={styles.link}>Register</Text>.
+            </Text>
+          </TouchableOpacity>
+          {/*
+          {/* <Text style={styles.text}>Don't have an account?</Text>
+           <TouchableOpacity onPress={() => Linking.openURL(regUrl)}>
             <Text style={[styles.text, styles.link]}>
               Register on our website.
             </Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       </ThemeProvider>
     );

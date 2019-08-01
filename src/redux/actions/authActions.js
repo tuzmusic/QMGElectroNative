@@ -48,21 +48,17 @@ export async function registerWithApi({
 
   // Subscribe that WP user, transforming them into a PMS Member
   const reqUrl = ApiUrls.registerUserRequest({ user_id, memberType });
-  console.log(reqUrl);
-
-  const { data } = await axios.post(reqUrl);
-
-  return { userObj: data, cookie };
+  const res = await axios.post(reqUrl);
+  debugger;
+  return { userObj: res.data, cookie };
 }
 
 export function* registerSaga({ info }: { info: RegParams }): Saga<void> {
   try {
     let { cookie, userObj }: RegApiReturn = yield call(registerWithApi, info);
-
-    yield put({
-      type: "REGISTRATION_SUCCESS",
-      user: User.fromApi(userObj)
-    });
+    const user = User.fromApi(userObj);
+    debugger;
+    yield put({ type: "REGISTRATION_SUCCESS", user });
   } catch (error) {
     yield put({ type: "REGISTRATION_FAILURE", error: error.message });
   }

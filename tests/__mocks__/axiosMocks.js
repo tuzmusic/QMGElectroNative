@@ -1,7 +1,12 @@
 import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
 import ApiUrls from "../../src/constants/ApiUrls";
-import { loginResponse, registerResponse, registration } from "./loginResponse";
+import {
+  loginResponse,
+  registerResponse,
+  registration,
+  mainParams
+} from "./loginResponse";
 import {
   mockIndexResponse,
   realIndexResponseJuly2019
@@ -19,7 +24,7 @@ export function startMockAdapter({ auth = false, stations = false }) {
     setupRegMockAdapter(mock);
   }
   if (stations) setupStationsMockAdapter(mock);
-  mock.onAny().passThrough();
+  // mock.onAny().passThrough();
 }
 
 export function setupStationsMockAdapter(mock) {
@@ -61,11 +66,7 @@ export function setupRegMockAdapter(mock) {
     .reply(200, registerResponse.nonce)
     .onGet(ApiUrls.register, {
       params: {
-        username: "testuser1",
-        email: "api1@bolt.com",
-        nonce: "29a63be176",
-        display_name: "testuser1",
-        user_pass: "123123"
+        ...mainParams
       }
     })
     .reply(200, registerResponse.success)

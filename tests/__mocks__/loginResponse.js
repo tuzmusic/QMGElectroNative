@@ -75,14 +75,14 @@ export const creds = {
   }
 };
 
-const mainParams = {
+export const mainParams = {
   nonce: "29a63be176",
   username: "testuser1",
   email: "api1@bolt.com",
   display_name: "testuser1",
   user_pass: "123123"
 };
-const mainCreds = {
+export const mainCreds = {
   username: "testuser1",
   email: "api1@bolt.com",
   password: "123123"

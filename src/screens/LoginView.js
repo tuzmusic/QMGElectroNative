@@ -28,12 +28,16 @@ class LoginView extends Component<Props, State> {
   };
 
   componentDidMount() {
-    const autoLogin = () => {
+    function registerInstead() {
+      this.setState({ loggingIn: false, registering: true });
+    }
+    function autoLogin() {
       setTimeout(() => {
         this.handleLogin({ username: "testuser1", password: "123123" });
       }, 500);
-    };
+    }
     // autoLogin();
+    registerInstead.call(this);
   }
 
   async handleLogin({ username, password }) {
@@ -70,7 +74,12 @@ class LoginView extends Component<Props, State> {
     this.props.clearAuthError();
     this.setState({ errors });
     if (errors.length) return;
-    await this.props.register({ username, email, password });
+    await this.props.register({
+      username,
+      email,
+      password,
+      memberType: "user"
+    });
   }
 
   async loginUser({ user }) {
