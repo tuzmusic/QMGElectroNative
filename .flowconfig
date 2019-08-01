@@ -25,7 +25,7 @@ addnode_modules/.*
 .*/Libraries/Utilities/HMRLoadingView.js
 
 ; Ignore node_modules folder
-node_modules/**
+**/node_modules/**
 
 [untyped]
 .*/node_modules/@react-native-community/cli/.*/.*

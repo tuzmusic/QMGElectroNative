@@ -1,3 +1,4 @@
+// @flow
 import { GoogleMapsApiKey, ApiSecretKey } from "../../secrets";
 
 const baseUrl = "https://joinelectro.com";
@@ -8,16 +9,27 @@ const customApiSlug = "/wp-json/api/v1";
 const ApiUrls = {};
 
 /* GOOGLE MAPS API CALLS */
-ApiUrls.mapsSearch = address =>
+ApiUrls.mapsSearch = (address: string) =>
   `https://maps.googleapis.com/maps/api/place/autocomplete/json?key=${GoogleMapsApiKey}&input=${address}`;
-ApiUrls.mapsDetails = placeId =>
+ApiUrls.mapsDetails = (placeId: string) =>
   `https://maps.googleapis.com/maps/api/place/details/json?key=${GoogleMapsApiKey}&placeid=${placeId}&fields=geometry`;
 
 /* ELECTRO API */
 ApiUrls.stationsIndex = baseUrl + wpApiPath + "/job-listings/";
+
 ApiUrls.usersIndex =
   baseUrl + customApiSlug + `/members/?secret_key=${ApiSecretKey}`;
-ApiUrls.userInfo = id => ApiUrls.usersIndex + `&id=${id}`;
+ApiUrls.registerUserUrl =
+  baseUrl + customApiSlug + `/register_member/?secret_key=${ApiSecretKey}`;
+ApiUrls.userInfo = (id: number) => ApiUrls.usersIndex + `&id=${id}`;
+
+ApiUrls.registerUserRequest = ({
+  id,
+  memberType
+}: {
+  id: number,
+  memberType: "provider" | "user"
+}) => ApiUrls.usersIndex + `&user_id=${id}&member_type=${memberType}`;
 
 /* AUTH */
 ApiUrls.login = baseUrl + jsonApiSlug + "/user/generate_auth_cookie/";
