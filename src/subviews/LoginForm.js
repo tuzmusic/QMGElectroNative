@@ -25,7 +25,7 @@ class LoginForm extends Component {
     const regUrl = "https://joinelectro.com/registration-new/";
     return (
       <ThemeProvider theme={theme}>
-        <View style={styles.inputContainer}>
+        <View style={styles.container}>
           <AuthFormInput
             placeholder="Username or Email"
             label={this.state.username && "Username or Email"}
@@ -39,13 +39,11 @@ class LoginForm extends Component {
             value={this.state.password}
             onChangeText={password => this.setState({ password })}
           />
-        </View>
-        <Button
-          title="Login"
-          disabled={this.props.isLoading}
-          onPress={() => this.props.onSubmit(this.state)}
-        />
-        <View style={styles.messageContainer}>
+          <Button
+            title="Login"
+            disabled={this.props.isLoading}
+            onPress={() => this.props.onSubmit(this.state)}
+          />
           <TouchableOpacity onPress={this.props.onLinkClick}>
             <Text style={{ fontSize: 16, textAlign: "center" }}>
               Don't have an account? <Text style={styles.link}>Register</Text>.
@@ -89,22 +87,15 @@ const theme = {
 };
 
 const styles = {
-  inputContainer: {
+  container: {
     width: "90%",
     backgroundColor: "white",
     opacity: 0.6,
-    borderRadius: 5
+    borderRadius: 5,
+    paddingHorizontal: 10,
+    paddingVertical: 20
   },
   text: { fontSize: 20 },
-  messageContainer: {
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 10,
-    // width: "80%",
-    backgroundColor: "white",
-    opacity: 0.6,
-    borderRadius: 5
-  },
   link: {
     color: "blue",
     textDecorationLine: "underline"

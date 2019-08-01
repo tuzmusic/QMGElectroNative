@@ -24,7 +24,7 @@ export function startMockAdapter({ auth = false, stations = false }) {
     setupRegMockAdapter(mock);
   }
   if (stations) setupStationsMockAdapter(mock);
-  // mock.onAny().passThrough();
+  mock.onAny().passThrough();
 }
 
 export function setupStationsMockAdapter(mock) {
