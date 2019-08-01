@@ -37,7 +37,7 @@ class LoginView extends Component<Props, State> {
       }, 500);
     }
     // autoLogin();
-    registerInstead.call(this);
+    // registerInstead.call(this);
   }
 
   async handleLogin({ username, password }) {

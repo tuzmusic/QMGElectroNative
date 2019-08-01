@@ -22,11 +22,11 @@ export default class UserProfile extends Component<Props> {
         </View>
         <View style={styles.leftJustifiedContainer}>
           <Label>Name:</Label>
-          <InfoText>{user.fullName}</InfoText>
+          <InfoText>{user.firstName ? user.fullName : "Not provided"}</InfoText>
           <Label>Email:</Label>
           <InfoText>{user.email}</InfoText>
           <Label>About:</Label>
-          <InfoText>{user.description}</InfoText>
+          <InfoText>{user.description || "Not provided"}</InfoText>
         </View>
       </View>
     );
@@ -72,24 +72,16 @@ const InfoText = (props: Object) => (
   </Text>
 );
 
-const UserImage = ({ user }: { user: User }) => {
-  if (user.avatarUrl) {
-    return (
-      <Avatar
-        rounded
-        size={150}
-        source={{ uri: user.avatarUrl }}
-        PlaceholderContent={<MaterialIndicator color={"blue"} />}
-      />
-    );
-  } else {
-    return (
-      <View style={[styles.centered, styles.image]}>
-        <Text>No Image Provided</Text>
-      </View>
-    );
-  }
-};
+const UserImage = ({ user }: { user: User }) => (
+  <Avatar
+    rounded
+    size={150}
+    source={{ uri: user.avatarUrl }}
+    title="none provided"
+    titleStyle={{ fontSize: 16, color: "black" }}
+    PlaceholderContent={<MaterialIndicator color={"blue"} />}
+  />
+);
 
 const text = {
   username: {
