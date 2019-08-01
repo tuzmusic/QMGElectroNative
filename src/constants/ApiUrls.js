@@ -23,13 +23,14 @@ ApiUrls.registerUserUrl =
   baseUrl + customApiSlug + `/register_member/?secret_key=${ApiSecretKey}`;
 ApiUrls.userInfo = (id: number) => ApiUrls.usersIndex + `&id=${id}`;
 
+// Subscribe WP User, making them a PMS Member
 ApiUrls.registerUserRequest = ({
-  id,
+  user_id,
   memberType
 }: {
-  id: number,
+  user_id: number,
   memberType: "provider" | "user"
-}) => ApiUrls.usersIndex + `&user_id=${id}&member_type=${memberType}`;
+}) => ApiUrls.registerUserUrl + `&user_id=${user_id}&member_type=${memberType}`;
 
 /* AUTH */
 ApiUrls.login = baseUrl + jsonApiSlug + "/user/generate_auth_cookie/";

@@ -1,9 +1,9 @@
 // As of 8/1/19=, success responses aren't formatted as { code, message, data }
 // My API errors are though; but I'm not mocking them here.
 export const providerSuccess = {
-  user_id: "21",
-  username: "apitest3",
-  email: "apitest3@electro.com",
+  user_id: "1",
+  username: "testuser",
+  email: "testuser@bolt.com",
   subscriptions: [
     {
       id: "17",
@@ -17,9 +17,9 @@ export const providerSuccess = {
 };
 
 export const userSuccess = {
-  user_id: "22",
-  username: "apitest4",
-  email: "apitest4@electro.com",
+  user_id: "1",
+  username: "testuser",
+  email: "testuser@bolt.com",
   subscriptions: [
     {
       id: "18",
@@ -30,11 +30,4 @@ export const userSuccess = {
       payment_profile_id: ""
     }
   ]
-};
-
-export const regSuccess = {
-  status: "ok",
-  cookie:
-    "apitest3|1565900622|HoQO4FE83yBPxqTybwVZ8lNIuaOwLndjYAvQjYZbSMu|e14b5b77545a04aa50cf962c604386d12731b16d43b90e0af6d77c430601ac92",
-  user_id: 21
 };

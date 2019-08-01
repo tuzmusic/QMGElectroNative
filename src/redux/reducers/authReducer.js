@@ -1,5 +1,4 @@
 // @flow
-import AsyncStorage from "@react-native-community/async-storage";
 import User from "../../models/User";
 import type { LoginParams, RegParams } from "../actions/authActions";
 type State = {

@@ -24,9 +24,14 @@ export async function registerWithApi({
   password,
   memberType
 }: RegParams): Object {
+  // Get the nonce for registration.
   const nonce = (await axios.get(ApiUrls.nonce)).data.nonce;
   if (!nonce) throw Error("Could not get nonce");
-  const res = await axios.get(ApiUrls.register, {
+
+  // Register the WP user
+  const {
+    data: { user_id }
+  } = await axios.get(ApiUrls.register, {
     params: {
       username,
       email,
@@ -35,7 +40,14 @@ export async function registerWithApi({
       user_pass: password
     }
   });
-  return res.data;
+
+  // Subscribe that WP user, transforming them into a PMS Member
+  const reqUrl = ApiUrls.registerUserRequest({ user_id, memberType });
+  console.log(reqUrl);
+
+  const { data } = await axios.post(reqUrl);
+
+  return data;
 }
 
 export async function loginWithApi(creds: LoginParams): Object {

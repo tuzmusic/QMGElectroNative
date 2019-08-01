@@ -3,6 +3,23 @@ import { startMockAdapter } from "../tests/__mocks__/axiosMocks";
 import { registerWithApi } from "../src/redux/actions/authActions";
 import type { RegParams } from "../src/redux/actions";
 import { providerSuccess, userSuccess } from "../__mocks__/registrationMocks";
+import axios from "axios";
+
+describe("register API mocks", () => {
+  const url =
+    "https://joinelectro.com/wp-json/api/v1/register_member/?secret_key=2is9gJTK9uLVcLgo1TaYKWnHi6SIw1Bn&user_id=1&member_type=provider";
+  it("should use the correct url", () => {
+    expect(
+      ApiUrls.registerUserRequest({ user_id: 1, memberType: "provider" })
+    ).toEqual(url);
+  });
+
+  it("should return with a mock response", async () => {
+    startMockAdapter({ auth: true });
+    const req = await axios.post(url);
+    expect(req.data).toEqual(providerSuccess);
+  });
+});
 
 describe("registerWithApi", () => {
   const creds = {
@@ -10,12 +27,15 @@ describe("registerWithApi", () => {
     email: "api1@bolt.com",
     password: "123123"
   };
-  it("should return a fully registered and subscribed provider", () => {
+
+  startMockAdapter({ auth: true });
+
+  it("should return a fully registered and subscribed provider", async () => {
     const info: RegParams = { ...creds, memberType: "provider" };
-    expect(registerWithApi(info)).toEqual(providerSuccess);
+    expect(await registerWithApi(info)).toEqual(providerSuccess);
   });
-  it("should return a fully registered and subscribed non-provider user", () => {
+  it("should return a fully registered and subscribed non-provider user", async () => {
     const info: RegParams = { ...creds, memberType: "user" };
-    expect(registerWithApi(info)).toEqual(userSuccess);
+    expect(await registerWithApi(info)).toEqual(userSuccess);
   });
 });

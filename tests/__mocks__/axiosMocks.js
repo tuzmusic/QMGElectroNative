@@ -69,8 +69,8 @@ export function setupRegMockAdapter(mock) {
       }
     })
     .reply(200, registerResponse.success)
+    // badUserApiParams
     .onGet(ApiUrls.register, {
-      // params: registration.badUserApiParams
       params: {
         username: "testuser1dupe",
         email: "api1@bolt.com",
@@ -80,8 +80,8 @@ export function setupRegMockAdapter(mock) {
       }
     })
     .reply(200, registerResponse.usernameTaken)
+    // badEmailApiParams
     .onGet(ApiUrls.register, {
-      // params: registration.badEmailApiParams
       params: {
         username: "testuser1",
         email: "api1@bolt.comdupe",
@@ -92,8 +92,8 @@ export function setupRegMockAdapter(mock) {
     })
     .reply(200, registerResponse.emailTaken)
     // add subscriptions, to register PMS member
-    .onGet(ApiUrls.registerUserRequest({ id: 1, memberType: "provider" }))
+    .onPost(ApiUrls.registerUserRequest({ user_id: 1, memberType: "provider" }))
     .reply(200, RegMocks.providerSuccess)
-    .onGet(ApiUrls.registerUserRequest({ id: 1, memberType: "user" }))
+    .onPost(ApiUrls.registerUserRequest({ user_id: 1, memberType: "user" }))
     .reply(200, RegMocks.userSuccess);
 }
