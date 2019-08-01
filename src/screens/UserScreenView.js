@@ -32,18 +32,18 @@ class UserScreen extends Component {
           style={styles.image}
         />
         <View>
-          <View style={styles.rowText}>
-            <Text>To create a station, please </Text>
-            <Link url="http://joinelectro.com/submit-listings/">
-              visit our website
-            </Link>
-            <Text>.</Text>
-          </View>
-          <View style={styles.rowText}>
-            <Text>For questions, email </Text>
-            <Link url="mailto:info@joinelectro.com">info@joinelectro.com</Link>
-            <Text style={styles.text}>.</Text>
-          </View>
+          {this.props.user.memberType === "provider" && (
+            <View>
+              <Text>To create a station, please </Text>
+              <Link url="http://joinelectro.com/submit-listings/">
+                visit our website
+              </Link>
+              <Text>.</Text>
+            </View>
+          )}
+          <Text>For questions, email </Text>
+          <Link url="mailto:info@joinelectro.com">info@joinelectro.com</Link>
+          <Text style={styles.text}>.</Text>
         </View>
       </ScrollView>
     );
@@ -72,6 +72,6 @@ const styles = {
   },
   image: { height: 110, width: 110, resizeMode: "contain", marginVertical: 15 },
   text: { fontSize: 18, textAlign: "center" },
-  rowText: { flexDirection: "row", marginBottom: 5 },
+  rowText: { flexDirection: "row", marginBottom: 5, width: "100%" },
   link: { color: "blue", textDecorationLine: "underline" }
 };
