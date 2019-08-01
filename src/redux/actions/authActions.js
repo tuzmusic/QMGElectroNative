@@ -18,19 +18,24 @@ export type LoginParams = {
   password: string
 };
 
+type RegApiReturn = {
+  cookie: string,
+  userObj: Object
+};
+
 export async function registerWithApi({
   email,
   username,
   password,
   memberType
-}: RegParams): Object {
+}: RegParams): Promise<RegApiReturn> {
   // Get the nonce for registration.
   const nonce = (await axios.get(ApiUrls.nonce)).data.nonce;
   if (!nonce) throw Error("Could not get nonce");
 
   // Register the WP user
   const {
-    data: { user_id }
+    data: { user_id, cookie }
   } = await axios.get(ApiUrls.register, {
     params: {
       username,
@@ -47,16 +52,24 @@ export async function registerWithApi({
 
   const { data } = await axios.post(reqUrl);
 
-  return data;
+  return { userObj: data, cookie };
+}
+
+export function* registerSaga({ info }: { info: RegParams }): Saga<void> {
+  try {
+    let { cookie, userObj }: RegApiReturn = yield call(registerWithApi, info);
+
+    yield put({
+      type: "REGISTRATION_SUCCESS",
+      user: User.fromApi(userObj)
+    });
+  } catch (error) {
+    yield put({ type: "REGISTRATION_FAILURE", error: error.message });
+  }
 }
 
 export async function loginWithApi(creds: LoginParams): Object {
   const res = await axios.get(ApiUrls.login, { params: creds });
-  return res.data;
-}
-
-export async function logoutWithApi(): Object {
-  const res = await axios.get(ApiUrls.logout);
   return res.data;
 }
 
@@ -70,10 +83,10 @@ export function* loginSaga({ creds }: { creds: LoginParams }): Saga<void> {
       };
       yield put(errorAction);
     } else if (user) {
-      const newUser: User = User.fromApi(user.user);
+      // const newUser: User = User.fromApi(user.user);
       const successAction: AuthTypes.LOGIN_SUCCESS = {
         type: "LOGIN_SUCCESS",
-        user: newUser
+        user: User.fromApi(user.user)
       };
       yield put(successAction);
     }
@@ -81,6 +94,11 @@ export function* loginSaga({ creds }: { creds: LoginParams }): Saga<void> {
     // console.log("login error:", error.message);
     yield put({ type: "LOGIN_FAILURE", error: error.message });
   }
+}
+
+export async function logoutWithApi(): Object {
+  const res = await axios.get(ApiUrls.logout);
+  return res.data;
 }
 
 export function* logoutSaga(): Saga<void> {
@@ -92,28 +110,6 @@ export function* logoutSaga(): Saga<void> {
       error: error.message
     };
     yield put(action);
-  }
-}
-
-export function* registerSaga({ info }: { info: RegParams }): Saga<void> {
-  try {
-    let { error, cookie, user_id } = yield call(registerWithApi, info);
-
-    yield put(
-      error
-        ? { type: "REGISTRATION_FAILURE", error }
-        : {
-            type: "REGISTRATION_SUCCESS",
-            user: {
-              username: info.username,
-              email: info.email,
-              userId: user_id,
-              cookie
-            }
-          }
-    );
-  } catch (error) {
-    yield put({ type: "REGISTRATION_FAILURE", error: error.message });
   }
 }
 

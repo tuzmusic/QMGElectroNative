@@ -1,9 +1,12 @@
+// @flow
+
 import ApiUrls from "../src/constants/ApiUrls";
 import { startMockAdapter } from "../tests/__mocks__/axiosMocks";
 import { registerWithApi } from "../src/redux/actions/authActions";
 import type { RegParams } from "../src/redux/actions";
 import { providerSuccess, userSuccess } from "../__mocks__/registrationMocks";
 import axios from "axios";
+import { registerResponse } from "../tests/__mocks__/loginResponse";
 
 describe("register API mocks", () => {
   const url =
@@ -29,13 +32,19 @@ describe("registerWithApi", () => {
   };
 
   startMockAdapter({ auth: true });
-
+  const cookie = registerResponse.success.cookie;
   it("should return a fully registered and subscribed provider", async () => {
     const info: RegParams = { ...creds, memberType: "provider" };
-    expect(await registerWithApi(info)).toEqual(providerSuccess);
+    expect(await registerWithApi(info)).toEqual({
+      userObj: providerSuccess,
+      cookie
+    });
   });
   it("should return a fully registered and subscribed non-provider user", async () => {
     const info: RegParams = { ...creds, memberType: "user" };
-    expect(await registerWithApi(info)).toEqual(userSuccess);
+    expect(await registerWithApi(info)).toEqual({
+      userObj: userSuccess,
+      cookie
+    });
   });
 });
