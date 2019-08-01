@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import AsyncStorage from "@react-native-community/async-storage";
 import { setUser } from "../redux/actions/authActions";
 import User from "../models/User";
+import StorageManager from "../models/StorageManager";
 
 const AuthStack = createSwitchNavigator({ Login: LoginScreen });
 
@@ -16,10 +17,8 @@ export class AuthNavigator extends Component {
   }
 
   async loginStoredUser() {
-    const storedUser = await AsyncStorage.getItem("electro_logged_in_user");
-    if (storedUser) {
-      const parsedUser = JSON.parse(storedUser);
-      const user = new User(parsedUser);
+    const user = await StorageManager.getStoredUser();
+    if (user) {
       this.props.setUser(user);
       this.props.navigation.navigate("Main");
     }
