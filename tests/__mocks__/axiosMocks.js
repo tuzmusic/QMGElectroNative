@@ -7,6 +7,7 @@ import {
   realIndexResponseJuly2019
 } from "../../__mocks__/stationMocks";
 import { userResponse } from "../../__mocks__/userMocks";
+import * as RegMocks from "../../__mocks__/registrationMocks";
 
 const DELAY = 0;
 
@@ -14,8 +15,8 @@ export function startMockAdapter({ auth = false, stations = false }) {
   const urls = ApiUrls;
   let mock = new MockAdapter(axios, { delayResponse: DELAY });
   if (auth) {
-    setupAuthMockAdapter(mock);
-    setupUserMockAdapter(mock);
+    setupLoginMockAdapter(mock);
+    setupRegMockAdapter(mock);
   }
   if (stations) setupStationsMockAdapter(mock);
   mock.onAny().passThrough();
@@ -29,9 +30,33 @@ export function setupStationsMockAdapter(mock) {
     .reply(200, [...mockIndexResponse, ...realIndexResponseJuly2019]);
 }
 
-export function setupAuthMockAdapter(mock) {
+export function setupLoginMockAdapter(mock) {
   mock
-    // register
+    // login
+    .onGet(ApiUrls.login, {
+      params: {
+        username: "testuser1",
+        password: "123123"
+      }
+    })
+    .reply(200, loginResponse.success)
+    .onGet(ApiUrls.login, {
+      params: {
+        email: "testuser@bolt.com",
+        password: "123123"
+      }
+    })
+    .reply(200, loginResponse.success)
+    .onGet(ApiUrls.login)
+    .reply(200, loginResponse.failure)
+    // logout
+    .onGet(ApiUrls.logout)
+    .reply(200, loginResponse.logout);
+}
+
+export function setupRegMockAdapter(mock) {
+  mock
+    // register wp user
     .onGet(ApiUrls.nonce)
     .reply(200, registerResponse.nonce)
     .onGet(ApiUrls.register, {
@@ -66,28 +91,9 @@ export function setupAuthMockAdapter(mock) {
       }
     })
     .reply(200, registerResponse.emailTaken)
-    // login
-    .onGet(ApiUrls.login, {
-      params: {
-        username: "testuser1",
-        password: "123123"
-      }
-    })
-    .reply(200, loginResponse.success)
-    .onGet(ApiUrls.login, {
-      params: {
-        email: "testuser@bolt.com",
-        password: "123123"
-      }
-    })
-    .reply(200, loginResponse.success)
-    .onGet(ApiUrls.login)
-    .reply(200, loginResponse.failure)
-    // logout
-    .onGet(ApiUrls.logout)
-    .reply(200, loginResponse.logout);
-}
-
-export function setupUserMockAdapter(mock) {
-  mock.onGet(ApiUrls.userInfo(18)).reply(200, userResponse);
+    // add subscriptions, to register PMS member
+    .onGet(ApiUrls.registerUserRequest({ id: 1, memberType: "provider" }))
+    .reply(200, RegMocks.providerSuccess)
+    .onGet(ApiUrls.registerUserRequest({ id: 1, memberType: "user" }))
+    .reply(200, RegMocks.userSuccess);
 }
