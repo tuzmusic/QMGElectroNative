@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 import { View, Text, TouchableOpacity, Linking } from "react-native";
-import { Button } from "react-native-elements";
 import { connect } from "react-redux";
 import { logout } from "../redux/actions/authActions";
-import AsyncStorage from "@react-native-community/async-storage";
 import UserProfile from "../subviews/UserProfile";
 
 class UserScreen extends Component {
@@ -11,29 +9,15 @@ class UserScreen extends Component {
     if (!newProps.user) this.props.navigation.navigate("Auth");
   }
 
-  async performLogout() {
-    console.log("Logging out");
-
-    await AsyncStorage.setItem("electro_logged_in_user", "");
-    const storage = await AsyncStorage.getItem("electro_logged_in_user");
-    // console.log(" newly logged out user has been saved as:", storage);
-    await this.props.logout();
-  }
-
   render() {
     return (
       <View style={styles.container}>
-        {this.props.user && <UserProfile user={this.props.user} />}
-        <Button
-          buttonStyle={styles.logout}
-          containerStyle={styles.button}
-          color="red"
-          titleStyle={styles.text}
-          onPress={this.performLogout.bind(this)}
-          title="Log Out"
-          loading={this.props.isLoading}
-          disabled={this.props.isLoading}
-        />
+        {this.props.user && (
+          <UserProfile
+            user={this.props.user}
+            onLogout={this.props.logout.bind(this)}
+          />
+        )}
         <View style={styles.bottomSection}>
           <Text style={[styles.text]}>Please</Text>
           <TouchableOpacity

@@ -1,12 +1,13 @@
 // @flow
 import React, { Component } from "react";
-import { Text, View } from "react-native";
+import { Text, View, TouchableOpacity } from "react-native";
 import { Image, Button, Icon, Avatar } from "react-native-elements";
 import User from "../models/User";
 import { MaterialIndicator } from "react-native-indicators";
 
 type Props = {
-  user: User
+  user: User,
+  onLogout: Function
 };
 
 export default class UserProfile extends Component<Props> {
@@ -16,7 +17,8 @@ export default class UserProfile extends Component<Props> {
       <View style={styles.container}>
         <View style={{ alignItems: "center" }}>
           <UserImage user={user} />
-          <Text style={text.username}> {user.username} </Text>
+          <Text style={text.username}>{user.username}</Text>
+          <Link onPress={this.props.onLogout}>(Log out)</Link>
         </View>
         <View style={styles.leftJustifiedContainer}>
           <Label>Name:</Label>
@@ -32,6 +34,19 @@ export default class UserProfile extends Component<Props> {
 }
 const baseSize = 18;
 
+const Link = (props: Object) => (
+  <TouchableOpacity onPress={props.onPress}>
+    <InfoText
+      style={{
+        color: "blue",
+        fontSize: baseSize - 2
+      }}
+    >
+      {props.children}
+    </InfoText>
+  </TouchableOpacity>
+);
+
 const Label = ({ children }) => (
   <Text
     style={[
@@ -46,9 +61,14 @@ const Label = ({ children }) => (
   </Text>
 );
 
-const InfoText = ({ children }) => (
-  <Text style={[{ fontSize: baseSize, marginTop: 3, marginBottom: 20 }]}>
-    {children}
+const InfoText = (props: Object) => (
+  <Text
+    style={[
+      { fontSize: baseSize, marginTop: 3, marginBottom: 20 },
+      props.style
+    ]}
+  >
+    {props.children}
   </Text>
 );
 
@@ -76,7 +96,7 @@ const text = {
     fontSize: baseSize + 4,
     textAlign: "center",
     fontWeight: "bold",
-    margin: 10
+    marginTop: 10
   }
 };
 

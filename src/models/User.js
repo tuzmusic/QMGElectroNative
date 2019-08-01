@@ -13,6 +13,7 @@ export default class User {
   avatarUrl: string;
 
   constructor(obj: Object) {
+    if (!obj) return;
     this.id = obj.id;
     this.username = obj.username;
     this.email = obj.email;

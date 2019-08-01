@@ -6,6 +6,7 @@ import Sugar from "sugar";
 import * as AuthTypes from "../reducers/authReducer";
 import type { Saga } from "redux-saga";
 import User from "../../models/User";
+import AsyncStorage from "@react-native-community/async-storage";
 Sugar.extend();
 
 type RegParams = { email?: string, username?: string, password: string };
@@ -64,7 +65,7 @@ export function* loginSaga({ creds }: { creds: RegParams }): Saga<void> {
 
 export function* logoutSaga(): Saga<void> {
   try {
-    // yield call(logoutWithApi);
+    yield call(AsyncStorage.setItem, "electro_logged_in_user", "");
     yield put({ type: "LOGOUT_SUCCESS" });
   } catch (error) {
     const action: AuthTypes.LOGOUT_FAILURE = {
