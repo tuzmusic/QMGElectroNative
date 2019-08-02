@@ -80,16 +80,14 @@ class LoginView extends Component<Props, State> {
   };
 
   componentDidMount() {
-    function registerInstead() {
-      this.setState({ loggingIn: false, registering: true });
-    }
     function autoLogin() {
-      setTimeout(() => {
-        this.handleLogin({ username: "testuser1", password: "123123" });
-      }, 500);
+      setTimeout(
+        () => this.handleLogin({ username: "testuser1", password: "123123" }),
+        500
+      );
     }
     // autoLogin();
-    // if (__DEV__) registerInstead.call(this);
+    if (__DEV__) this.toggleForm();
   }
 
   async handleLogin({ username, password }) {
@@ -209,16 +207,12 @@ const h = (perc: number) => (dim.height * perc) / 100;
 
 const styles = {
   imageBackground: {
-    height: "100%",
-    width: "100%"
+    height: "100%"
   },
   scrollView: {
-    justifyContent: "flex-start",
-    height: "100%",
-    width: "100%"
+    paddingVertical: 30
   },
   keyboardAvoidingView: {
-    // flex: 1,
     alignItems: "center",
     justifyContent: "center"
   },
