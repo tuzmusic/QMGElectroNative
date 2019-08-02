@@ -22,8 +22,9 @@ ApiUrls.mapsDetails = (placeId: string) =>
 
 /* STATIONS */
 ApiUrls.stationsIndex = wpApiBase + "/job-listings/";
+ApiUrls.stationOwnerBase = customApiBase + "/listing_owner";
 ApiUrls.stationOwner = (id: number) =>
-  customApiBase + "/listing_owner" + secretKeyStarter + "&post_id=" + id;
+  ApiUrls.stationOwnerBase + secretKeyStarter + "&post_id=" + id;
 
 /* USERS */
 ApiUrls.usersIndex = customApiBase + `/members` + secretKeyStarter;

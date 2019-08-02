@@ -4,7 +4,8 @@ import ApiUrls from "../../src/constants/ApiUrls";
 import { loginResponse, registerResponse, registration } from "./loginResponse";
 import {
   mockIndexResponse,
-  realIndexResponseJuly2019
+  realIndexResponseJuly2019,
+  stationOwnerResponse
 } from "../../__mocks__/stationMocks";
 import { userResponse } from "../../__mocks__/userMocks";
 import * as RegMocks from "../../__mocks__/registrationMocks";
@@ -20,6 +21,7 @@ export function startMockAdapter({ auth = false, stations = false }) {
   }
   if (stations) setupStationsMockAdapter(mock);
   // mock.onAny().passThrough();
+  return mock;
 }
 
 export function setupStationsMockAdapter(mock) {
@@ -27,7 +29,9 @@ export function setupStationsMockAdapter(mock) {
   // mock.onGet(ApiUrls.stationsIndex).reply(200, mockIndexResponse);
   mock
     .onGet(ApiUrls.stationsIndex)
-    .reply(200, [...mockIndexResponse, ...realIndexResponseJuly2019]);
+    .reply(200, [...mockIndexResponse, ...realIndexResponseJuly2019])
+    .onGet(ApiUrls.stationOwner(1077))
+    .reply(200, stationOwnerResponse);
 }
 
 export function setupLoginMockAdapter(mock) {
