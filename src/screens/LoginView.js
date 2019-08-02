@@ -6,7 +6,8 @@ import {
   View,
   Text,
   KeyboardAvoidingView,
-  ImageBackground
+  ImageBackground,
+  ScrollView
 } from "react-native";
 import { DotIndicator } from "react-native-indicators";
 import { connect } from "react-redux";
@@ -37,7 +38,7 @@ class LoginView extends Component<Props, State> {
       }, 500);
     }
     // autoLogin();
-    // registerInstead.call(this);
+    // if (__DEV__) registerInstead.call(this);
   }
 
   async handleLogin({ username, password }) {
@@ -78,7 +79,7 @@ class LoginView extends Component<Props, State> {
       username,
       email,
       password,
-      memberType: "user"
+      memberType: "provider"
     });
   }
 
@@ -110,21 +111,21 @@ class LoginView extends Component<Props, State> {
     // loginUser saves the user, even if the user was already saved. No biggie.
     if (this.props.user) this.loginUser(this.props);
     return (
-      <KeyboardAvoidingView
-        style={styles.superContainer}
-        enabled
-        behavior="height"
+      <ImageBackground
+        style={{
+          height: "100%",
+          width: "100%"
+          // justifyContent: "flex-start"
+        }}
+        imageStyle={{ resizeMode: "cover" }}
+        source={require("../../assets/images/charging-a-car.png")}
       >
-        <ImageBackground
-          style={{
-            height: "100%",
-            width: "100%"
-            // justifyContent: "flex-start"
-          }}
-          imageStyle={{ resizeMode: "cover" }}
-          source={require("../../assets/images/charging-a-car.png")}
+        <KeyboardAvoidingView
+          style={styles.superContainer}
+          enabled
+          behavior="height"
         >
-          <View style={styles.container}>
+          <ScrollView contentContainerStyle={styles.container}>
             <Overlay
               containerStyle={styles.modal}
               height={200}
@@ -166,9 +167,9 @@ class LoginView extends Component<Props, State> {
                 onChangeText={() => this.setState({ errors: [] })}
               />
             )}
-          </View>
-        </ImageBackground>
-      </KeyboardAvoidingView>
+          </ScrollView>
+        </KeyboardAvoidingView>
+      </ImageBackground>
     );
   }
 }
@@ -189,15 +190,16 @@ const styles = {
     marginBottom: 10
   },
   container: {
-    flex: 1,
-    justifyContent: "center",
+    // flex: 1,
+    height: "100%",
+    justifyContent: "flex-start",
     alignItems: "center",
     padding: 20
   },
-  superContainer: {
-    flex: 1,
-    justifyContent: "center"
-  },
+  // superContainer: {
+  //   flex: 1,
+  //   justifyContent: "center"
+  // },
   image: {
     height: 200,
     width: 200,

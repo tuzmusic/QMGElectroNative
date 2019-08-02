@@ -39,7 +39,8 @@ function* rootSaga() {
 
 sagaMiddleware.run(rootSaga);
 
-if (__DEV__) startMockAdapter({ auth: true, stations: true });
+// if (__DEV__) startMockAdapter({ auth: true, stations: true });
+// if (__DEV__) startMockAdapter({ auth: false, stations: true });
 
 console.disableYellowBox = true;
 

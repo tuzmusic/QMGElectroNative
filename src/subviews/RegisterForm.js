@@ -15,10 +15,10 @@ class LoginForm extends Component {
   componentDidMount() {
     if (__DEV__)
       this.setState({
-        username: "testuser1",
+        username: "apptestprovider",
         password: "123123",
         passwordConfirmation: "123123",
-        email: "api1@bolt.com"
+        email: "apptestprovider@bolt.com"
       });
   }
 

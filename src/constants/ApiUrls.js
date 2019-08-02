@@ -39,4 +39,32 @@ ApiUrls.nonce =
 ApiUrls.register = baseUrl + jsonApiSlug + "/user/register";
 ApiUrls.logout = baseUrl + "/wp-json/auth/logout";
 
+function registerRequest({
+  username,
+  email,
+  password,
+  nonce
+}: {
+  username: string,
+  email: string,
+  password: string,
+  nonce: string,
+  display_name: string
+}): string {
+  const params = Object.entries({
+    nonce,
+    username,
+    email,
+    display_name: username,
+    user_pass: password
+  })
+    .map(([k, v]) => {
+      return [k, v].join("=");
+    })
+    .join("&");
+  return ApiUrls.register + "?" + params;
+}
+
+ApiUrls.registerRequest = registerRequest;
+
 export default ApiUrls;

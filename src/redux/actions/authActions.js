@@ -30,24 +30,44 @@ export async function registerWithApi({
   memberType
 }: RegParams): Promise<RegApiReturn> {
   // Get the nonce for registration.
+  console.log("getting nonce at", ApiUrls.nonce);
+
   const nonce = (await axios.get(ApiUrls.nonce)).data.nonce;
   if (!nonce) throw Error("Could not get nonce");
 
   // Register the WP user
-  const {
-    data: { user_id, cookie }
-  } = await axios.get(ApiUrls.register, {
-    params: {
-      username,
-      email,
-      nonce,
-      display_name: username,
-      user_pass: password
-    }
-  });
+  /**
+   * https://joinelectro.com/x1H9JH7tZAb1DoJ/user/register?nonce=8a0034be89&username=apitest5&email=apitest5@electro.com&display_name=apitest5&user_pass=123123
+   * https://joinelectro.com/x1H9JH7tZAb1DoJ/user/register?nonce=8a0034be89&username=app_test_user&email=app_test_user@bolt.com&display_name=app_test_user&user_pass=123123
+   *
+   **/
 
+  const regUrl: string = ApiUrls.registerRequest({
+    username,
+    password,
+    email,
+    nonce
+  });
+  console.log("registering WP user at", regUrl);
+
+  const { data } = await axios.get(regUrl);
+  // const {
+  //   data: { user_id, cookie }
+  // } = await axios.get(ApiUrls.register, {
+  //   params: {
+  //     username,
+  //     email,
+  //     nonce,
+  //     display_name: username,
+  //     user_pass: password
+  //   }
+  // });
+  debugger;
+  const { user_id, cookie } = data;
   // Subscribe that WP user, transforming them into a PMS Member
   const reqUrl = ApiUrls.registerUserRequest({ user_id, memberType });
+  console.log("requesting new api", reqUrl);
+
   const res = await axios.post(reqUrl);
   debugger;
   return { userObj: res.data, cookie };
