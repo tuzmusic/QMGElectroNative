@@ -39,7 +39,7 @@ const Loading = props => (
 const Errors = props => (
   <View
     style={{
-      marginBottom: props.errors.length ? 0 : -10,
+      marginBottom: props.errors.filter(Boolean).length ? 0 : -10,
       marginHorizontal: 10
     }}
   >
@@ -90,7 +90,7 @@ class LoginView extends Component<Props, State> {
       );
     }
     // autoLogin();
-    if (__DEV__) this.toggleForm();
+    // if (__DEV__) this.toggleForm();
   }
 
   async handleLogin({ username, password }) {
@@ -104,12 +104,9 @@ class LoginView extends Component<Props, State> {
     }
 
     let creds: AuthParams = { password, username: "" };
-    if (username.includes("@")) {
-      creds.email = username;
-    } else {
-      creds.username = username;
-    }
-
+    if (username.includes("@")) creds.email = username;
+    else creds.username = username;
+    // debugger;
     await this.props.login(creds);
   }
 
@@ -162,6 +159,7 @@ class LoginView extends Component<Props, State> {
     // user exists on render if a login has succeeded, or if a saved user has been found
     // loginUser saves the user, even if the user was already saved. No biggie.
     if (this.props.user) this.loginUser(this.props);
+    console.log("loading:", this.props.isLoading);
 
     return (
       <ImageBackground
@@ -182,7 +180,7 @@ class LoginView extends Component<Props, State> {
             />
             <Form
               error={this.props.error}
-              errors={this.state.errors}
+              errors={this.state.errors.concat(this.props.error)}
               loggingIn={this.state.loggingIn}
               registering={this.state.registering}
               toggleForm={this.toggleForm.bind(this)}
@@ -198,11 +196,7 @@ class LoginView extends Component<Props, State> {
 }
 
 export default connect(
-  state => ({
-    isLoading: state.auth.isLoading,
-    user: state.auth.user,
-    error: state.auth.error
-  }),
+  ({ auth: { isLoading, user, error } }) => ({ isLoading, user, error }),
   { login, register, clearAuthError }
 )(LoginView);
 

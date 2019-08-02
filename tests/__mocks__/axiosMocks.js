@@ -14,7 +14,7 @@ import {
 import { userResponse } from "../../__mocks__/userMocks";
 import * as RegMocks from "../../__mocks__/registrationMocks";
 
-const DELAY = 0;
+const DELAY = 1000;
 
 export function startMockAdapter({ auth = false, stations = false }) {
   const urls = ApiUrls;

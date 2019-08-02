@@ -42,31 +42,29 @@ export async function registerWithApi({
    *
    **/
 
-  const regUrl: string = ApiUrls.registerRequest({
-    username,
-    password,
-    email,
-    nonce
-  });
-  console.log("registering WP user at", regUrl);
-
-  const { data } = await axios.get(regUrl);
-  // const {
-  //   data: { user_id, cookie }
-  // } = await axios.get(ApiUrls.register, {
-  //   params: {
-  //     username,
-  //     email,
-  //     nonce,
-  //     display_name: username,
-  //     user_pass: password
-  //   }
+  // const regUrl: string = ApiUrls.registerRequest({
+  //   username,
+  //   password,
+  //   email,
+  //   nonce
   // });
+  // console.log("registering WP user at", regUrl);
+
+  // const { data } = await axios.get(regUrl);
+  const { data } = await axios.get(ApiUrls.register, {
+    params: {
+      username,
+      email,
+      nonce,
+      display_name: username,
+      user_pass: password
+    }
+  });
   debugger;
   const { user_id, cookie } = data;
   // Subscribe that WP user, transforming them into a PMS Member
   const reqUrl = ApiUrls.registerUserRequest({ user_id, memberType });
-  console.log("requesting new api", reqUrl);
+  console.log("Adding subscription to new user", reqUrl);
 
   const res = await axios.post(reqUrl);
   debugger;
