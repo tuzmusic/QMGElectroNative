@@ -9,6 +9,7 @@ export const AuthFormInput = props => (
     placeholderTextColor="darkgrey"
     autoCorrect={false}
     autoCapitalize={"none"}
+    labelStyle={{ marginBottom: -5, marginTop: 10, borderWidth: 0 }}
   />
 );
 
@@ -22,42 +23,36 @@ class LoginForm extends Component {
   };
 
   render() {
-    const regUrl = "https://joinelectro.com/registration-new/";
     return (
-      <ThemeProvider theme={theme}>
-        <View style={styles.container}>
-          <AuthFormInput
-            placeholder="Username or Email"
-            label={this.state.username && "Username or Email"}
-            value={this.state.username}
-            onChangeText={username => this.setState({ username })}
-          />
-          <AuthFormInput
-            placeholder="Password"
-            label={this.state.password && "Password"}
-            secureTextEntry
-            value={this.state.password}
-            onChangeText={password => this.setState({ password })}
-          />
-          <Button
-            title="Login"
-            disabled={this.props.isLoading}
-            onPress={() => this.props.onSubmit(this.state)}
-          />
-          <TouchableOpacity onPress={this.props.onLinkClick}>
-            <Text style={{ fontSize: 16, textAlign: "center" }}>
-              Don't have an account? <Text style={styles.link}>Register</Text>.
-            </Text>
-          </TouchableOpacity>
-          {/*
-          {/* <Text style={styles.text}>Don't have an account?</Text>
-           <TouchableOpacity onPress={() => Linking.openURL(regUrl)}>
-            <Text style={[styles.text, styles.link]}>
-              Register on our website.
-            </Text>
-          </TouchableOpacity> */}
-        </View>
-      </ThemeProvider>
+      <React.Fragment>
+        <AuthFormInput
+          placeholder="Username or Email"
+          label={this.state.username && "Username or Email"}
+          value={this.state.username}
+          onChangeText={username => this.setState({ username })}
+        />
+        <AuthFormInput
+          placeholder="Password"
+          label={this.state.password && "Password"}
+          secureTextEntry
+          value={this.state.password}
+          onChangeText={password => this.setState({ password })}
+        />
+        <Button
+          title="Login"
+          disabled={this.props.isLoading}
+          onPress={() => this.props.onSubmit(this.state)}
+          containerStyle={{
+            padding: 30,
+            width: "100%"
+          }}
+        />
+        <TouchableOpacity onPress={this.props.onLinkClick}>
+          <Text style={{ fontSize: 16, textAlign: "center" }}>
+            Don't have an account? <Text style={styles.link}>Register</Text>.
+          </Text>
+        </TouchableOpacity>
+      </React.Fragment>
     );
   }
 }
@@ -66,35 +61,7 @@ export default connect(state => ({
   isLoading: state.auth.isLoading
 }))(LoginForm);
 
-const theme = {
-  Input: {
-    containerStyle: {
-      padding: 10,
-      width: "100%"
-    }
-  },
-  Button: {
-    containerStyle: {
-      padding: 30,
-      width: "100%"
-    }
-  },
-  Text: {
-    style: {
-      fontSize: 26
-    }
-  }
-};
-
 const styles = {
-  container: {
-    width: "90%",
-    backgroundColor: "white",
-    opacity: 0.6,
-    borderRadius: 5,
-    paddingHorizontal: 10,
-    paddingVertical: 20
-  },
   text: { fontSize: 20 },
   link: {
     color: "blue",

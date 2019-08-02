@@ -1,5 +1,4 @@
 // @flow
-
 import React, { Component } from "react";
 import { Image, Overlay } from "react-native-elements";
 import {
@@ -37,8 +36,22 @@ const Loading = props => (
   </Overlay>
 );
 
-const Form = props => (
+const Errors = props => (
   <React.Fragment>
+    {props.errors.map((e, i) => (
+      <Text style={styles.errorText} key={i}>
+        {e}
+      </Text>
+    ))}
+    {!props.errors.length && (
+      <Text style={styles.errorText}>{props.error}</Text>
+    )}
+  </React.Fragment>
+);
+
+const Form = props => (
+  <View style={styles.formContainer}>
+    <Errors error={props.error} errors={props.errors} />
     {props.loggingIn && (
       <LoginForm
         onSubmit={props.handleLogin}
@@ -53,22 +66,8 @@ const Form = props => (
         onChangeText={props.resetErrors}
       />
     )}
-  </React.Fragment>
-);
-
-const Errors = props => (
-  <View>
-    {props.errors.map((e, i) => (
-      <Text style={styles.errorText} key={i}>
-        {e}
-      </Text>
-    ))}
-    {!props.errors.length && (
-      <Text style={styles.errorText}>{props.error}</Text>
-    )}
   </View>
 );
-
 type State = { loggingIn: boolean, registering: boolean, errors: string[] };
 type Props = Object;
 type AuthParams = { email?: string, username: string, password: string };
@@ -177,8 +176,10 @@ class LoginView extends Component<Props, State> {
               source={require("../../assets/logos/ElectroLogo.png")}
               style={styles.image}
             />
-            <Errors error={this.props.error} errors={this.state.errors} />
+            {/* <Errors error={this.props.error} errors={this.state.errors} /> */}
             <Form
+              error={this.props.error}
+              errors={this.state.errors}
               loggingIn={this.state.loggingIn}
               registering={this.state.registering}
               toggleForm={this.toggleForm.bind(this)}
@@ -206,6 +207,14 @@ const dim = Dimensions.get("window");
 const h = (perc: number) => (dim.height * perc) / 100;
 
 const styles = {
+  formContainer: {
+    width: "90%",
+    backgroundColor: "white",
+    opacity: 0.6,
+    borderRadius: 5,
+    paddingHorizontal: 10,
+    paddingVertical: 20
+  },
   imageBackground: {
     height: "100%"
   },
@@ -236,6 +245,6 @@ const styles = {
   errorText: {
     color: "red",
     fontSize: 16,
-    marginBottom: 10
+    marginBottom: 5
   }
 };
