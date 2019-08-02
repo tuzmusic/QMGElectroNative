@@ -1,5 +1,5 @@
 //  @flow
-import type { Location } from "../redux/reducers/locationReducer";
+import type { Location } from "../redux/LocationTypes";
 import * as React from "react";
 import { Text, TextInput, View, TouchableOpacity } from "react-native";
 import { Input } from "react-native-elements";

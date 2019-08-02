@@ -1,5 +1,5 @@
 // @flow
-import type { Location } from "./locationReducer";
+import type { Location } from "../LocationTypes";
 import * as StationTypes from "../StationTypes";
 import Station from "../../models/Station";
 import AsyncStorage from "@react-native-community/async-storage";

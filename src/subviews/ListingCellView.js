@@ -1,6 +1,6 @@
 // @flow
 import type Station from "../models/Station";
-import type { Location } from "../redux/reducers/locationReducer";
+import type { Location } from "../redux/LocationTypes";
 import React, { Component } from "react";
 import { BLText } from "../components/StyledComponents";
 import { View, TouchableOpacity, Text } from "react-native";

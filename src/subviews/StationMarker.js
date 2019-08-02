@@ -1,5 +1,5 @@
 // @flow
-import type { Location } from "../redux/reducers/locationReducer";
+import type { Location } from "../redux/LocationTypes";
 import type Station from "../models/Station";
 import React, { Component } from "react";
 import { View, Button, Text, Platform, TextInput } from "react-native";

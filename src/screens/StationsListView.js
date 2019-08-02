@@ -1,7 +1,7 @@
 // @flow
 
 import type Station from "../models/Station";
-import type { Location } from "../redux/reducers/locationReducer";
+import type { Location } from "../redux/LocationTypes";
 import React, { Component } from "react";
 import { ScrollView, View, Text, ImageBackground } from "react-native";
 import { Image } from "react-native-elements";

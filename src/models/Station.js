@@ -1,7 +1,7 @@
 // @flow
 
 // import uuid from "react-native-uuid";
-import type { Location } from "../redux/reducers/locationReducer";
+import type { Location } from "../redux/LocationTypes";
 import ApiUrls from "../constants/ApiUrls";
 
 type unitOfDistance = "mi" | "km" | "nm";
