@@ -2,23 +2,9 @@
 import ApiUrls from "../../constants/ApiUrls";
 import axios from "axios";
 import { put, call, takeEvery, all } from "redux-saga/effects";
-import * as AuthTypes from "../reducers/authReducer";
+import * as AuthTypes from "../AuthTypes";
 import type { Saga } from "redux-saga";
 import User from "../../models/User";
-
-export type RegParams = {
-  email: string,
-  username: string,
-  password: string,
-  memberType: "user" | "provider",
-  firstName: string,
-  lastName: string
-};
-export type LoginParams = {
-  email?: string,
-  username?: string,
-  password: string
-};
 
 type RegApiReturn = {
   cookie: string,
@@ -32,7 +18,7 @@ export async function registerWithApi({
   memberType,
   firstName,
   lastName
-}: RegParams): Promise<RegApiReturn> {
+}: AuthTypes.RegParams): Promise<RegApiReturn> {
   // Get the nonce for registration.
   console.log("getting nonce at", ApiUrls.nonce);
 
@@ -63,7 +49,11 @@ export async function registerWithApi({
   return { userObj: res.data, cookie };
 }
 
-export function* registerSaga({ info }: { info: RegParams }): Saga<void> {
+export function* registerSaga({
+  info
+}: {
+  info: AuthTypes.RegParams
+}): Saga<void> {
   try {
     let { cookie, userObj }: RegApiReturn = yield call(registerWithApi, info);
     const user = User.fromApi(userObj);
@@ -74,12 +64,16 @@ export function* registerSaga({ info }: { info: RegParams }): Saga<void> {
   }
 }
 
-export async function loginWithApi(creds: LoginParams): Object {
+export async function loginWithApi(creds: AuthTypes.LoginParams): Object {
   const res = await axios.get(ApiUrls.login, { params: creds });
   return res.data;
 }
 
-export function* loginSaga({ creds }: { creds: LoginParams }): Saga<void> {
+export function* loginSaga({
+  creds
+}: {
+  creds: AuthTypes.LoginParams
+}): Saga<void> {
   try {
     const { error, ...user } = yield call(loginWithApi, creds);
     if (error) {
@@ -135,7 +129,7 @@ export function setUser(user: User): AuthTypes.SET_USER {
   return { type: "SET_USER", user };
 }
 
-export function login(creds: LoginParams): AuthTypes.LOGIN_START {
+export function login(creds: AuthTypes.LoginParams): AuthTypes.LOGIN_START {
   return { type: "LOGIN_START", creds };
 }
 
@@ -143,6 +137,8 @@ export function logout(): AuthTypes.LOGOUT_START {
   return { type: "LOGOUT_START" };
 }
 
-export function register(info: RegParams): AuthTypes.REGISTRATION_START {
+export function register(
+  info: AuthTypes.RegParams
+): AuthTypes.REGISTRATION_START {
   return { type: "REGISTRATION_START", info };
 }

@@ -3,7 +3,7 @@
 import ApiUrls from "../src/constants/ApiUrls";
 import { startMockAdapter } from "../tests/__mocks__/axiosMocks";
 import { registerWithApi } from "../src/redux/actions/authActions";
-import type { RegParams } from "../src/redux/actions/authActions";
+import type { RegParams } from "../src/redux/AuthTypes";
 import { providerSuccess, userSuccess } from "../__mocks__/registrationMocks";
 import axios from "axios";
 import { registerResponse } from "../tests/__mocks__/loginResponse";

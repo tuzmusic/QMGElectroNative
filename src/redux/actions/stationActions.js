@@ -1,9 +1,22 @@
+// @flow
 import AsyncStorage from "@react-native-community/async-storage";
 import Station from "../../models/Station";
 import ApiUrls from "../../constants/ApiUrls";
 import axios from "axios";
+import { put, call, takeEvery, all } from "redux-saga/effects";
+import User from "../../models/User";
 
-function results({ stations, error }) {
+// #region Saga Actions
+/** *
+ * Saga Actions
+ **/
+
+export function getStationOwner(stationId: number) {}
+
+// #region Thunk Actions
+/** Thunk Actions
+ *  **/
+function results({ stations, error }: { stations: Station[], error: string }) {
   return {
     type: "GET_STATIONS_" + (stations ? "SUCCESS" : "FAILURE"),
     stations,
@@ -62,3 +75,4 @@ export function setCurrentStationID(id) {
     dispatch({ type: "SET_CURRENT_STATION", stationID: id });
   };
 }
+// #endregion

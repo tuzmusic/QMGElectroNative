@@ -494,3 +494,16 @@ export const realIndexResponseJuly2019 = [
     }
   }
 ];
+
+export const stationOwnerResponse = {
+  ID: "16",
+  user_login: "tuztest",
+  user_pass: "$P$BaCYfNuqFhXsPew34jNfSI.ZLtE6Z8/",
+  user_nicename: "tuztest",
+  user_email: "tuz.music@gmail.com",
+  user_url: "",
+  user_registered: "2019-07-31 14:22:38",
+  user_activation_key: "",
+  user_status: "0",
+  display_name: "Jonathan Tuzman"
+};
