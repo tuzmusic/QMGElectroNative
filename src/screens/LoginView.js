@@ -3,11 +3,13 @@
 import React, { Component } from "react";
 import { Image, Overlay } from "react-native-elements";
 import {
+  Dimensions,
   View,
   Text,
   KeyboardAvoidingView,
   ImageBackground,
-  ScrollView
+  ScrollView,
+  SafeAreaView
 } from "react-native";
 import { DotIndicator } from "react-native-indicators";
 import { connect } from "react-redux";
@@ -17,6 +19,55 @@ import RegisterForm from "../subviews/RegisterForm";
 import { validate } from "email-validator";
 import AsyncStorage from "@react-native-community/async-storage";
 import User from "../models/User";
+
+const Loading = props => (
+  <Overlay
+    containerStyle={styles.modal}
+    height={200}
+    width={200}
+    isVisible={props.isVisible}
+    style={styles.modal}
+    borderRadius={20}
+    overlayBackgroundColor={"lightblue"}
+  >
+    <View style={styles.modalContainer}>
+      <DotIndicator color={"darkgrey"} />
+      <Text>Logging in...</Text>
+    </View>
+  </Overlay>
+);
+
+const Form = props => (
+  <React.Fragment>
+    {props.loggingIn && (
+      <LoginForm
+        onSubmit={props.handleLogin}
+        onLinkClick={props.toggleForm}
+        onChangeText={props.resetErrors}
+      />
+    )}
+    {props.registering && (
+      <RegisterForm
+        onSubmit={props.handleRegister}
+        onLinkClick={props.toggleForm}
+        onChangeText={props.resetErrors}
+      />
+    )}
+  </React.Fragment>
+);
+
+const Errors = props => (
+  <View>
+    {props.errors.map((e, i) => (
+      <Text style={styles.errorText} key={i}>
+        {e}
+      </Text>
+    ))}
+    {!props.errors.length && (
+      <Text style={styles.errorText}>{props.error}</Text>
+    )}
+  </View>
+);
 
 type State = { loggingIn: boolean, registering: boolean, errors: string[] };
 type Props = Object;
@@ -110,65 +161,35 @@ class LoginView extends Component<Props, State> {
     // user exists on render if a login has succeeded, or if a saved user has been found
     // loginUser saves the user, even if the user was already saved. No biggie.
     if (this.props.user) this.loginUser(this.props);
+
     return (
       <ImageBackground
-        style={{
-          height: "100%",
-          width: "100%"
-          // justifyContent: "flex-start"
-        }}
+        style={styles.imageBackground}
         imageStyle={{ resizeMode: "cover" }}
         source={require("../../assets/images/charging-a-car.png")}
       >
-        <KeyboardAvoidingView
-          style={styles.superContainer}
-          enabled
-          behavior="height"
-        >
-          <ScrollView contentContainerStyle={styles.container}>
-            <Overlay
-              containerStyle={styles.modal}
-              height={200}
-              width={200}
-              isVisible={this.props.isLoading}
-              style={styles.modal}
-              borderRadius={20}
-              overlayBackgroundColor={"lightblue"}
-            >
-              <View style={styles.modalContainer}>
-                <DotIndicator color={"darkgrey"} />
-                <Text>Logging in...</Text>
-              </View>
-            </Overlay>
+        <ScrollView contentContainerStyle={styles.scrollView}>
+          <KeyboardAvoidingView
+            style={styles.keyboardAvoidingView}
+            enabled
+            behavior="height"
+          >
+            <Loading isVisible={this.props.isLoading} />
             <Image
               source={require("../../assets/logos/ElectroLogo.png")}
               style={styles.image}
             />
-            {this.state.errors.map((e, i) => (
-              <Text style={styles.errorText} key={i}>
-                {e}
-              </Text>
-            ))}
-            {!this.state.errors.length && (
-              <Text style={styles.errorText}>{this.props.error}</Text>
-            )}
-
-            {this.state.loggingIn && (
-              <LoginForm
-                onSubmit={this.handleLogin.bind(this)}
-                onLinkClick={this.toggleForm.bind(this)}
-                onChangeText={() => this.setState({ errors: [] })}
-              />
-            )}
-            {this.state.registering && (
-              <RegisterForm
-                onSubmit={this.handleRegister.bind(this)}
-                onLinkClick={this.toggleForm.bind(this)}
-                onChangeText={() => this.setState({ errors: [] })}
-              />
-            )}
-          </ScrollView>
-        </KeyboardAvoidingView>
+            <Errors error={this.props.error} errors={this.state.errors} />
+            <Form
+              loggingIn={this.state.loggingIn}
+              registering={this.state.registering}
+              toggleForm={this.toggleForm.bind(this)}
+              handleLogin={this.handleLogin.bind(this)}
+              handleRegister={this.handleRegister.bind(this)}
+              resetErrors={() => this.setState({ errors: [] })}
+            />
+          </KeyboardAvoidingView>
+        </ScrollView>
       </ImageBackground>
     );
   }
@@ -183,26 +204,28 @@ export default connect(
   { login, register, clearAuthError }
 )(LoginView);
 
+const dim = Dimensions.get("window");
+const h = (perc: number) => (dim.height * perc) / 100;
+
 const styles = {
-  errorText: {
-    color: "red",
-    fontSize: 16,
-    marginBottom: 10
-  },
-  container: {
-    // flex: 1,
+  imageBackground: {
     height: "100%",
-    justifyContent: "flex-start",
-    alignItems: "center",
-    padding: 20
+    width: "100%"
   },
-  // superContainer: {
-  //   flex: 1,
-  //   justifyContent: "center"
-  // },
+  scrollView: {
+    justifyContent: "flex-start",
+    height: "100%",
+    width: "100%"
+  },
+  keyboardAvoidingView: {
+    // flex: 1,
+    alignItems: "center",
+    justifyContent: "center"
+  },
   image: {
-    height: 200,
-    width: 200,
+    height: h(30),
+    width: h(30),
+    maxHeight: 200,
     marginBottom: 30
   },
   modalContainer: {
@@ -215,5 +238,10 @@ const styles = {
     flex: 1,
     justifyContent: "center",
     alignItems: "center"
+  },
+  errorText: {
+    color: "red",
+    fontSize: 16,
+    marginBottom: 10
   }
 };

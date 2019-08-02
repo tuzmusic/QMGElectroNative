@@ -13,13 +13,13 @@ class LoginForm extends Component {
   };
 
   componentDidMount() {
-    if (__DEV__)
-      this.setState({
-        username: "apptestprovider",
-        password: "123123",
-        passwordConfirmation: "123123",
-        email: "apptestprovider@bolt.com"
-      });
+    // if (__DEV__)
+    //   this.setState({
+    //     username: "apptestprovider",
+    //     password: "123123",
+    //     passwordConfirmation: "123123",
+    //     email: "apptestprovider@bolt.com"
+    //   });
   }
 
   render() {
