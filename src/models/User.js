@@ -26,12 +26,25 @@ export default class User {
     this.avatarUrl = obj.avatarUrl;
   }
 
+  static fromStationOwnerResponse(obj: Object): User {
+    const user = new User();
+    user.id = Number(obj.ID);
+    user.username = obj.user_login;
+    user.email = obj.user_email;
+    user.url = obj.user_url;
+    user.registeredStr = obj.user_registered;
+    const [firstName, lastName] = obj.display_name.split(" ");
+    user.firstName = firstName;
+    user.lastName = lastName;
+    return user;
+  }
+
   static fromApi(obj: Object): User {
-    debugger;
+    // debugger;
     const user = new User();
 
     // I've written this to work with login || register APIs.
-    // TO=DO: unify these!!!
+    // TO=DO: unify these APIs!!! Also the stationOwnerResponse API, which I've written my own function for
 
     user.id = obj.id || obj.user_id; // because two different API responses? Don't I have the power to make them consistent?
     user.username = obj.username;

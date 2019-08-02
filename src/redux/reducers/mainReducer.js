@@ -32,7 +32,7 @@ export default function mainReducer(
       return { ...state, error: action.error, isLoading: false };
     // #endregion
     // #region CREATE/UPDATE/DELETE STATIONS
-    case "UPDATE_STATION":
+    case "UPDATE_LOCAL_STATION":
       return {
         ...state,
         stations: { ...state.stations, [action.station.id]: action.station }

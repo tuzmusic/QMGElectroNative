@@ -2,6 +2,7 @@
 
 // import uuid from "react-native-uuid";
 import type { Location } from "../redux/LocationTypes";
+import User from "./User";
 import ApiUrls from "../constants/ApiUrls";
 
 type unitOfDistance = "mi" | "km" | "nm";
@@ -9,8 +10,8 @@ type unitOfDistance = "mi" | "km" | "nm";
 export default class Station {
   // #region TYPE PROPERTY DEFINITIONS
   id: string;
-  originalJSON: { [key: string]: any };
-  userID: string | number;
+  originalJSON: Object;
+  user: User;
   title: string;
   address: string;
   contactEmail: string;
@@ -57,7 +58,7 @@ export default class Station {
     return stations;
   }
 
-  static fromApi(json: Object) {
+  static fromApi(json: Object): Station {
     function p(propName: string, prefix: string = "_"): string {
       const key = `${prefix}${propName}`;
       const valueArray: string[] = json.listing_props[key];
@@ -69,20 +70,14 @@ export default class Station {
     station.id = json.id;
     station.listingURL = json.link;
     if (json.listing_props) {
-      station.title =
-        p("job_title") ||
-        json.title.rendered ||
-        console.warn("no title for station", json.id);
-      station.content =
-        p("job_description") ||
-        json.content.rendered ||
-        console.warn("no description for station", json.id);
+      station.title = p("job_title");
+      station.content = p("job_description");
       station.contactEmail = p("company_email");
       station.contactPhone = p("company_phone");
       station.address = p("job_location");
       if (
-        json.listing_props.geolocation_lat[0] !== "" &&
-        json.listing_props.geolocation_long[0] !== ""
+        json.listing_props.geolocation_lat[0] &&
+        json.listing_props.geolocation_long[0]
       ) {
         station.location = {
           latitude: Number(p("geolocation_lat", "")),

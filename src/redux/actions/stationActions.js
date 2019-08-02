@@ -1,6 +1,7 @@
 // @flow
 import type { Dispatch } from "redux";
-import * as StationTypes from "../StationTypes";
+import type { Saga } from "redux-saga";
+import * as Types from "../StationTypes";
 import Station from "../../models/Station";
 import User from "../../models/User";
 import ApiUrls from "../../constants/ApiUrls";
@@ -12,7 +13,35 @@ import { put, call, takeEvery, all } from "redux-saga/effects";
  * Saga Actions
  **/
 
-export function getStationOwner(stationId: number) {}
+export function getStationOwner(
+  stationId: number
+): Types.GET_STATION_OWNER_START {
+  return { type: "GET_STATION_OWNER_START", stationId };
+}
+
+export async function getStationOwnerApi(stationId: number): Promise<Object> {
+  const url = ApiUrls.stationOwner(stationId);
+  const { data } = await axios.get(url);
+  return data;
+}
+
+export function* getStationOwnerSaga({
+  stationId
+}: {
+  stationId: number
+}): Saga<void> {
+  let action: Types.UPDATE_LOCAL_STATION | Types.GET_STATION_OWNER_FAILURE;
+  try {
+    const userData = yield call(getStationOwner, stationId);
+  } catch (error) {
+    action = { type: "GET_STATION_OWNER_FAILURE", error: error.message };
+    yield put(action);
+  }
+}
+
+export default function* stationSaga(): Saga<void> {
+  yield all([yield takeEvery("GET_STATION_OWNER_START", getStationOwnerSaga)]);
+}
 
 // #region Thunk Actions
 /** Thunk Actions
@@ -23,13 +52,13 @@ function results({
 }: {
   stations: Station[],
   error: string
-}): StationTypes.GET_STATIONS_SUCCESS | StationTypes.GET_STATIONS_FAILURE {
+}): Types.GET_STATIONS_SUCCESS | Types.GET_STATIONS_FAILURE {
   if (stations) return { type: "GET_STATIONS_SUCCESS", stations };
   else return { type: "GET_STATIONS_FAILURE", error };
 }
 
 export function fetchStations() {
-  return async (dispatch: Dispatch<StationTypes.StationAction>) => {
+  return async (dispatch: Dispatch<Types.StationAction>) => {
     dispatch({ type: "GET_STATIONS_START" });
     dispatch(results(await _downloadStations()));
     dispatch({ type: "SAVE_STATIONS" });
@@ -54,14 +83,14 @@ export async function _downloadStations(): Promise<Object> {
 
 /* public */ export function getImageURLForStation(station: Station) {
   return (
-    dispatch: Dispatch<StationTypes.UPDATE_STATION | StationTypes.SAVE_STATIONS>
+    dispatch: Dispatch<Types.UPDATE_LOCAL_STATION | Types.SAVE_STATIONS>
   ) => {
     _getImageURLForStation(dispatch, station);
   };
 }
 
 /* private */ export async function _getImageURLForStation(
-  dispatch: Dispatch<StationTypes.UPDATE_STATION | StationTypes.SAVE_STATIONS>,
+  dispatch: Dispatch<Types.UPDATE_LOCAL_STATION | Types.SAVE_STATIONS>,
   station: Station
 ) {
   if (station.mediaDataURL) {
@@ -69,7 +98,7 @@ export async function _downloadStations(): Promise<Object> {
       const { data } = await axios(station.mediaDataURL);
       const imageURL = data.media_details.sizes.medium.source_url;
       dispatch({
-        type: "UPDATE_STATION",
+        type: "UPDATE_LOCAL_STATION",
         station: Object.assign(station, { imageURL })
       });
       dispatch({ type: "SAVE_STATIONS" });
@@ -80,7 +109,7 @@ export async function _downloadStations(): Promise<Object> {
 }
 
 export function setCurrentStationID(id: number) {
-  return (dispatch: Dispatch<StationTypes.SET_CURRENT_STATION>) => {
+  return (dispatch: Dispatch<Types.SET_CURRENT_STATION>) => {
     dispatch({ type: "SET_CURRENT_STATION", stationID: id });
   };
 }
