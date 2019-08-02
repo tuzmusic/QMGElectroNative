@@ -1,10 +1,11 @@
 // @flow
+import type { Dispatch } from "redux";
 import AsyncStorage from "@react-native-community/async-storage";
 import Station from "../../models/Station";
+import User from "../../models/User";
 import ApiUrls from "../../constants/ApiUrls";
 import axios from "axios";
 import { put, call, takeEvery, all } from "redux-saga/effects";
-import User from "../../models/User";
 
 // #region Saga Actions
 /** *
@@ -25,7 +26,7 @@ function results({ stations, error }: { stations: Station[], error: string }) {
 }
 
 export function fetchStations() {
-  return async dispatch => {
+  return async (dispatch: Dispatch) => {
     dispatch({ type: "GET_STATIONS_START" });
     dispatch(results(await _downloadStations()));
     dispatch({ type: "SAVE_STATIONS" });
@@ -48,13 +49,16 @@ export async function _downloadStations() {
   }
 }
 
-/* public */ export function getImageURLForStation(station) {
-  return dispatch => {
+/* public */ export function getImageURLForStation(station: Station) {
+  return (dispatch: Dispatch) => {
     _getImageURLForStation(dispatch, station);
   };
 }
 
-/* private */ export async function _getImageURLForStation(dispatch, station) {
+/* private */ export async function _getImageURLForStation(
+  dispatch,
+  station: Station
+) {
   if ((url = station.mediaDataURL)) {
     try {
       const { data } = await axios(url);
@@ -70,7 +74,7 @@ export async function _downloadStations() {
   }
 }
 
-export function setCurrentStationID(id) {
+export function setCurrentStationID(id: number) {
   return dispatch => {
     dispatch({ type: "SET_CURRENT_STATION", stationID: id });
   };
