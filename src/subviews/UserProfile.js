@@ -27,6 +27,8 @@ export default class UserProfile extends Component<Props> {
           <InfoText>{user.email}</InfoText>
           <Label>About:</Label>
           <InfoText>{user.description || "Not provided"}</InfoText>
+          <Label>Member type:</Label>
+          <InfoText>{user.memberType || "Not provided"}</InfoText>
         </View>
       </View>
     );
