@@ -11,6 +11,13 @@ const testParams = {
   email: "apptestprovider@bolt.com"
 };
 
+inputs = {
+  username: "Username",
+  email: "Email",
+  password: "Password",
+  retype: "Retype Password"
+};
+
 class RegisterForm extends Component {
   state = {
     username: "",
@@ -20,39 +27,63 @@ class RegisterForm extends Component {
   };
 
   componentDidMount() {
-    // if (__DEV__) this.setState(testParams);
+    if (__DEV__) this.setState(testParams);
   }
+
+  moveToNextInput(fromName) {
+    const index = this.inputs.order.indexOf(fromName);
+    const nextName = this.inputs.order[index + 1];
+    const nextInput = this.inputs[nextName];
+    // debugger;
+    nextInput.focus();
+  }
+
+  inputs = {
+    order: ["Username", "Email", "Password", "Retype Password"]
+  };
 
   render() {
     return (
       <React.Fragment>
         <Input
-          placeholder="Username"
-          label={this.state.username && "Username"}
+          placeholder={inputs.username}
+          ref={i => (this.inputs[inputs.username] = i)}
+          label={this.state.username && inputs.username}
           value={this.state.username}
           onChangeText={username => this.setState({ username })}
+          onSubmitEditing={this.moveToNextInput.bind(this, inputs.username)}
+          returnKeyType={"next"}
         />
         <Input
-          placeholder="Email"
-          label={this.state.email && "Email"}
+          placeholder={inputs.email}
+          ref={i => (this.inputs[inputs.email] = i)}
+          label={this.state.email && inputs.email}
           value={this.state.email}
           onChangeText={email => this.setState({ email })}
+          onSubmitEditing={this.moveToNextInput.bind(this, inputs.email)}
+          returnKeyType={"next"}
         />
         <Input
-          placeholder="Password"
-          label={this.state.password && "Password"}
+          placeholder={inputs.password}
+          ref={i => (this.inputs[inputs.password] = i)}
+          label={this.state.password && inputs.password}
           secureTextEntry
           value={this.state.password}
           onChangeText={password => this.setState({ password })}
+          onSubmitEditing={this.moveToNextInput.bind(this, inputs.password)}
+          returnKeyType={"next"}
         />
         <Input
-          placeholder="Retype password"
-          label={this.state.passwordConfirmation && "Retype password"}
+          placeholder={inputs.retype}
+          ref={i => (this.inputs[inputs.retype] = i)}
+          label={this.state.passwordConfirmation && inputs.retype}
           secureTextEntry
           value={this.state.passwordConfirmation}
           onChangeText={passwordConfirmation =>
             this.setState({ passwordConfirmation })
           }
+          returnKeyType={"done"}
+          onSubmitEditing={() => this.props.onSubmit(this.state)}
         />
         <Button
           title="Register"

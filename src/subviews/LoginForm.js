@@ -3,15 +3,16 @@ import { Input, Button, ThemeProvider } from "react-native-elements";
 import { Text, TouchableOpacity, Linking, View } from "react-native";
 import { connect } from "react-redux";
 
-export const AuthFormInput = props => (
+export const AuthFormInput = React.forwardRef((props, ref) => (
   <Input
     {...props}
+    ref={ref}
     placeholderTextColor="darkgrey"
     autoCorrect={false}
     autoCapitalize={"none"}
     labelStyle={{ marginBottom: -5, marginTop: 10, borderWidth: 0 }}
   />
-);
+));
 
 class LoginForm extends Component {
   state = {
@@ -19,7 +20,7 @@ class LoginForm extends Component {
     password: ""
   };
   componentDidMount = () => {
-    // if (__DEV__) this.setState({ username: "testuser1", password: "123123" });
+    if (__DEV__) this.setState({ username: "testuser1", password: "123123" });
   };
 
   render() {
@@ -30,13 +31,18 @@ class LoginForm extends Component {
           label={this.state.username && "Username or Email"}
           value={this.state.username}
           onChangeText={username => this.setState({ username })}
+          onSubmitEditing={() => this.passwordField.focus()}
+          returnKeyType="next"
         />
         <AuthFormInput
+          ref={i => (this.passwordField = i)}
           placeholder="Password"
           label={this.state.password && "Password"}
           secureTextEntry
           value={this.state.password}
           onChangeText={password => this.setState({ password })}
+          onSubmitEditing={() => this.props.onSubmit(this.state)}
+          returnKeyType="done"
         />
         <Button
           title="Login"
