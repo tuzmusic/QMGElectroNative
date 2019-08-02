@@ -3,9 +3,11 @@ import { GoogleMapsApiKey, ApiSecretKey } from "../../secrets";
 
 const baseUrl = "https://joinelectro.com";
 const wpApiPath = "/wp-json/wp/v2";
+const wpApiBase = baseUrl + wpApiPath;
 const jsonApiSlug = "/x1H9JH7tZAb1DoJ";
 const customApiSlug = "/wp-json/api/v1";
-
+const customApiBase = baseUrl + customApiSlug;
+const secretKeyStarter = `/?secret_key=${ApiSecretKey}`;
 const ApiUrls = {};
 
 /* GOOGLE MAPS API CALLS */
@@ -14,13 +16,18 @@ ApiUrls.mapsSearch = (address: string) =>
 ApiUrls.mapsDetails = (placeId: string) =>
   `https://maps.googleapis.com/maps/api/place/details/json?key=${GoogleMapsApiKey}&placeid=${placeId}&fields=geometry`;
 
-/* ELECTRO API */
-ApiUrls.stationsIndex = baseUrl + wpApiPath + "/job-listings/";
+/**
+ * ELECTRO API
+ * **/
 
-ApiUrls.usersIndex =
-  baseUrl + customApiSlug + `/members/?secret_key=${ApiSecretKey}`;
-ApiUrls.registerUserUrl =
-  baseUrl + customApiSlug + `/register_member/?secret_key=${ApiSecretKey}`;
+/* STATIONS */
+ApiUrls.stationsIndex = wpApiBase + "/job-listings/";
+ApiUrls.stationOwner = (id: number) =>
+  customApiBase + "/listing_owner" + secretKeyStarter + "&post_id=" + id;
+
+/* USERS */
+ApiUrls.usersIndex = customApiBase + `/members` + secretKeyStarter;
+ApiUrls.registerUserUrl = customApiBase + `/register_member` + secretKeyStarter;
 ApiUrls.userInfo = (id: number) => ApiUrls.usersIndex + `&id=${id}`;
 
 // Subscribe WP User, making them a PMS Member
@@ -38,32 +45,5 @@ ApiUrls.nonce =
   baseUrl + jsonApiSlug + "/get_nonce/?controller=user&method=register";
 ApiUrls.register = baseUrl + jsonApiSlug + "/user/register";
 ApiUrls.logout = baseUrl + "/wp-json/auth/logout";
-
-function registerRequest({
-  username,
-  email,
-  password,
-  nonce
-}: {
-  username: string,
-  email: string,
-  password: string,
-  nonce: string
-}): string {
-  const params = Object.entries({
-    nonce,
-    username,
-    email,
-    display_name: username,
-    user_pass: password
-  })
-    .map(([k, v]) => {
-      return [k, v].join("=");
-    })
-    .join("&");
-  return ApiUrls.register + "?" + params;
-}
-
-ApiUrls.registerRequest = registerRequest;
 
 export default ApiUrls;

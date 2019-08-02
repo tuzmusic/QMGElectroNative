@@ -1,7 +1,6 @@
 // @flow
 import type { Dispatch } from "redux";
 import * as StationTypes from "../StationTypes";
-import AsyncStorage from "@react-native-community/async-storage";
 import Station from "../../models/Station";
 import User from "../../models/User";
 import ApiUrls from "../../constants/ApiUrls";
