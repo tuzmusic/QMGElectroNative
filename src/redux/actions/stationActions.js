@@ -14,9 +14,9 @@ import { put, call, takeEvery, all } from "redux-saga/effects";
  **/
 
 export function getStationOwner(
-  stationId: number
+  station: Station
 ): Types.GET_STATION_OWNER_START {
-  return { type: "GET_STATION_OWNER_START", stationId };
+  return { type: "GET_STATION_OWNER_START", station };
 }
 
 export async function getStationOwnerApi(stationId: number): Promise<Object> {
@@ -26,13 +26,14 @@ export async function getStationOwnerApi(stationId: number): Promise<Object> {
 }
 
 export function* getStationOwnerSaga({
-  stationId
-}: {
-  stationId: number
-}): Saga<void> {
+  station
+}: Types.GET_STATION_OWNER_START): Saga<void> {
   let action: Types.UPDATE_LOCAL_STATION | Types.GET_STATION_OWNER_FAILURE;
   try {
-    const userData = yield call(getStationOwner, stationId);
+    const userData = yield call(getStationOwnerApi, station.id);
+    const user = User.fromStationOwnerResponse(userData);
+    const updatedStation: Station = Object.assign(station, { user });
+    action = { type: "UPDATE_LOCAL_STATION", station: updatedStation };
   } catch (error) {
     action = { type: "GET_STATION_OWNER_FAILURE", error: error.message };
     yield put(action);

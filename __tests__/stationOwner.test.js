@@ -5,7 +5,10 @@ import User from "../src/models/User";
 import recordSaga from "../recordSaga";
 import { stationOwnerResponse } from "../__mocks__/stationMocks";
 import { startMockAdapter } from "../tests/__mocks__/axiosMocks";
-import { getStationOwnerApi } from "../src/redux/actions/stationActions";
+import {
+  getStationOwnerApi,
+  getStationOwnerSaga
+} from "../src/redux/actions/stationActions";
 import axios from "axios";
 import ApiUrls from "../src/constants/ApiUrls";
 const url =
@@ -41,18 +44,21 @@ describe("getStationOwnerApi", () => {
   });
 });
 
-xdescribe("getStationOwnerSaga", () => {
+describe("getStationOwnerSaga", () => {
+  const station = new Station();
+  const stationWithOwner: Station = Object.assign(station, mockUser());
   const startAction: Types.GET_STATION_OWNER_START = {
     type: "GET_STATION_OWNER_START",
-    stationId: id
+    station
   };
-
-  // WHOA. A station with a user is too much to mock right now. I'm being a lazy programmer.
-
   const successAction: Types.UPDATE_LOCAL_STATION = {
     type: "UPDATE_LOCAL_STATION",
-    station: new Station()
+    station: stationWithOwner
   };
+  it("works", async () => {
+    const dispatched = await recordSaga(getStationOwnerSaga, startAction);
+    expect(dispatched).toContainEqual(successAction);
+  });
 });
 
 describe("User from stationOwnerResponse", () => {

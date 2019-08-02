@@ -32,7 +32,7 @@ export type GET_STATIONS_FAILURE = {
 };
 export type GET_STATION_OWNER_START = {
   type: "GET_STATION_OWNER_START",
-  stationId: number
+  station: Station
 };
 // export type GET_STATION_OWNER_SUCCESS = { type: "GET_STATION_OWNER_SUCCESS" };
 export type GET_STATION_OWNER_FAILURE = {

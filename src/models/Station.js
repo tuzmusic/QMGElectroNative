@@ -9,7 +9,7 @@ type unitOfDistance = "mi" | "km" | "nm";
 
 export default class Station {
   // #region TYPE PROPERTY DEFINITIONS
-  id: string;
+  id: number;
   originalJSON: Object;
   user: User;
   title: string;
