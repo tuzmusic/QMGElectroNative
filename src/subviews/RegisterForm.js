@@ -20,7 +20,7 @@ class RegisterForm extends Component {
   };
 
   componentDidMount() {
-    if (__DEV__) this.setState(testParams);
+    // if (__DEV__) this.setState(testParams);
   }
 
   render() {

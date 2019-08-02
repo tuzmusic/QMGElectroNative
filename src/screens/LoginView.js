@@ -37,16 +37,18 @@ const Loading = props => (
 );
 
 const Errors = props => (
-  <React.Fragment>
+  <View
+    style={{
+      marginBottom: props.errors.length ? 0 : -10,
+      marginHorizontal: 10
+    }}
+  >
     {props.errors.map((e, i) => (
       <Text style={styles.errorText} key={i}>
         {e}
       </Text>
     ))}
-    {!props.errors.length && (
-      <Text style={styles.errorText}>{props.error}</Text>
-    )}
-  </React.Fragment>
+  </View>
 );
 
 const Form = props => (
@@ -68,9 +70,11 @@ const Form = props => (
     )}
   </View>
 );
+
 type State = { loggingIn: boolean, registering: boolean, errors: string[] };
 type Props = Object;
 type AuthParams = { email?: string, username: string, password: string };
+
 class LoginView extends Component<Props, State> {
   state = {
     loggingIn: true,
@@ -86,7 +90,7 @@ class LoginView extends Component<Props, State> {
       );
     }
     // autoLogin();
-    if (__DEV__) this.toggleForm();
+    // if (__DEV__) this.toggleForm();
   }
 
   async handleLogin({ username, password }) {
@@ -176,7 +180,6 @@ class LoginView extends Component<Props, State> {
               source={require("../../assets/logos/ElectroLogo.png")}
               style={styles.image}
             />
-            {/* <Errors error={this.props.error} errors={this.state.errors} /> */}
             <Form
               error={this.props.error}
               errors={this.state.errors}
