@@ -90,7 +90,7 @@ class LoginView extends Component<Props, State> {
       );
     }
     // autoLogin();
-    // if (__DEV__) this.toggleForm();
+    if (__DEV__) this.toggleForm();
   }
 
   async handleLogin({ username, password }) {
@@ -110,7 +110,15 @@ class LoginView extends Component<Props, State> {
     await this.props.login(creds);
   }
 
-  async handleRegister({ username, email, password, passwordConfirmation }) {
+  async handleRegister({
+    username,
+    email,
+    firstName,
+    lastName,
+    password,
+    passwordConfirmation,
+    memberType
+  }) {
     let errors = [];
     if (!username) errors.push("Username required");
     if (!email) errors.push("Email required");
@@ -128,7 +136,9 @@ class LoginView extends Component<Props, State> {
       username,
       email,
       password,
-      memberType: "provider"
+      firstName,
+      lastName,
+      memberType
     });
   }
 
@@ -156,10 +166,7 @@ class LoginView extends Component<Props, State> {
   }
 
   render() {
-    // user exists on render if a login has succeeded, or if a saved user has been found
-    // loginUser saves the user, even if the user was already saved. No biggie.
     if (this.props.user) this.loginUser(this.props);
-    console.log("loading:", this.props.isLoading);
 
     return (
       <ImageBackground

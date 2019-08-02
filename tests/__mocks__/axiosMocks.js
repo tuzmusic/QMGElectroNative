@@ -1,12 +1,7 @@
 import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
 import ApiUrls from "../../src/constants/ApiUrls";
-import {
-  loginResponse,
-  registerResponse,
-  registration,
-  mainParams
-} from "./loginResponse";
+import { loginResponse, registerResponse, registration } from "./loginResponse";
 import {
   mockIndexResponse,
   realIndexResponseJuly2019
@@ -14,7 +9,7 @@ import {
 import { userResponse } from "../../__mocks__/userMocks";
 import * as RegMocks from "../../__mocks__/registrationMocks";
 
-const DELAY = 1000;
+const DELAY = 0;
 
 export function startMockAdapter({ auth = false, stations = false }) {
   const urls = ApiUrls;
@@ -60,8 +55,6 @@ export function setupLoginMockAdapter(mock) {
 }
 
 export function setupRegMockAdapter(mock) {
-  console.log("Registration mock hit");
-
   mock
     // register wp user
     .onGet(ApiUrls.nonce)
@@ -72,7 +65,9 @@ export function setupRegMockAdapter(mock) {
         username: "testuser1",
         email: "api1@bolt.com",
         display_name: "testuser1",
-        user_pass: "123123"
+        user_pass: "123123",
+        first_name: "Nicola",
+        last_name: "Tesla"
       }
     })
     .reply(200, registerResponse.success)

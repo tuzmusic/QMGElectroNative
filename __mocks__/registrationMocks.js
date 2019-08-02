@@ -1,9 +1,14 @@
 // As of 8/1/19=, success responses aren't formatted as { code, message, data }
 // My API errors are though; but I'm not mocking them here.
-export const providerSuccess = {
+const userInfo = {
   user_id: "1",
   username: "testuser",
   email: "testuser@bolt.com",
+  first_name: "Nicola",
+  last_name: "Tesla"
+};
+export const providerSuccess = {
+  ...userInfo,
   subscriptions: [
     {
       id: "17",
@@ -17,9 +22,7 @@ export const providerSuccess = {
 };
 
 export const userSuccess = {
-  user_id: "1",
-  username: "testuser",
-  email: "testuser@bolt.com",
+  ...userInfo,
   subscriptions: [
     {
       id: "18",

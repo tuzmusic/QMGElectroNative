@@ -28,7 +28,9 @@ fdescribe("registerWithApi", () => {
   const creds = {
     username: "testuser1",
     email: "api1@bolt.com",
-    password: "123123"
+    password: "123123",
+    firstName: "Nicola",
+    lastName: "Tesla"
   };
 
   startMockAdapter({ auth: true });

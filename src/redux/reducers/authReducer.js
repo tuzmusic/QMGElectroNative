@@ -17,7 +17,7 @@ const authReducer = (
   state: State = initialState,
   action: AuthAction
 ): State => {
-  if (!action.type.startsWith("@@")) console.log(action.type);
+  // if (!action.type.startsWith("@@")) console.log(action.type);
 
   switch (action.type) {
     case "LOGIN_START":

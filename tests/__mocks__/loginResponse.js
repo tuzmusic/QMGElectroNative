@@ -80,7 +80,9 @@ export const mainParams = {
   username: "testuser1",
   email: "api1@bolt.com",
   display_name: "testuser1",
-  user_pass: "123123"
+  user_pass: "123123",
+  first_name: "Nicola",
+  last_name: "Tesla"
 };
 export const mainCreds = {
   username: "testuser1",

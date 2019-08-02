@@ -27,17 +27,33 @@ export default class User {
   }
 
   static fromApi(obj: Object): User {
+    debugger;
     const user = new User();
+
+    // I've written this to work with login || register APIs.
+    // TO=DO: unify these!!!
+
     user.id = obj.id || obj.user_id; // because two different API responses? Don't I have the power to make them consistent?
     user.username = obj.username;
     user.email = obj.email;
-    user.url = obj.url;
-    user.registeredStr = obj.registered;
-    user.firstName = obj.firstname;
-    user.lastName = obj.lastname;
+    user.url = obj.url; // login API only
+    user.registeredStr = obj.registered; // login API only
+    user.firstName = obj.firstname || obj.first_name;
+    user.lastName = obj.lastname || obj.last_name;
     user.description = obj.description;
-    user.memberType = obj.capabilities?.employer ? "provider" : "user";
-    user.avatarUrl = obj.avatar;
+
+    if (obj.capabilities)
+      // login API
+      user.memberType = obj.capabilities?.employer ? "provider" : "user";
+
+    if (obj.subscriptions?.length)
+      // register API
+      user.memberType =
+        obj.subscriptions[0].subscription_plan_id === "986"
+          ? "provider"
+          : "user";
+
+    user.avatarUrl = obj.avatar; // login API only
     return user;
   }
 
