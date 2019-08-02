@@ -7,8 +7,8 @@ import type { Saga } from "redux-saga";
 import User from "../../models/User";
 
 export type RegParams = {
-  email?: string,
-  username?: string,
+  email: string,
+  username: string,
   password: string,
   memberType: "user" | "provider"
 };

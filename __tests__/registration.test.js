@@ -3,7 +3,7 @@
 import ApiUrls from "../src/constants/ApiUrls";
 import { startMockAdapter } from "../tests/__mocks__/axiosMocks";
 import { registerWithApi } from "../src/redux/actions/authActions";
-import type { RegParams } from "../src/redux/actions";
+import type { RegParams } from "../src/redux/actions/authActions";
 import { providerSuccess, userSuccess } from "../__mocks__/registrationMocks";
 import axios from "axios";
 import { registerResponse } from "../tests/__mocks__/loginResponse";
@@ -24,7 +24,7 @@ describe("register API mocks", () => {
   });
 });
 
-describe("registerWithApi", () => {
+fdescribe("registerWithApi", () => {
   const creds = {
     username: "testuser1",
     email: "api1@bolt.com",

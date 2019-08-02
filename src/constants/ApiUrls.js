@@ -48,8 +48,7 @@ function registerRequest({
   username: string,
   email: string,
   password: string,
-  nonce: string,
-  display_name: string
+  nonce: string
 }): string {
   const params = Object.entries({
     nonce,

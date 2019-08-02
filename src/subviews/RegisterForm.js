@@ -5,10 +5,10 @@ import { connect } from "react-redux";
 import { AuthFormInput as Input } from "./LoginForm";
 
 const testParams = {
-  username: "apptestprovider",
+  username: "testuser1",
+  email: "api1@bolt.com",
   password: "123123",
-  passwordConfirmation: "123123",
-  email: "apptestprovider@bolt.com"
+  passwordConfirmation: "123123"
 };
 
 inputs = {

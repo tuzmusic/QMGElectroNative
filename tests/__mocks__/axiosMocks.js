@@ -24,7 +24,7 @@ export function startMockAdapter({ auth = false, stations = false }) {
     setupRegMockAdapter(mock);
   }
   if (stations) setupStationsMockAdapter(mock);
-  mock.onAny().passThrough();
+  // mock.onAny().passThrough();
 }
 
 export function setupStationsMockAdapter(mock) {
@@ -60,13 +60,19 @@ export function setupLoginMockAdapter(mock) {
 }
 
 export function setupRegMockAdapter(mock) {
+  console.log("Registration mock hit");
+
   mock
     // register wp user
     .onGet(ApiUrls.nonce)
     .reply(200, registerResponse.nonce)
     .onGet(ApiUrls.register, {
       params: {
-        ...mainParams
+        nonce: "29a63be176",
+        username: "testuser1",
+        email: "api1@bolt.com",
+        display_name: "testuser1",
+        user_pass: "123123"
       }
     })
     .reply(200, registerResponse.success)
