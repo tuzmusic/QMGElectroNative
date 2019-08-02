@@ -5,8 +5,16 @@ export type StationReducerState = {
   +stations: { [string]: Station }, // TO-DO: Define Station type
   +currentStationID: ?number | ?string,
   +isLoading: boolean,
-  +error: ?string,
+  +error: ?string
 };
+
+export type StationAction =
+  | GET_STATIONS_START
+  | GET_STATIONS_SUCCESS
+  | GET_STATIONS_FAILURE
+  | SET_CURRENT_STATION
+  | UPDATE_STATION
+  | SAVE_STATIONS;
 
 export type GET_STATIONS_START = { type: "GET_STATIONS_START" };
 export type GET_STATIONS_SUCCESS = {
@@ -23,11 +31,3 @@ export type SET_CURRENT_STATION = {
 };
 export type SAVE_STATIONS = { type: "SAVE_STATIONS" };
 export type UPDATE_STATION = { type: "UPDATE_STATION", station: Station };
-
-export type StationAction =
-  | GET_STATIONS_START
-  | GET_STATIONS_SUCCESS
-  | GET_STATIONS_FAILURE
-  | SET_CURRENT_STATION
-  | SAVE_STATIONS
-  | CRUD_ACTIONS_TBD;
