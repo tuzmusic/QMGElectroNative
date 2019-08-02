@@ -4,7 +4,7 @@ import * as StationTypes from "../StationTypes";
 import Station from "../../models/Station";
 import AsyncStorage from "@react-native-community/async-storage";
 
-const initialState: StationTypes.StationReducerState = {
+const initialState: StationTypes.StationState = {
   stations: {},
   currentStationID: null,
   isLoading: false,
@@ -12,9 +12,9 @@ const initialState: StationTypes.StationReducerState = {
 };
 
 export default function mainReducer(
-  state: StationTypes.StationReducerState = initialState,
+  state: StationTypes.StationState = initialState,
   action: StationTypes.StationAction
-): StationTypes.StationReducerState {
+): StationTypes.StationState {
   // if (action.type.includes("STATION")) console.log(action.type);
 
   switch (action.type) {

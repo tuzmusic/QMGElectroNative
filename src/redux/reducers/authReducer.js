@@ -1,17 +1,17 @@
 // @flow
 import User from "../../models/User";
-import type { AuthReducerState, AuthAction } from "../AuthTypes";
+import type { AuthState, AuthAction } from "../AuthTypes";
 
-export const initialState: AuthReducerState = {
+export const initialState: AuthState = {
   user: null,
   isLoading: false,
   error: null
 };
 
 const authReducer = (
-  state: AuthReducerState = initialState,
+  state: AuthState = initialState,
   action: AuthAction
-): AuthReducerState => {
+): AuthState => {
   // if (!action.type.startsWith("@@")) console.log(action.type);
 
   switch (action.type) {

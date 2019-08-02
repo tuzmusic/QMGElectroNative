@@ -1,7 +1,7 @@
 // @flow
 import Station from "../models/Station";
 
-export type StationReducerState = {
+export type StationState = {
   +stations: { [string]: Station }, // TO-DO: Define Station type
   +currentStationID: ?number | ?string,
   +isLoading: boolean,

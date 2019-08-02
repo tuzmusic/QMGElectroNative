@@ -1,7 +1,7 @@
 // @flow
 import User from "../models/User";
 
-export type AuthReducerState = {
+export type AuthState = {
   user: ?User,
   isLoading: boolean,
   error: ?Error

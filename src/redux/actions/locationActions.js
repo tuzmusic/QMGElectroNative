@@ -1,33 +1,38 @@
 // @flow
 import Geolocation from "@react-native-community/geolocation";
-import type {
-  Location as LocationType,
-  LocationAction
-} from "../reducers/locationReducer";
+import * as LocationTypes from "../LocationTypes";
+
 import type { Saga } from "redux-saga";
 import { call, put, select, takeEvery, all } from "redux-saga/effects";
 
-export function setCurrentRegion(region: LocationType): LocationAction {
+export function setCurrentRegion(
+  region: LocationTypes.Location
+): LocationTypes.SET_CURRENT_REGION {
   return {
     type: "SET_CURRENT_REGION",
     region: { ...region, ...calculateRegion(region) }
   };
 }
 
-export function setSearchRadius(radius: number): LocationAction {
+export function setSearchRadius(
+  radius: number
+): LocationTypes.SET_SEARCH_RADIUS {
   return { type: "SET_SEARCH_RADIUS", radius };
 }
 
-export function getLocation(): LocationAction {
+export function getLocation(): LocationTypes.USER_LOCATION_START {
   return { type: "USER_LOCATION_START" };
 }
 
 export function* getLocationSaga(): Saga<void> {
+  let action: LocationTypes.UserLocationResultAction;
   try {
     const region = yield call(getUserLocation);
-    yield put({ type: "USER_LOCATION_SUCCESS", region });
+    action = { type: "USER_LOCATION_SUCCESS", region };
+    yield put(action);
   } catch (error) {
-    yield put({ type: "USER_LOCATION_FAILURE", error: error.message });
+    action = { type: "USER_LOCATION_FAILURE", error: error.message };
+    yield put(action);
   }
 }
 
@@ -37,7 +42,7 @@ function getCurrentPositionAsync(): Promise<Object> {
   });
 }
 
-async function getUserLocation(): Promise<LocationType | void> {
+async function getUserLocation(): Promise<LocationTypes.Location> {
   let location = await getCurrentPositionAsync();
   let { latitude, longitude } = location.coords;
   let region = { latitude, longitude, accuracy: 0.05 };
@@ -48,7 +53,7 @@ function calculateRegion({
   latitude,
   longitude,
   accuracy = 0.05
-}): LocationType {
+}): LocationTypes.Location {
   const oneDegreeOfLongitudeInMeters = 111.32;
   const circumference = 40075 / 360;
   const latitudeDelta = accuracy / oneDegreeOfLongitudeInMeters;
