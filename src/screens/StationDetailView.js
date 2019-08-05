@@ -6,7 +6,8 @@ import {
   Linking,
   TouchableOpacity,
   Platform,
-  Dimensions
+  Dimensions,
+  Text
 } from "react-native";
 import { Image, Button, Icon } from "react-native-elements";
 import { connect } from "react-redux";
@@ -14,98 +15,36 @@ import { MaterialIndicator } from "react-native-indicators";
 import OpenMap from "../components/OpenMap/OpenMap";
 
 const CellTextRow = props => (
-  <BLText style={[{ padding: 2, textAlign: "left" }, props.style]}>
-    {props.children}
-  </BLText>
+  <View style={props.containerStyle}>
+    <BLText style={[{ padding: 2, textAlign: "left" }, props.style]}>
+      {props.children}
+    </BLText>
+  </View>
 );
 
-const Spinner = <MaterialIndicator color={"blue"} />;
-
-function openURL(url) {
-  Linking.openURL(url).catch(error => {
-    console.warn("An error occurred", error);
-  });
-}
-
-const StationWebsite = ({ station }) => {
-  if (station.website) {
-    return (
-      <TouchableOpacity onPress={() => Linking.openURL(station.website)}>
-        <CellTextRow style={[text.address, text.link]}>
-          {station.website}
-        </CellTextRow>
-      </TouchableOpacity>
-    );
-  }
-  return null;
-};
-
-const StationImage = ({ station }) => {
-  if (station.featuredImage?.url) {
-    return (
-      <Image
-        style={styles.image}
-        containerStyle={styles.imageContainer}
-        source={{ uri: station.featuredImage.url }}
-        PlaceholderContent={Spinner}
-      />
-    );
-  } else {
-    return (
-      <View style={[styles.centered, styles.image]}>
-        <BLText>No Image Provided</BLText>
-      </View>
-    );
-  }
-};
-
-const ContactIcon = props => {
-  return (
-    <Icon
-      reverse
-      size={20}
-      color="lightgrey"
-      reverseColor="black"
-      activeOpacity={0.5}
-      name={props.icon.name}
-      type={props.icon.type}
-      onPress={props.onPress}
-      containerStyle={styles.iconContainer}
+const StationImage = ({ station }) =>
+  station.featuredImage?.url ? (
+    <Image
+      style={styles.image}
+      containerStyle={styles.imageContainer}
+      source={{ uri: station.featuredImage.url }}
+      PlaceholderContent={<MaterialIndicator color={"blue"} />}
     />
-  );
-};
-
-const ContactButtons = ({ station }) => {
-  return (
-    <View style={[styles.iconCell]}>
-      {station.contactEmail ? (
-        <ContactIcon
-          icon={{ name: "email-outline", type: "material-community" }}
-          onPress={() => openURL(`mailto:${station.contactEmail}`)}
-        />
-      ) : null}
-      {station.contactPhone ? (
-        <ContactIcon
-          icon={{ name: "phone", type: "feather" }}
-          onPress={() => openURL(`tel:${station.contactPhone}`)}
-        />
-      ) : null}
+  ) : (
+    <View style={[styles.centered, styles.image]}>
+      <BLText>No Image Provided</BLText>
     </View>
   );
-};
 
 class StationDetailView extends Component {
-  state = {
-    showMapOpener: false
-    // showMapOpener: true
-  };
+  state = { showMapOpener: false };
 
   static navigationOptions = ({ navigation }) => ({
     title: navigation.getParam("title")
   });
 
   handleAddressPress = () => this.setState({ showMapOpener: true });
-
+  dismissMapOpener = () => this.setState({ showMapOpener: false });
   render() {
     const { station } = this.props;
     return (
@@ -113,9 +52,10 @@ class StationDetailView extends Component {
         {this.state.showMapOpener && (
           <OpenMap
             station={station}
-            onBackdropPress={() => this.setState({ showMapOpener: false })}
+            onBackdropPress={this.dismissMapOpener.bind(this)}
           />
         )}
+
         <StationImage station={station} />
 
         <View style={styles.textContainer}>
@@ -127,24 +67,16 @@ class StationDetailView extends Component {
               {station.address}
             </CellTextRow>
           </TouchableOpacity>
-          {/* Website */}
-          <StationWebsite station={station} />
-          {/* 
-            <CellTextRow style={[text.address]}>
-            {station.contactEmail}
-          </CellTextRow>
-          <CellTextRow style={[text.address]}>
-            {station.contactPhone}
-          </CellTextRow> 
-          <ContactButtons station={station} />
-        */}
           {/* Price */}
-          <CellTextRow style={[text.price]}>
+          <CellTextRow
+            style={text.price}
+            containerStyle={styles.priceContainer}
+          >
             {/* Adds dollar sign to a bare number but leaves prices with dollar signs alone */}
             {station.priceString("Free charging!")}
           </CellTextRow>
           {/* Description */}
-          <CellTextRow style={[text.description, { paddingTop: 20 }]}>
+          <CellTextRow style={[text.description]}>
             {station.description}
           </CellTextRow>
         </View>
@@ -182,43 +114,26 @@ const text = {
   price: {
     fontSize: baseSize + 4,
     textAlign: "center",
-    width: "100%",
-    paddingVertical: 20
+    width: "100%"
   }
 };
 const full = "100%";
 const { height, width } = Dimensions.get("window");
 const styles = {
-  iconCell: {
-    flex: 1,
-    flexDirection: "row",
+  priceContainer: {
+    paddingVertical: 20,
     justifyContent: "center",
-    padding: 10,
-    width: "100%"
-  },
-  iconContainer: {
-    marginHorizontal: 25,
-    marginVertical: 5
-  },
-  rowContainer: {
-    flex: 1,
-    flexDirection: "row",
-    alignItems: "center"
+    alignItems: "center",
+    width: full
   },
   textContainer: { alignItems: "flex-start", padding: 15 },
   imageContainer: {
-    // backgroundColor: "lightgrey"
     height: height * 0.3
   },
   image: {
     height: full,
     width: full,
     resizeMode: "cover"
-    // width: 100,
-  },
-  bordered: {
-    borderColor: "black",
-    borderWidth: 1
   },
   centered: {
     justifyContent: "center",
