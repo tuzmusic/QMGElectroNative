@@ -16,13 +16,16 @@ import {
 
 type Props = {
   onSubmit: function,
-  onCancel: function
+  onCancel: function,
+  label: string, 
+  placeholder: string,
+  buttonText: string
 };
 type State = { content: string };
 
 export default class ContactForm extends Component<Props, State> {
   state: State = {
-    content: "Hi I'd like to charge my car."
+    content: ""
   };
   textInput: ?Component<Object>;
   static defaultProps = {
@@ -33,10 +36,10 @@ export default class ContactForm extends Component<Props, State> {
       <View style={styles.container}>
         <Input
           ref={ref => (this.textInput = ref)}
-          label={"Contact Owner"}
+          label={this.props.label}
           inputStyle={styles.input}
           inputContainerStyle={styles.inputContainer}
-          placeholder={"Your message"}
+          placeholder={this.props.placeholder}
           value={this.state.content}
           onChangeText={content => this.setState({ content })}
           multiline={true}
@@ -45,7 +48,7 @@ export default class ContactForm extends Component<Props, State> {
           labelStyle={styles.fieldLabel}
         />
         <Button
-          title="Submit"
+          title={this.props.buttonText}
           buttonStyle={styles.button}
           onPress={() => this.props.onSubmit(this.state.content)}
         />
