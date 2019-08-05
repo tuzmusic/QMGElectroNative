@@ -90,7 +90,7 @@ class LoginView extends Component<Props, State> {
       );
     }
     // autoLogin();
-    if (__DEV__) this.toggleForm();
+    // if (__DEV__) this.toggleForm();
   }
 
   async handleLogin({ username, password }) {

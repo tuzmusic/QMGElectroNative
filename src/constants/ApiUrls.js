@@ -2,12 +2,18 @@
 import { GoogleMapsApiKey, ApiSecretKey } from "../../secrets";
 
 const baseUrl = "https://joinelectro.com";
+// const baseUrl = "https://electro2.local";
+// const baseUrl = "http://d8fe2398.ngrok.io/";
+const jsonApiSlug = "/x1H9JH7tZAb1DoJ";
+
 const wpApiPath = "/wp-json/wp/v2";
 const wpApiBase = baseUrl + wpApiPath;
-const jsonApiSlug = "/x1H9JH7tZAb1DoJ";
-const customApiSlug = "/wp-json/api/v1";
+
+const customApiSlug = "/wp-json/api/v2";
 const customApiBase = baseUrl + customApiSlug;
+
 const secretKeyStarter = `/?secret_key=${ApiSecretKey}`;
+
 const ApiUrls = {};
 
 /* GOOGLE MAPS API CALLS */
@@ -21,7 +27,9 @@ ApiUrls.mapsDetails = (placeId: string) =>
  * **/
 
 /* STATIONS */
-ApiUrls.stationsIndex = wpApiBase + "/job-listings/";
+// ApiUrls.stationsIndex = wpApiBase + "/job-listings/";
+
+ApiUrls.stationsIndex = customApiBase + "/stations";
 ApiUrls.stationOwnerBase = customApiBase + "/listing_owner";
 ApiUrls.stationOwner = (id: number) =>
   ApiUrls.stationOwnerBase + secretKeyStarter + "&post_id=" + id;

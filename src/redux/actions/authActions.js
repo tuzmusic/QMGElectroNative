@@ -33,7 +33,12 @@ export async function registerWithApi({
     first_name: firstName,
     last_name: lastName
   };
-  console.log("registering WP user with params:", params);
+  console.log(
+    "registering WP user at url",
+    ApiUrls.register,
+    " with params:",
+    params
+  );
 
   const { data } = await axios.get(ApiUrls.register, { params });
   const { user_id, cookie } = data;

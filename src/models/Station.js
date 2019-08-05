@@ -52,9 +52,17 @@ export default class Station {
     this.location = await Station.getLocationForAddress(this.address);
   }
 
-  static collectionFromArray(stationArray: Station[]): { [number]: Station } {
+  static _collectionFromArray(stationArray: Station[]): { [number]: Station } {
     const stations = {};
     stationArray.forEach(s => (stations[s.id] = Station.fromApi(s)));
+    return stations;
+  }
+
+  static collectionFromObjects(array: Object[]): { [number]: Station } {
+    const stations = {};
+    array.forEach(
+      obj => (stations[obj.id] = Object.assign(new Station(), obj))
+    );
     return stations;
   }
 

@@ -16,6 +16,7 @@ import thunk from "redux-thunk";
 import createSagaMiddleware from "redux-saga";
 import locationSaga from "./src/redux/actions/locationActions";
 import authSaga from "./src/redux/actions/authActions";
+import stationSaga from "./src/redux/actions/stationActions";
 import GlobalFont from "react-native-global-font";
 import AppStyles from "./src/constants/Styles";
 import { startMockAdapter } from "./tests/__mocks__/axiosMocks";
@@ -34,12 +35,13 @@ const store = createStore(
 
 function* rootSaga() {
   sagaMiddleware.run(locationSaga);
+  sagaMiddleware.run(stationSaga);
   sagaMiddleware.run(authSaga);
 }
 
 sagaMiddleware.run(rootSaga);
 
-if (__DEV__) startMockAdapter({ auth: true, stations: true });
+// if (__DEV__) startMockAdapter({ auth: true, stations: false });
 // if (__DEV__) startMockAdapter({ auth: false, stations: true });
 
 console.disableYellowBox = true;

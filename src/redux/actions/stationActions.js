@@ -1,12 +1,12 @@
 // @flow
 import type { Dispatch } from "redux";
 import type { Saga } from "redux-saga";
-import * as Types from "../StationTypes";
+import axios from "axios";
+import { all, call, put, takeEvery } from "redux-saga/effects";
+import ApiUrls from "../../constants/ApiUrls";
 import Station from "../../models/Station";
 import User from "../../models/User";
-import ApiUrls from "../../constants/ApiUrls";
-import axios from "axios";
-import { put, call, takeEvery, all } from "redux-saga/effects";
+import * as Types from "../StationTypes";
 
 // #region Saga Actions
 /** *
@@ -40,7 +40,27 @@ export function* getStationOwnerSaga({
   }
 }
 
+export async function getStationsApi(): Object {
+  const { data } = await axios.get(ApiUrls.stationsIndex);
+  return data;
+}
+
+export function* getStationsSaga(): Saga<void> {
+  let action: Types.GET_STATIONS_SUCCESS | Types.GET_STATIONS_FAILURE;
+  try {
+    const data = yield call(getStationsApi);
+    debugger;
+    const stations = Station.collectionFromObjects(data);
+    action = { type: "GET_STATIONS_SUCCESS", stations };
+    yield put(action);
+  } catch (error) {
+    action = { type: "GET_STATIONS_FAILURE", error: error.message };
+    yield put(action);
+  }
+}
+
 export default function* stationSaga(): Saga<void> {
+  yield all([yield takeEvery("GET_STATIONS_START", getStationsSaga)]);
   yield all([yield takeEvery("GET_STATION_OWNER_START", getStationOwnerSaga)]);
 }
 
@@ -61,15 +81,19 @@ function results({
 export function fetchStations() {
   return async (dispatch: Dispatch<Types.StationAction>) => {
     dispatch({ type: "GET_STATIONS_START" });
-    dispatch(results(await _downloadStations()));
-    dispatch({ type: "SAVE_STATIONS" });
+    // dispatch(results(await _downloadStations()));
+    // dispatch({ type: "SAVE_STATIONS" });
   };
 }
 
 export async function _downloadStations(): Promise<Object> {
   const url = ApiUrls.stationsIndex;
+  console.log("url:", url);
+
   try {
-    const { data } = await axios(url);
+    const res = await axios(url);
+    // debugger;
+    const { data } = res;
     const stations = Station.collectionFromArray(data);
     for (const id in stations) {
       const station = stations[Number(id)];
