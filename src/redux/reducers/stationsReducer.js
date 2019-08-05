@@ -11,7 +11,7 @@ const initialState: StationTypes.StationState = {
   error: null
 };
 
-export default function mainReducer(
+export default function stationsReducer(
   state: StationTypes.StationState = initialState,
   action: StationTypes.StationAction
 ): StationTypes.StationState {

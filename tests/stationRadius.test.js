@@ -1,6 +1,6 @@
 import Station, { distanceBetween } from "../src/models/Station";
 import CupertinoStations from "./__mocks__/CupertinoStations";
-import reducer from "../src/redux/reducers/mainReducer";
+import reducer from "../src/redux/reducers/stationsReducer";
 
 describe("mocking stations into reducer", () => {
   const initialState = { stations: CupertinoStations };

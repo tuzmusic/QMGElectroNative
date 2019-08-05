@@ -9,7 +9,7 @@ import {
 import AppContainer from "./src/navigators/AppContainer";
 import { combineReducers, createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
-import mainReducer from "./src/redux/reducers/mainReducer";
+import stationsReducer from "./src/redux/reducers/stationsReducer";
 import authReducer from "./src/redux/reducers/authReducer";
 import locationReducer from "./src/redux/reducers/locationReducer";
 import thunk from "redux-thunk";
@@ -22,7 +22,7 @@ import AppStyles from "./src/constants/Styles";
 import { startMockAdapter } from "./tests/__mocks__/axiosMocks";
 
 const combinedReducer = combineReducers({
-  main: mainReducer,
+  main: stationsReducer,
   auth: authReducer,
   location: locationReducer
 });

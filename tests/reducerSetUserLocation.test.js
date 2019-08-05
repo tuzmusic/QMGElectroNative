@@ -1,4 +1,4 @@
-import reducer from "../src/redux/reducers/mainReducer";
+import reducer from "../src/redux/reducers/stationsReducer";
 import { setCurrentRegion } from "../src/redux/actions/locationActions";
 
 describe("setCurrentRegion", () => {
