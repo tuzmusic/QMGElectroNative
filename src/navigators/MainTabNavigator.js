@@ -1,3 +1,4 @@
+/* React */
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Platform } from "react-native";
@@ -5,15 +6,15 @@ import {
   createStackNavigator,
   createBottomTabNavigator
 } from "react-navigation";
-
-import TabBarIcon from "../components/TabBarIcon";
+/* Components */
+import TabBarIcon, { icon } from "../components/TabBarIcon";
 import { Icon } from "react-native-elements";
-
+/* Sceens */
 import MapScreen from "../screens/MapView";
 import StationsListScreen from "../screens/StationsListView";
 import StationDetailScreen from "../screens/StationDetailView";
 import UserScreen from "../screens/UserScreenView";
-
+/* Actions */
 import { getStations } from "../redux/actions/stationActions";
 import { getLocation } from "../redux/actions/locationActions";
 
@@ -23,15 +24,6 @@ const ListStack = createStackNavigator({
   StationDetail: StationDetailScreen
 });
 
-function icon(focused, focIcon, unfocIcon, type) {
-  return (
-    <TabBarIcon
-      focused={focused}
-      name={focused ? focIcon : unfocIcon || focIcon}
-      type={type}
-    />
-  );
-}
 ListStack.navigationOptions = {
   tabBarLabel: "List",
   tabBarIcon: ({ focused: f }) => icon(f, "list", "", "feather")

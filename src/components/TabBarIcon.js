@@ -1,5 +1,4 @@
 import React from "react";
-// import { Icon } from "expo";
 import { Icon } from "react-native-elements";
 import Colors from "../constants/Colors";
 
@@ -18,3 +17,11 @@ export default class TabBarIcon extends React.Component {
     );
   }
 }
+
+export const icon = (focused, focIcon, unfocIcon, type) => (
+  <TabBarIcon
+    focused={focused}
+    name={focused ? focIcon : unfocIcon || focIcon}
+    type={type}
+  />
+);

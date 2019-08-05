@@ -8,38 +8,17 @@ import Station from "../../models/Station";
 import User from "../../models/User";
 import * as Types from "../StationTypes";
 
-// #region Saga Actions
-/** *
- * Saga Actions
- **/
+/* ACTION CREATORS */
+export const getStations = (): Types.GET_STATIONS_START => ({
+  type: "GET_STATIONS_START"
+});
 
-export function getStationOwner(
-  station: Station
-): Types.GET_STATION_OWNER_START {
-  return { type: "GET_STATION_OWNER_START", station };
-}
+export const setCurrentStationID = (id: number): Types.SET_CURRENT_STATION => ({
+  type: "SET_CURRENT_STATION",
+  stationID: id
+});
 
-export async function getStationOwnerApi(stationId: number): Promise<Object> {
-  const url = ApiUrls.stationOwner(stationId);
-  const { data } = await axios.get(url);
-  return data;
-}
-
-export function* getStationOwnerSaga({
-  station
-}: Types.GET_STATION_OWNER_START): Saga<void> {
-  let action: Types.UPDATE_LOCAL_STATION | Types.GET_STATION_OWNER_FAILURE;
-  try {
-    const userData = yield call(getStationOwnerApi, station.id);
-    const user = User.fromStationOwnerResponse(userData);
-    const updatedStation: Station = Object.assign(station, { user });
-    action = { type: "UPDATE_LOCAL_STATION", station: updatedStation };
-  } catch (error) {
-    action = { type: "GET_STATION_OWNER_FAILURE", error: error.message };
-    yield put(action);
-  }
-}
-
+/* SAGAS AND APIs */
 export async function getStationsApi(): Object {
   // API actually does return an array, but Flow can't assume that, I guess.
   const { data } = await axios.get(ApiUrls.stationsIndex);
@@ -61,18 +40,4 @@ export function* getStationsSaga(): Saga<void> {
 
 export default function* stationSaga(): Saga<void> {
   yield all([yield takeEvery("GET_STATIONS_START", getStationsSaga)]);
-  yield all([yield takeEvery("GET_STATION_OWNER_START", getStationOwnerSaga)]);
 }
-
-// #region Thunk Actions
-/** Thunk Actions
- *  **/
-
-export function getStations() {
-  return { type: "GET_STATIONS_START" };
-}
-
-export function setCurrentStationID(id: number) {
-  return { type: "SET_CURRENT_STATION", stationID: id };
-}
-// #endregion
