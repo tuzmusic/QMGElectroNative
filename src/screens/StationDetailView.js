@@ -38,6 +38,7 @@ const StationImage = ({ station }) =>
 
 class StationDetailView extends Component {
   state = { showMapOpener: false };
+  station = this.props.navigation.getParam("station");
 
   static navigationOptions = ({ navigation }) => ({
     title: navigation.getParam("title")
@@ -46,7 +47,7 @@ class StationDetailView extends Component {
   handleAddressPress = () => this.setState({ showMapOpener: true });
   dismissMapOpener = () => this.setState({ showMapOpener: false });
   render() {
-    const { station } = this.props;
+    const station = this.station;
     return (
       <ScrollView>
         {this.state.showMapOpener && (
@@ -85,12 +86,7 @@ class StationDetailView extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  station: state.main.stations[state.main.currentStationID],
-  stations: state.main.stations
-});
-
-export default connect(mapStateToProps)(StationDetailView);
+export default connect()(StationDetailView);
 
 const baseSize = 17;
 const text = {

@@ -8,7 +8,6 @@ import { Image } from "react-native-elements";
 import { Dropdown } from "react-native-material-dropdown";
 import { connect } from "react-redux";
 import StationsList from "../subviews/StationsList";
-import { setCurrentStationID } from "../redux/actions/stationActions";
 import { setSearchRadius } from "../redux/actions/locationActions";
 import pluralize from "pluralize";
 import FilterInput from "../subviews/FilterInput";
@@ -21,7 +20,6 @@ type ListViewProps = {
   isLoading: boolean,
   location: Location,
   searchRadius: number,
-  setCurrentStationID: (number | string) => void,
   setSearchRadius: number => void
 };
 
@@ -43,11 +41,11 @@ class StationsListView extends Component<ListViewProps> {
     headerTitle: "Stations"
   });
 
-  componentDidMount() {}
-
   onStationClick = (station: Station) => {
-    this.props.setCurrentStationID(station.id);
-    this.props.navigation.navigate("StationDetail", { title: station.title });
+    this.props.navigation.navigate("StationDetail", {
+      title: station.title,
+      station
+    });
   };
 
   onSelectSearchRadius = (radius: number) => {
@@ -112,22 +110,18 @@ function withinSearchRadius(station: Station): boolean {
   return false;
 }
 
-const mapStateToProps = ({ main, location }) => {
-  // debugger;
-  return {
-    stations: Object.values(main.stations),
-    isLoading: main.isLoading,
-    // location: main.currentRegion,
-    location: location.currentRegion,
-    searchRadius: location.searchRadiusInMiles
-  };
-};
+const mapStateToProps = ({ main, location }) => ({
+  stations: Object.values(main.stations),
+  isLoading: main.isLoading,
+  location: location.currentRegion,
+  searchRadius: location.searchRadiusInMiles
+});
 
 export const StationsListViewBasic = StationsListView;
 
 export default connect(
   mapStateToProps,
-  { setCurrentStationID, setSearchRadius }
+  { setSearchRadius }
 )(StationsListView);
 
 const styles = {
@@ -144,13 +138,11 @@ const styles = {
   background: {
     width: "100%",
     height: "100%"
-    // borderWidth: 2
   },
   backgroundImage: {
     height: "50%",
     top: 80,
     opacity: 0.3
-    // borderWidth: 2
   },
   container: {
     height: "100%"

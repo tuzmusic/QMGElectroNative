@@ -32,8 +32,6 @@ export default function mainReducer(
       return { ...state, error: action.error, isLoading: false };
     // #endregion
     // #region CREATE/UPDATE/DELETE STATIONS
-    case "SET_CURRENT_STATION":
-      return { ...state, currentStationID: action.stationID };
     case "SAVE_STATIONS":
       const data = { stations: state.stations, savedDate: new Date() };
       const storageString = JSON.stringify(data);

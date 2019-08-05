@@ -13,7 +13,6 @@ export type StationAction =
   | GET_STATIONS_START
   | GET_STATIONS_SUCCESS
   | GET_STATIONS_FAILURE
-  | SET_CURRENT_STATION
   | SAVE_STATIONS;
 
 export type GET_STATIONS_START = {
@@ -26,9 +25,5 @@ export type GET_STATIONS_SUCCESS = {
 export type GET_STATIONS_FAILURE = {
   type: "GET_STATIONS_FAILURE",
   error: string
-};
-export type SET_CURRENT_STATION = {
-  type: "SET_CURRENT_STATION",
-  stationID: number
 };
 export type SAVE_STATIONS = { type: "SAVE_STATIONS" };

@@ -6,7 +6,6 @@ import {
   getLocation,
   setCurrentRegion
 } from "../redux/actions/locationActions";
-import { setCurrentStationID } from "../redux/actions/stationActions";
 import AutoFillMapSearch from "../subviews/AutoFillMapSearch";
 import StationMarkers from "../subviews/StationMarkers";
 import LoadingIndicator from "../components/LoadingIndicator";
@@ -41,9 +40,9 @@ class MapScreen extends Component {
   };
 
   onCalloutPress = station => {
-    this.props.setCurrentStationID(station.id);
     this.props.navigation.navigate("StationDetail", {
-      title: station.title
+      title: station.title,
+      station
     });
   };
 
@@ -61,7 +60,6 @@ class MapScreen extends Component {
           isVisible={this.props.isLoading}
         />
         <MapView
-          // provider={MapView.PROVIDER_GOOGLE}
           style={{ flex: 1 }}
           region={this.props.currentRegion}
           showsUserLocation={true}
@@ -133,8 +131,7 @@ export default connect(
   mapStateToProps,
   {
     getLocation,
-    setCurrentRegion,
-    setCurrentStationID
+    setCurrentRegion
   }
 )(MapScreen);
 // const buttonSize = Dimensions.get("window").height * 0.15;

@@ -5,7 +5,6 @@ import React, { Component } from "react";
 import { View, Button, Text, Platform, TextInput } from "react-native";
 import { BLText } from "../components/StyledComponents";
 import { connect } from "react-redux";
-import { setCurrentStationID } from "../redux/actions/stationActions";
 import pluralize from "pluralize";
 import MapView, { Marker, Callout } from "react-native-maps";
 

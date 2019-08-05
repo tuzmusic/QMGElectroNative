@@ -13,11 +13,6 @@ export const getStations = (): Types.GET_STATIONS_START => ({
   type: "GET_STATIONS_START"
 });
 
-export const setCurrentStationID = (id: number): Types.SET_CURRENT_STATION => ({
-  type: "SET_CURRENT_STATION",
-  stationID: id
-});
-
 /* SAGAS AND APIs */
 export async function getStationsApi(): Object {
   // API actually does return an array, but Flow can't assume that, I guess.
