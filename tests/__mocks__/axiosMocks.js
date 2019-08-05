@@ -5,7 +5,8 @@ import { loginResponse, registerResponse, registration } from "./loginResponse";
 import {
   mockIndexResponse,
   realIndexResponseJuly2019,
-  stationOwnerResponse
+  stationOwnerResponse,
+  mockNEWIndexResponse
 } from "../../__mocks__/stationMocks";
 import { userResponse } from "../../__mocks__/userMocks";
 import * as RegMocks from "../../__mocks__/registrationMocks";
@@ -29,7 +30,8 @@ export function setupStationsMockAdapter(mock) {
   // mock.onGet(ApiUrls.stationsIndex).reply(200, mockIndexResponse);
   mock
     .onGet(ApiUrls.stationsIndex)
-    .reply(200, [...mockIndexResponse, ...realIndexResponseJuly2019])
+    .reply(200, mockNEWIndexResponse)
+    // .reply(200, [...mockIndexResponse, ...realIndexResponseJuly2019])
     .onGet(ApiUrls.stationOwner(1077))
     .reply(200, stationOwnerResponse);
 }

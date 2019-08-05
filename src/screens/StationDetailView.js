@@ -5,11 +5,11 @@ import {
   View,
   Linking,
   TouchableOpacity,
-  Platform
+  Platform,
+  Dimensions
 } from "react-native";
 import { Image, Button, Icon } from "react-native-elements";
 import { connect } from "react-redux";
-import { getImageURLForStation } from "../redux/actions/stationActions";
 import { MaterialIndicator } from "react-native-indicators";
 import OpenMap from "../components/OpenMap/OpenMap";
 
@@ -41,11 +41,12 @@ const StationWebsite = ({ station }) => {
 };
 
 const StationImage = ({ station }) => {
-  if (station.mediaDataURL || station.imageURL) {
+  if (station.featuredImage?.url) {
     return (
       <Image
-        style={[styles.image, { resizeMode: "cover" }]}
-        source={{ uri: station.imageURL }}
+        style={styles.image}
+        containerStyle={styles.imageContainer}
+        source={{ uri: station.featuredImage.url }}
         PlaceholderContent={Spinner}
       />
     );
@@ -93,46 +94,20 @@ const ContactButtons = ({ station }) => {
   );
 };
 
-function mapQueryUrl({ title, location }) {
-  const scheme = Platform.select({ ios: "maps:0,0?q=", android: "geo:0,0?q=" });
-  const latLng = `${location.latitude},${location.longitude}`;
-  const url = Platform.select({
-    ios: `${scheme}${title}@${latLng}`,
-    android: `${scheme}${latLng}(${title})`
-  });
-  return url;
-}
-
 class StationDetailView extends Component {
   state = {
     showMapOpener: false
     // showMapOpener: true
   };
 
-  static navigationOptions = ({ navigation }) => {
-    return {
-      title: navigation.getParam("title")
-    };
-  };
+  static navigationOptions = ({ navigation }) => ({
+    title: navigation.getParam("title")
+  });
 
-  async componentDidMount() {
-    if (!this.props.station.imageURL) {
-      try {
-        await this.props.getImageURLForStation(this.props.station);
-      } catch (error) {
-        console.warn(error);
-      }
-    }
-  }
-
-  handleAddressPress() {
-    this.setState({ showMapOpener: true });
-  }
+  handleAddressPress = () => this.setState({ showMapOpener: true });
 
   render() {
-    if (!this.props.station) return null;
     const { station } = this.props;
-
     return (
       <ScrollView>
         {this.state.showMapOpener && (
@@ -141,9 +116,7 @@ class StationDetailView extends Component {
             onBackdropPress={() => this.setState({ showMapOpener: false })}
           />
         )}
-        <View style={styles.imageContainer}>
-          <StationImage station={station} />
-        </View>
+        <StationImage station={station} />
 
         <View style={styles.textContainer}>
           {/* Title */}
@@ -156,21 +129,23 @@ class StationDetailView extends Component {
           </TouchableOpacity>
           {/* Website */}
           <StationWebsite station={station} />
-          <CellTextRow style={[text.address]}>
+          {/* 
+            <CellTextRow style={[text.address]}>
             {station.contactEmail}
           </CellTextRow>
           <CellTextRow style={[text.address]}>
             {station.contactPhone}
-          </CellTextRow>
+          </CellTextRow> 
           <ContactButtons station={station} />
+        */}
           {/* Price */}
           <CellTextRow style={[text.price]}>
             {/* Adds dollar sign to a bare number but leaves prices with dollar signs alone */}
             {station.priceString("Free charging!")}
           </CellTextRow>
           {/* Description */}
-          <CellTextRow style={[text.content, { paddingTop: 20 }]}>
-            {station.content.replace("<p>", "").replace("</p>", "")}
+          <CellTextRow style={[text.description, { paddingTop: 20 }]}>
+            {station.description}
           </CellTextRow>
         </View>
       </ScrollView>
@@ -183,10 +158,7 @@ const mapStateToProps = state => ({
   stations: state.main.stations
 });
 
-export default connect(
-  mapStateToProps,
-  { getImageURLForStation }
-)(StationDetailView);
+export default connect(mapStateToProps)(StationDetailView);
 
 const baseSize = 17;
 const text = {
@@ -197,7 +169,7 @@ const text = {
   address: {
     fontSize: baseSize
   },
-  content: {
+  description: {
     fontSize: baseSize
   },
   website: {
@@ -210,10 +182,12 @@ const text = {
   price: {
     fontSize: baseSize + 4,
     textAlign: "center",
-    width: "100%"
+    width: "100%",
+    paddingVertical: 20
   }
 };
-
+const full = "100%";
+const { height, width } = Dimensions.get("window");
 const styles = {
   iconCell: {
     flex: 1,
@@ -231,14 +205,16 @@ const styles = {
     flexDirection: "row",
     alignItems: "center"
   },
-  imageContainer: {
-    backgroundColor: "lightgrey"
-  },
   textContainer: { alignItems: "flex-start", padding: 15 },
+  imageContainer: {
+    // backgroundColor: "lightgrey"
+    height: height * 0.3
+  },
   image: {
-    height: 100,
-    width: 100,
-    borderRadius: 30
+    height: full,
+    width: full,
+    resizeMode: "cover"
+    // width: 100,
   },
   bordered: {
     borderColor: "black",

@@ -2,6 +2,7 @@
 
 // import uuid from "react-native-uuid";
 import type { Location } from "../redux/LocationTypes";
+import type { StationCollection } from "../redux/StationTypes";
 import User from "./User";
 import ApiUrls from "../constants/ApiUrls";
 
@@ -11,21 +12,22 @@ export default class Station {
   // #region TYPE PROPERTY DEFINITIONS
   id: number;
   originalJSON: Object;
-  user: User;
+  owner: User;
   title: string;
   address: string;
-  contactEmail: string;
-  contactPhone: string;
-  content: string;
+  // contactEmail: string;
+  // contactPhone: string;
+  description: string;
   location: ?Location;
   priceFrom: string;
   priceTo: string;
-  tagline: string;
-  website: string;
-  mediaID: number;
-  mediaDataURL: string;
-  imageURL: string;
-  listingURL: string;
+  // tagline: string;
+  // website: string;
+  featuredImage: { url: string }[];
+  galleryImages: { url: string }[];
+  // mediaDataURL: string;
+  // imageURL: string;
+  // listingURL: string;
   // #endregion
   distanceFromLocation(
     location: Location,
@@ -51,21 +53,21 @@ export default class Station {
     // console.log("Setting location for", this.title);
     this.location = await Station.getLocationForAddress(this.address);
   }
-
-  static _collectionFromArray(stationArray: Station[]): { [number]: Station } {
+  /* 
+  static _collectionFromArray(stationArray: Station[]): StationCollection {
     const stations = {};
     stationArray.forEach(s => (stations[s.id] = Station.fromApi(s)));
     return stations;
   }
-
-  static collectionFromObjects(array: Object[]): { [number]: Station } {
+ */
+  static collectionFromObjects(array: Object): StationCollection {
     const stations = {};
     array.forEach(
       obj => (stations[obj.id] = Object.assign(new Station(), obj))
     );
     return stations;
   }
-
+  /* 
   static fromApi(json: Object): Station {
     function p(propName: string, prefix: string = "_"): string {
       const key = `${prefix}${propName}`;
@@ -108,7 +110,8 @@ export default class Station {
     return station;
     // return new Station(stationJSON);
   }
-
+ */
+  /* 
   static toApi(json: Object) {
     return {
       originalJSON: json,
@@ -133,7 +136,7 @@ export default class Station {
       // featured_media: (media id)
     };
   }
-
+ */
   static async getLocationForAddress(address: string): Promise<?Location> {
     try {
       const search = await fetch(ApiUrls.mapsSearch(address));

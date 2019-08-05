@@ -49,7 +49,7 @@ export function* getStationsSaga(): Saga<void> {
   let action: Types.GET_STATIONS_SUCCESS | Types.GET_STATIONS_FAILURE;
   try {
     const data = yield call(getStationsApi);
-    debugger;
+    // debugger;
     const stations = Station.collectionFromObjects(data);
     action = { type: "GET_STATIONS_SUCCESS", stations };
     yield put(action);

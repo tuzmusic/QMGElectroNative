@@ -1,6 +1,7 @@
 // @flow
 import Station from "../models/Station";
 
+export type StationCollection = { [number]: Station };
 export type StationState = {
   +stations: { [string]: Station }, // TO-DO: Define Station type
   +currentStationID: ?number | ?string,
@@ -24,7 +25,7 @@ export type GET_STATIONS_START = {
 };
 export type GET_STATIONS_SUCCESS = {
   type: "GET_STATIONS_SUCCESS",
-  stations: Station[]
+  stations: StationCollection
 };
 export type GET_STATIONS_FAILURE = {
   type: "GET_STATIONS_FAILURE",

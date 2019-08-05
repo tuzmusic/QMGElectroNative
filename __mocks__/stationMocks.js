@@ -507,3 +507,143 @@ export const stationOwnerResponse = {
   user_status: "0",
   display_name: "Jonathan Tuzman"
 };
+
+export const mockNEWIndexResponse = [
+  {
+    id: 1077,
+    title: "Tuz Test Listing 1",
+    description: `I am creating this listing to see what information will show up. It doesn't seem like "Hours" are necessary, and I haven't implemented them in the app. I have entered an address, but unfortunately Google Maps still isn't set up, so the app will have to fetch the location for this station (by searching Google Maps for the address) every time the app loads. There also doesn't appear to be anywhere to enter my contact information. HERE'S AN UPDATE.`,
+    address: "50 N State St, Concord NH 03301",
+    priceFrom: "5",
+    priceTo: "10",
+    location: {
+      latitude: "",
+      longitude: ""
+    },
+    featuredImage: {
+      url:
+        "https://joinelectro.com/wp-content/uploads/job-manager-uploads/company_logo/2019/07/fullsizeoutput_327-825x510.jpeg"
+    },
+    galleryImages: [
+      {
+        url:
+          "https://joinelectro.com/wp-content/uploads/job-manager-uploads/gallery_images/2019/08/fullsizeoutput_2f5.jpeg"
+      },
+      {
+        url:
+          "https://joinelectro.com/wp-content/uploads/job-manager-uploads/gallery_images/2019/08/fullsizeoutput_328.jpeg"
+      }
+    ],
+    owner: {
+      id: 16,
+      username: "tuztest",
+      email: "tuz.music@gmail.com",
+      url: "",
+      registered: "2019-07-31 14:22:38",
+      firstName: "Jonathan",
+      lastName: "Tuzman",
+      description: "",
+      capabilities: {
+        subscriber: true,
+        employer: true
+      },
+      avatar: "https://secure.gravatar.com/avatar/?s=96&d=mm&r=g"
+    }
+  },
+  {
+    id: 1031,
+    title: "Tesla Supercharger",
+    description: "Visit us near Springfield Town Center!",
+    address: "",
+    priceFrom: "",
+    priceTo: "",
+    location: {
+      latitude: "",
+      longitude: ""
+    },
+    featuredImage: {
+      url:
+        "https://joinelectro.com/wp-content/uploads/job-manager-uploads/company_logo/2019/07/listing3-825x510.jpeg"
+    },
+    galleryImages: null,
+    owner: {
+      id: 1,
+      username: "joinelectro",
+      email: "Illahi.m.noor@gmail.com",
+      url: "",
+      registered: "2019-07-07 17:08:11",
+      firstName: "",
+      lastName: "",
+      description: "",
+      capabilities: {
+        administrator: true,
+        employer: true
+      },
+      avatar: "https://secure.gravatar.com/avatar/?s=96&d=mm&r=g"
+    }
+  },
+  {
+    id: 1029,
+    title: "Tesla Supercharger",
+    description: "We offer car charging services 7 days a week!",
+    address: "Address: 24 Grand Corner Ave, Gaithersburg, MD 20878",
+    priceFrom: "",
+    priceTo: "",
+    location: {
+      latitude: "",
+      longitude: ""
+    },
+    featuredImage: {
+      url:
+        "https://joinelectro.com/wp-content/uploads/job-manager-uploads/company_logo/2019/07/listing-2--825x510.jpg"
+    },
+    galleryImages: null,
+    owner: {
+      id: 1,
+      username: "joinelectro",
+      email: "Illahi.m.noor@gmail.com",
+      url: "",
+      registered: "2019-07-07 17:08:11",
+      firstName: "",
+      lastName: "",
+      description: "",
+      capabilities: {
+        administrator: true,
+        employer: true
+      },
+      avatar: "https://secure.gravatar.com/avatar/?s=96&d=mm&r=g"
+    }
+  },
+  {
+    id: 1026,
+    title: "Tesla Destination Charger",
+    description: "Charge your car at Tesla Destination Charger!",
+    address: "1767 King St, Alexandria, VA 22314",
+    priceFrom: "",
+    priceTo: "",
+    location: {
+      latitude: "",
+      longitude: ""
+    },
+    featuredImage: {
+      url:
+        "https://joinelectro.com/wp-content/uploads/job-manager-uploads/company_logo/2019/07/listing1-825x510.jpg"
+    },
+    galleryImages: null,
+    owner: {
+      id: 1,
+      username: "joinelectro",
+      email: "Illahi.m.noor@gmail.com",
+      url: "",
+      registered: "2019-07-07 17:08:11",
+      firstName: "",
+      lastName: "",
+      description: "",
+      capabilities: {
+        administrator: true,
+        employer: true
+      },
+      avatar: "https://secure.gravatar.com/avatar/?s=96&d=mm&r=g"
+    }
+  }
+];
