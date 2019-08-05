@@ -41,6 +41,7 @@ export function* getStationOwnerSaga({
 }
 
 export async function getStationsApi(): Object {
+  // API actually does return an array, but Flow can't assume that, I guess.
   const { data } = await axios.get(ApiUrls.stationsIndex);
   return data;
 }
@@ -48,9 +49,8 @@ export async function getStationsApi(): Object {
 export function* getStationsSaga(): Saga<void> {
   let action: Types.GET_STATIONS_SUCCESS | Types.GET_STATIONS_FAILURE;
   try {
-    const data = yield call(getStationsApi);
-    // debugger;
-    const stations = Station.collectionFromObjects(data);
+    const objects = yield call(getStationsApi);
+    const stations = Station.collectionFromObjects(objects);
     action = { type: "GET_STATIONS_SUCCESS", stations };
     yield put(action);
   } catch (error) {
@@ -67,75 +67,12 @@ export default function* stationSaga(): Saga<void> {
 // #region Thunk Actions
 /** Thunk Actions
  *  **/
-function results({
-  stations,
-  error
-}: {
-  stations: Station[],
-  error: string
-}): Types.GET_STATIONS_SUCCESS | Types.GET_STATIONS_FAILURE {
-  if (stations) return { type: "GET_STATIONS_SUCCESS", stations };
-  else return { type: "GET_STATIONS_FAILURE", error };
-}
 
-export function fetchStations() {
-  return async (dispatch: Dispatch<Types.StationAction>) => {
-    dispatch({ type: "GET_STATIONS_START" });
-    // dispatch(results(await _downloadStations()));
-    // dispatch({ type: "SAVE_STATIONS" });
-  };
-}
-
-export async function _downloadStations(): Promise<Object> {
-  const url = ApiUrls.stationsIndex;
-  console.log("url:", url);
-
-  try {
-    const res = await axios(url);
-    // debugger;
-    const { data } = res;
-    const stations = Station.collectionFromArray(data);
-    for (const id in stations) {
-      const station = stations[Number(id)];
-      if (!station.location && station.address) await station.setLocation();
-    }
-    return { stations };
-  } catch (error) {
-    console.warn(error);
-    return { error };
-  }
-}
-
-/* public */ export function getImageURLForStation(station: Station) {
-  return (
-    dispatch: Dispatch<Types.UPDATE_LOCAL_STATION | Types.SAVE_STATIONS>
-  ) => {
-    _getImageURLForStation(dispatch, station);
-  };
-}
-
-/* private */ export async function _getImageURLForStation(
-  dispatch: Dispatch<Types.UPDATE_LOCAL_STATION | Types.SAVE_STATIONS>,
-  station: Station
-) {
-  if (station.mediaDataURL) {
-    try {
-      const { data } = await axios(station.mediaDataURL);
-      const imageURL = data.media_details.sizes.medium.source_url;
-      dispatch({
-        type: "UPDATE_LOCAL_STATION",
-        station: Object.assign(station, { imageURL })
-      });
-      dispatch({ type: "SAVE_STATIONS" });
-    } catch (error) {
-      console.warn(error);
-    }
-  }
+export function getStations() {
+  return { type: "GET_STATIONS_START" };
 }
 
 export function setCurrentStationID(id: number) {
-  return (dispatch: Dispatch<Types.SET_CURRENT_STATION>) => {
-    dispatch({ type: "SET_CURRENT_STATION", stationID: id });
-  };
+  return { type: "SET_CURRENT_STATION", stationID: id };
 }
 // #endregion

@@ -26,7 +26,7 @@ describe("async fetching actions", () => {
     fetchMock.restore();
   });
 
-  describe("fetchStations(shouldDownload)", () => {
+  describe("getStations(shouldDownload)", () => {
     // #region SET UP
     const downloadedResponse = {
       [firstStationJSON.id]: Station.fromApi(firstStationJSON)
@@ -37,7 +37,7 @@ describe("async fetching actions", () => {
     ];
 
     beforeEach(async () => {
-      await store.dispatch(actions.fetchStations({ shouldDownload: true }));
+      await store.dispatch(actions.getStations({ shouldDownload: true }));
     });
     afterEach(() => {
       // console.log(store.getActions().map(a => a.type));
@@ -51,9 +51,9 @@ describe("async fetching actions", () => {
     });
   });
 
-  describe("fetchStations(useCache)", () => {
+  describe("getStations(useCache)", () => {
     beforeEach(async () => {
-      // await store.dispatch(actions.fetchStations({ useCache: true }));
+      // await store.dispatch(actions.getStations({ useCache: true }));
     });
 
     xit("should return an object with the stations in a 'stations' key", () => {
