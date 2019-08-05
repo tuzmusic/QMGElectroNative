@@ -13,6 +13,7 @@ import { Image, Button, Icon } from "react-native-elements";
 import { connect } from "react-redux";
 import { MaterialIndicator } from "react-native-indicators";
 import OpenMap from "../components/OpenMap/OpenMap";
+import ContactForm from "../subviews/ContactForm";
 
 const CellTextRow = props => (
   <View style={props.containerStyle}>
@@ -46,6 +47,11 @@ class StationDetailView extends Component {
 
   handleAddressPress = () => this.setState({ showMapOpener: true });
   dismissMapOpener = () => this.setState({ showMapOpener: false });
+
+  handleContactSubmit = message => {
+    console.log(message);
+  };
+
   render() {
     const station = this.station;
     return (
@@ -68,6 +74,9 @@ class StationDetailView extends Component {
               {station.address}
             </CellTextRow>
           </TouchableOpacity>
+
+          <ContactForm onSubmit={this.handleContactSubmit} />
+
           {/* Price */}
           <CellTextRow
             style={text.price}
