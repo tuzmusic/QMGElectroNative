@@ -55,8 +55,8 @@ class StationDetailView extends Component {
     const sender = this.props.user.email;
     const recipient = this.station.owner.email;
     const subject = `Message from Electro user ${this.props.user.username}`;
-    this.props.sendEmail({ from: sender, to: recipient, subject, text });
-    // email(recipient, { subject, text }).catch(console.warn);
+    // this.props.sendEmail({ from: sender, to: recipient, subject, text });
+    email(recipient, { subject, body: text }).catch(err => console.warn(err));
   };
 
   render() {
@@ -84,7 +84,7 @@ class StationDetailView extends Component {
 
           <ContactForm
             onSubmit={this.handleContactSubmit.bind(this)}
-            buttonText="Send"
+            buttonText="Open email"
             label="Contact owner:"
             placeholder="Your message"
           />
