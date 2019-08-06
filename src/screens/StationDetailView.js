@@ -15,6 +15,7 @@ import { MaterialIndicator } from "react-native-indicators";
 import OpenMap from "../components/OpenMap/OpenMap";
 import ContactForm from "../subviews/ContactForm";
 import email from "react-native-email";
+import { sendEmail } from "../redux/actions/stationActions";
 
 const CellTextRow = props => (
   <View style={props.containerStyle}>
@@ -49,12 +50,13 @@ class StationDetailView extends Component {
   handleAddressPress = () => this.setState({ showMapOpener: true });
   dismissMapOpener = () => this.setState({ showMapOpener: false });
 
-  handleContactSubmit = body => {
+  handleContactSubmit = text => {
+    if (!text) return;
     const sender = this.props.user.email;
     const recipient = this.station.owner.email;
     const subject = `Message from Electro user ${this.props.user.username}`;
-    debugger;
-    email(recipient, { subject, body }).catch(console.warn);
+    this.props.sendEmail({ from: sender, to: recipient, subject, text });
+    // email(recipient, { subject, text }).catch(console.warn);
   };
 
   render() {
@@ -82,7 +84,7 @@ class StationDetailView extends Component {
 
           <ContactForm
             onSubmit={this.handleContactSubmit.bind(this)}
-            buttonText="Open Email"
+            buttonText="Send"
             label="Contact owner:"
             placeholder="Your message"
           />
@@ -105,9 +107,10 @@ class StationDetailView extends Component {
   }
 }
 
-export default connect(({ auth: user }) => ({ user: user.user }))(
-  StationDetailView
-);
+export default connect(
+  ({ auth: user }) => ({ user: user.user }),
+  { sendEmail }
+)(StationDetailView);
 
 const baseSize = 17;
 const text = {

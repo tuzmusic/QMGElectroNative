@@ -16,10 +16,11 @@ import thunk from "redux-thunk";
 import createSagaMiddleware from "redux-saga";
 import locationSaga from "./src/redux/actions/locationActions";
 import authSaga from "./src/redux/actions/authActions";
-import stationSaga from "./src/redux/actions/stationActions";
+import stationSaga, { sendEmailApi } from "./src/redux/actions/stationActions";
 import GlobalFont from "react-native-global-font";
 import AppStyles from "./src/constants/Styles";
 import { startMockAdapter } from "./tests/__mocks__/axiosMocks";
+import sendEmail from "./src/redux/actions/stationActions";
 
 const combinedReducer = combineReducers({
   main: stationsReducer,
@@ -47,6 +48,10 @@ if (__DEV__) startMockAdapter({ auth: true, stations: true });
 console.disableYellowBox = true;
 
 export default class App extends React.Component {
+  componentDidMount() {
+    // if (__DEV__) testMailgun();
+  }
+
   render() {
     return (
       <Provider store={store}>
@@ -67,3 +72,18 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff"
   }
 });
+
+function testMailgun() {
+  console.log("hello from testMailgun");
+
+  sendEmailApi({
+    to: "tuzmusic@gmail.com",
+    from: "messages@joinelectro.com",
+    subject: "test email",
+    text: "a test email from the app",
+    "h:Reply-To": "tuzmusic@gmail.com"
+  }).catch(err => {
+    console.error(err);
+    debugger;
+  });
+}

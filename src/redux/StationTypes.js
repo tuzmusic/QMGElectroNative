@@ -9,6 +9,13 @@ export type StationState = {
   +error: ?string
 };
 
+export type Email = {
+  from: string,
+  to: string,
+  subject: string,
+  text: string
+};
+
 export type StationAction =
   | GET_STATIONS_START
   | GET_STATIONS_SUCCESS
@@ -27,3 +34,5 @@ export type GET_STATIONS_FAILURE = {
   error: string
 };
 export type SAVE_STATIONS = { type: "SAVE_STATIONS" };
+
+export type SEND_EMAIL_START = { type: "SEND_EMAIL_START", email: Email };

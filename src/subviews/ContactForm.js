@@ -25,7 +25,7 @@ type State = { content: string };
 
 export default class ContactForm extends Component<Props, State> {
   state: State = {
-    content: ""
+    content: __DEV__ ? "I want to charge my car." : ""
   };
   textInput: ?Component<Object>;
   static defaultProps = {
